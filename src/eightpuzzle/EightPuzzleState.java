@@ -119,8 +119,6 @@ public class EightPuzzleState extends State implements Cloneable {
         }
 
         return tilesDistance;
-
-
     }
 
     public int getNumLines() {
