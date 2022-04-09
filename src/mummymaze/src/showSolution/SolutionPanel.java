@@ -173,7 +173,6 @@ public class SolutionPanel extends JFrame{
 		};
 		t.start();
 	}
-	//HELLO YUNIKYON
 	
 	private void setState(String state){
 		gameArea.setState(state);
