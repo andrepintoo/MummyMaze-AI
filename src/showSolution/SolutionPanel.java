@@ -1,6 +1,4 @@
-package mummymaze.src.showSolution;
-
-import showSolution.GameArea;
+package showSolution;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;

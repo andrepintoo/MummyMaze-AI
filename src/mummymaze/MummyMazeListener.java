@@ -1,4 +1,4 @@
-package mummymaze.src.mummymaze;
+package mummymaze;
 
 
 public interface MummyMazeListener {

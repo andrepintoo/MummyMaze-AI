@@ -1,7 +1,7 @@
-package mummymaze.src.mummymaze;
+package mummymaze;
 
-import mummymaze.src.agent.Action;
-import mummymaze.src.agent.State;
+import agent.Action;
+import agent.State;
 
 public class MummyMazeState extends State implements Cloneable{
 

@@ -1,7 +1,7 @@
-package mummymaze.src.mummymaze;
+package mummymaze;
 
 
-import mummymaze.src.agent.Agent;
+import agent.Agent;
 
 import java.io.File;
 import java.io.IOException;
