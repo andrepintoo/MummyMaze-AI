@@ -6,6 +6,8 @@ import agent.State;
 public class MummyMazeState extends State implements Cloneable{
 
     private final char[][] matrix;
+    private int lineHero; //variables to store where the hero is
+    private int columnHero;
 
     public MummyMazeState(char[][] matrix) {
         this.matrix = new char[matrix.length][matrix.length];
@@ -13,10 +15,10 @@ public class MummyMazeState extends State implements Cloneable{
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 this.matrix[i][j] = matrix[i][j];
-//                if (this.matrix[i][j] == 0) { //guarda a info onde está a peça branca
-//                    lineBlank = i;
-//                    columnBlank = j;
-//                }
+                if (this.matrix[i][j] == 'H') { //stores the hero's position in the matrix
+                    lineHero = i;
+                    columnHero = j;
+                }
             }
         }
     }
@@ -25,6 +27,26 @@ public class MummyMazeState extends State implements Cloneable{
     public void executeAction(Action action) {
         action.execute(this);
         //firePuzzleChanged(null); //para atualizar a interface gráfica
+    }
+
+    public void moveUp() { //TODO estes moves ainda nao estao bem, pq por cada movimento penso que se mexe + que 1 casa (por causa do espaçamento das paredes...)
+        matrix[lineHero][columnHero] = matrix[--lineHero][columnHero];
+        matrix[lineHero][columnHero] = 0;
+    }
+
+    public void moveRight() {
+        matrix[lineHero][columnHero] = matrix[lineHero][++columnHero];
+        matrix[lineHero][columnHero] = 0;
+    }
+
+    public void moveDown() {
+        matrix[lineHero][columnHero] = matrix[++lineHero][columnHero];
+        matrix[lineHero][columnHero] = 0;
+    }
+
+    public void moveLeft() {
+        matrix[lineHero][columnHero] = matrix[lineHero][--columnHero];
+        matrix[lineHero][columnHero] = 0;
     }
 
     @Override

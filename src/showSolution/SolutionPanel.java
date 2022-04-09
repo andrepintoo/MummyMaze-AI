@@ -7,7 +7,6 @@ import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class SolutionPanel extends JFrame{
 
 	private showSolution.GameArea gameArea;

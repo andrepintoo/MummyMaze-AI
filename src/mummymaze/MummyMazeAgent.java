@@ -1,6 +1,4 @@
 package mummymaze;
-
-
 import agent.Agent;
 
 import java.io.File;
@@ -35,6 +33,5 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
         resetEnvironment();
         return environment;
     }
-
 
 }
