@@ -14,6 +14,11 @@ definir um goal state para o mummymazeproblem
 
 (numa condição algures, contamos sempre TER PAREDE OU PORTAO FECHADO, pois o portao pode estar aberto)
 
+matriz: só quando se vai aplicar a ação para alterar o estado
+
+1º) Cria o estado inicial a partir da leitura do ficheiro
+2º) H executa a ação
+3º) Por cada ação executada cria várias strings (ex: por cada ação de H, pode existir x ações de M)
 
 
 
