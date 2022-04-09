@@ -18,7 +18,6 @@ public class MummyAgentProblem extends Problem<MummyMazeState> {
         actions.add(new ActionLeft(1));
         actions.add(new ActionStandStill(0)); //talvez tenha um custo 0 ?
 
-
     }
 
     @Override

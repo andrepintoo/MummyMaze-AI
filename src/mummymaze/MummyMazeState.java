@@ -30,23 +30,23 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public void moveUp() { //TODO estes moves ainda nao estao bem, pq por cada movimento penso que se mexe + que 1 casa (por causa do espaçamento das paredes...)
-        matrix[lineHero][columnHero] = matrix[--lineHero][columnHero];
-        matrix[lineHero][columnHero] = 0;
+        matrix[lineHero][columnHero] = matrix[lineHero-=2][columnHero];
+        matrix[lineHero][columnHero] = 'H';
     }
 
     public void moveRight() {
-        matrix[lineHero][columnHero] = matrix[lineHero][++columnHero];
-        matrix[lineHero][columnHero] = 0;
+        matrix[lineHero][columnHero] = matrix[lineHero][columnHero+=2];
+        matrix[lineHero][columnHero] = 'H';
     }
 
     public void moveDown() {
-        matrix[lineHero][columnHero] = matrix[++lineHero][columnHero];
-        matrix[lineHero][columnHero] = 0;
+        matrix[lineHero][columnHero] = matrix[lineHero+=2][columnHero];
+        matrix[lineHero][columnHero] = 'H';
     }
 
     public void moveLeft() {
-        matrix[lineHero][columnHero] = matrix[lineHero][--columnHero];
-        matrix[lineHero][columnHero] = 0;
+        matrix[lineHero][columnHero] = matrix[lineHero][columnHero-=2];
+        matrix[lineHero][columnHero] = 'H';
     }
 
     @Override
