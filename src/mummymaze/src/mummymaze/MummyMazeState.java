@@ -1,8 +1,7 @@
 package mummymaze.src.mummymaze;
 
-import agent.Action;
-import agent.State;
-import eightpuzzle.EightPuzzleState;
+import mummymaze.src.agent.Action;
+import mummymaze.src.agent.State;
 
 public class MummyMazeState extends State implements Cloneable{
 
@@ -31,5 +30,13 @@ public class MummyMazeState extends State implements Cloneable{
     @Override
     public Object clone() {
         return new MummyMazeState(matrix);
+    }
+
+    public int getNumLines() {
+        return matrix.length;
+    }
+
+    public int getNumColumns() {
+        return matrix[0].length;
     }
 }

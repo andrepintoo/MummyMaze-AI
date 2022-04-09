@@ -1,7 +1,7 @@
 package mummymaze.src.mummymaze;
 
-import agent.Agent;
-import eightpuzzle.EightPuzzleState;
+
+import mummymaze.src.agent.Agent;
 
 import java.io.File;
 import java.io.IOException;
