@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MummyAgentProblem extends Problem<MummyMazeState> {
 
-    //definir um goalState?
+    //definir um goalState? ->  será quando 'H' (o heroi) se mover para a 'S' (a saída)
 
     public MummyAgentProblem(MummyMazeState initialState) {
         super(initialState, new ArrayList<>(5));
