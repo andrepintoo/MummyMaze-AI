@@ -1,0 +1,17 @@
+PRIORIDADE:
+ler de strings para matriz
+
+stringBuilder da matriz para uma string
+ver a funcionar
+
+----------------------------------
+
+1º actions
+2º heuristicas
+
+(numa condição algures, contamos sempre TER PAREDE OU PORTAO FECHADO, pois o portao pode estar aberto)
+
+
+
+
+
