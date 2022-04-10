@@ -4,6 +4,8 @@ import agent.Action;
 import agent.State;
 import eightpuzzle.EightPuzzleState;
 
+import java.util.List;
+
 public class MummyMazeState extends State implements Cloneable{
 
     private final char[][] matrix;
@@ -11,6 +13,8 @@ public class MummyMazeState extends State implements Cloneable{
     private int lineExit;
     private int lineHero; //variables to store where the hero is
     private int columnHero;
+
+    private List<String> states;
 
     public MummyMazeState(char[][] matrix) {
         this.matrix = new char[matrix.length][matrix.length];
@@ -37,9 +41,23 @@ public class MummyMazeState extends State implements Cloneable{
         //firePuzzleChanged(null); //para atualizar a interface gráfica
     }
 
-    public void moveUp() { //TODO estes moves ainda nao estao bem, pq por cada movimento penso que se mexe + que 1 casa (por causa do espaçamento das paredes...)
+    public void moveUp() {
         matrix[lineHero][columnHero] = matrix[lineHero-=2][columnHero];
         matrix[lineHero][columnHero] = 'H';
+
+        states.add(convertMatrixToString(matrix));
+
+        //TODO - moveMummy()
+    }
+
+    private String convertMatrixToString(char[][] matrix) {
+        // Matriz -> String
+        String s="";
+        for (int k = 0; k < 13; k++) {
+            s+=String.valueOf(matrix[k])+"\n";
+        }
+
+        return s;
     }
 
     public void moveRight() {

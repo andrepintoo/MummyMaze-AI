@@ -38,4 +38,7 @@ if (lineExit == 12){
     goalPosition= [lineExit][columnExit-1];
 }
 
-
+------------------ Para o relatório ------------------
+Funções criadas:
+    -> convertMatrixToString() //Na classe MummyMazeState
+    -> computeExitDistance() //Na classe MummyMazeState
