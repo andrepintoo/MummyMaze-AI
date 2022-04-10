@@ -2,6 +2,7 @@ package mummymaze;
 
 import agent.Action;
 import agent.State;
+import eightpuzzle.EightPuzzleState;
 
 public class MummyMazeState extends State implements Cloneable{
 
@@ -53,6 +54,10 @@ public class MummyMazeState extends State implements Cloneable{
     public void moveLeft() {
         matrix[lineHero][columnHero] = matrix[lineHero][columnHero-=2];
         matrix[lineHero][columnHero] = 'H';
+    }
+
+    public double computeExitDistance() {
+        return Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit);
     }
 
     @Override
