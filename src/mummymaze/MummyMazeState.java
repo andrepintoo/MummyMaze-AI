@@ -30,20 +30,6 @@ public class MummyMazeState extends State implements Cloneable{
         }
     }
 
-    public int[] getExitPosition(){
-        int[] exit = new int[2];
-        exit[0] = lineExit - 2;
-        exit[1] = columnExit - 2;
-        return exit;
-    }
-
-    public int getColumnExit() {
-        return columnExit - 2;
-    }
-
-    public int getLineExit() {
-        return lineExit - 2;
-    }
 
     @Override
     public void executeAction(Action action) {

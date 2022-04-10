@@ -5,7 +5,7 @@ import agent.Heuristic;
 public class HeuristicExitDistance extends Heuristic<MummyAgentProblem, MummyMazeState> {
     @Override
     public double compute(MummyMazeState state) {
-        return 0;//state.computeDistanceToExit(problem.getGoalState());
+        return state.computeExitDistance();
     }
 
     @Override
