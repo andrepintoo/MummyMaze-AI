@@ -23,3 +23,9 @@ matriz: só quando se vai aplicar a ação para alterar o estado
 
 
 
+1ºMAINFRAME EXECUTA AGENT.SHOWSOLUTION
+2º AGENT EXECUTA EXECUTACTION (PARA CADA AÇÃO DA LISTA DE AÇÕES, PARA A EXECUTAR SOBRE O ESTADO)
+
+
+
+
