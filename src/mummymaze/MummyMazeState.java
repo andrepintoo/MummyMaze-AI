@@ -57,7 +57,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public double computeExitDistance() {
-        return Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit);
+        return ((Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit))-1)/2;
     }
 
     @Override
