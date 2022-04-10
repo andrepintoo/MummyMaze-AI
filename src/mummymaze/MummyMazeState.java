@@ -6,6 +6,8 @@ import agent.State;
 public class MummyMazeState extends State implements Cloneable{
 
     private final char[][] matrix;
+    private int columnExit;
+    private int lineExit;
     private int lineHero; //variables to store where the hero is
     private int columnHero;
 
@@ -18,6 +20,10 @@ public class MummyMazeState extends State implements Cloneable{
                 if (this.matrix[i][j] == 'H') { //stores the hero's position in the matrix
                     lineHero = i;
                     columnHero = j;
+                }
+                if (this.matrix[i][j] == 'S'){
+                    lineExit = i;
+                    columnExit = j;
                 }
             }
         }
