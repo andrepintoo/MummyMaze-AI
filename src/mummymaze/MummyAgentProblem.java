@@ -9,6 +9,7 @@ import java.util.List;
 public class MummyAgentProblem extends Problem<MummyMazeState> {
 
     //definir um goalState? ->  será quando 'H' (o heroi) se mover para a 'S' (a saída)
+    private int[][] exitPosition;
 
     public MummyAgentProblem(MummyMazeState initialState) {
         super(initialState, new ArrayList<>(5));
@@ -16,7 +17,7 @@ public class MummyAgentProblem extends Problem<MummyMazeState> {
         actions.add(new ActionRight(1));
         actions.add(new ActionDown(1));
         actions.add(new ActionLeft(1));
-        actions.add(new ActionStandStill(0)); //talvez tenha um custo 0 ?
+        actions.add(new ActionStandStill(0));
 
     }
 

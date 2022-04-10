@@ -21,7 +21,7 @@ public class MummyMazeState extends State implements Cloneable{
                     lineHero = i;
                     columnHero = j;
                 }
-                if (this.matrix[i][j] == 'S'){
+                if (this.matrix[i][j] == 'S'){ //stores the exit position in the matrix
                     lineExit = i;
                     columnExit = j;
                 }
@@ -54,6 +54,7 @@ public class MummyMazeState extends State implements Cloneable{
         matrix[lineHero][columnHero] = matrix[lineHero][columnHero-=2];
         matrix[lineHero][columnHero] = 'H';
     }
+
 
     @Override
     public Object clone() {
