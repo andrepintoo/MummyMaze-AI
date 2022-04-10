@@ -45,6 +45,11 @@ public class MummyMazeState extends State implements Cloneable{
         matrix[lineHero][columnHero] = matrix[lineHero-=2][columnHero];
         matrix[lineHero][columnHero] = 'H';
 
+        //NOVA STRING RESULTANTE DO MOVIMENTO DO HEROI
+        //
+        //METODO POSSIVEIS MOVIMENTOS DA MUMIA (ALTERA A MATRIZ DESTE ESTADO)
+        //NOVAS STRINGS DOS MOVIMENTOS DA MUMIA
+
         states.add(convertMatrixToString(matrix));
 
         //TODO - moveMummy()
