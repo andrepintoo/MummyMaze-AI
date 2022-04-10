@@ -80,6 +80,12 @@ public class MummyMazeState extends State implements Cloneable{
         //ações da mumia com states.add(convertMatrixToString(matrix)); respetivo
     }
 
+    public boolean canMoveRight(){
+        //verificar se tem parede (| ou -), porta fechada (" ou =)
+        //verificar se não sai fora dos limites (line < 12 && line > 0 && column < 12 && column > 0)
+        return false;
+    }
+
     public double computeExitDistance() {
         return ((Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit))-1)/2;
     }

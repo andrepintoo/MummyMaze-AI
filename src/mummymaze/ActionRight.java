@@ -9,12 +9,12 @@ public class ActionRight extends Action<MummyMazeState> {
     }
 
     @Override
-    public void execute(MummyMazeState State) {
+    public void execute(MummyMazeState state) {
 
     }
 
     @Override
-    public boolean isValid(MummyMazeState State) {
-        return false;
+    public boolean isValid(MummyMazeState state) {
+        return state.canMoveRight();
     }
 }
