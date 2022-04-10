@@ -37,9 +37,15 @@ public class MummyMazeState extends State implements Cloneable{
         //firePuzzleChanged(null); //para atualizar a interface gráfica
     }
 
-    public void moveUp() { //TODO estes moves ainda nao estao bem, pq por cada movimento penso que se mexe + que 1 casa (por causa do espaçamento das paredes...)
+    public void moveUp() {
         matrix[lineHero][columnHero] = matrix[lineHero-=2][columnHero];
         matrix[lineHero][columnHero] = 'H';
+
+        //NOVA STRING RESULTANTE DO MOVIMENTO DO HEROI
+        //
+        //METODO POSSIVEIS MOVIMENTOS DA MUMIA (ALTERA A MATRIZ DESTE ESTADO)
+        //NOVAS STRINGS DOS MOVIMENTOS DA MUMIA
+
     }
 
     public void moveRight() {
