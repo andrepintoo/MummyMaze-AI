@@ -9,7 +9,7 @@ import java.util.List;
 public class MummyAgentProblem extends Problem<MummyMazeState> {
 
     //definir um goalState? ->  será quando 'H' (o heroi) se mover para a 'S' (a saída)
-    private int[][] exitPosition;
+    private int[] exitPosition;
 
     public MummyAgentProblem(MummyMazeState initialState) {
         super(initialState, new ArrayList<>(5));
@@ -18,8 +18,9 @@ public class MummyAgentProblem extends Problem<MummyMazeState> {
         actions.add(new ActionDown(1));
         actions.add(new ActionLeft(1));
         actions.add(new ActionStandStill(0));
-
+        exitPosition = initialState.getExitPosition();
     }
+
 
     @Override
     public List<MummyMazeState> executeActions(MummyMazeState state) {
@@ -36,6 +37,6 @@ public class MummyAgentProblem extends Problem<MummyMazeState> {
 
     @Override
     public boolean isGoal(MummyMazeState state) {
-        return false;
+        return state.getExitPosition() == this.exitPosition;
     }
 }
