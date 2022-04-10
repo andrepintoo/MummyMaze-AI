@@ -80,6 +80,42 @@ public class MummyMazeState extends State implements Cloneable{
         //ações da mumia com states.add(convertMatrixToString(matrix)); respetivo
     }
 
+
+
+    public boolean canMoveLeft(){
+        //has something blocking hero's path?
+        if(matrix[lineHero][columnHero] == '|' || matrix[lineHero][columnHero] == '-' || matrix[lineHero][columnHero] == '=' || matrix[lineHero][columnHero] == '"'){
+            return false;
+        }
+        //moves off limits?
+        if(columnHero == matrix.length - 1){
+            return false;
+        }
+        return true;
+    }
+    public boolean canMoveUp(){
+        //has something blocking hero's path?
+        if(matrix[lineHero][columnHero] == '|' || matrix[lineHero][columnHero] == '-' || matrix[lineHero][columnHero] == '=' || matrix[lineHero][columnHero] == '"'){
+            return false;
+        }
+        //moves off limits?
+        if(lineHero == 1){
+            return false;
+        }
+        return true;
+    }
+    public boolean canMoveDown(){
+        //has something blocking hero's path?
+        if(matrix[lineHero][columnHero] == '|' || matrix[lineHero][columnHero] == '-' || matrix[lineHero][columnHero] == '=' || matrix[lineHero][columnHero] == '"'){
+            return false;
+        }
+        //moves off limits?
+        if(columnHero == matrix.length - 2){
+            return false;
+        }
+        return true;
+    }
+
     public double computeExitDistance() {
         return ((Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit))-1)/2;
     }
