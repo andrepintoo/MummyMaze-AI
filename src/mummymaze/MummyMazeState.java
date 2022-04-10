@@ -55,6 +55,35 @@ public class MummyMazeState extends State implements Cloneable{
         //TODO - moveMummy()
     }
 
+    public void moveRight() {
+        matrix[lineHero][columnHero] = matrix[lineHero][columnHero+=2];
+        matrix[lineHero][columnHero] = 'H';
+
+        states.add(convertMatrixToString(matrix));
+    }
+
+    public void moveDown() {
+        matrix[lineHero][columnHero] = matrix[lineHero+=2][columnHero];
+        matrix[lineHero][columnHero] = 'H';
+
+        states.add(convertMatrixToString(matrix));
+    }
+
+    public void moveLeft() {
+        matrix[lineHero][columnHero] = matrix[lineHero][columnHero-=2];
+        matrix[lineHero][columnHero] = 'H';
+
+        states.add(convertMatrixToString(matrix));
+    }
+
+    public void moveStandStill(){
+        //ações da mumia com states.add(convertMatrixToString(matrix)); respetivo
+    }
+
+    public double computeExitDistance() {
+        return ((Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit))-1)/2;
+    }
+
     private String convertMatrixToString(char[][] matrix) {
         // Matriz -> String
         String s="";
@@ -63,25 +92,6 @@ public class MummyMazeState extends State implements Cloneable{
         }
 
         return s;
-    }
-
-    public void moveRight() {
-        matrix[lineHero][columnHero] = matrix[lineHero][columnHero+=2];
-        matrix[lineHero][columnHero] = 'H';
-    }
-
-    public void moveDown() {
-        matrix[lineHero][columnHero] = matrix[lineHero+=2][columnHero];
-        matrix[lineHero][columnHero] = 'H';
-    }
-
-    public void moveLeft() {
-        matrix[lineHero][columnHero] = matrix[lineHero][columnHero-=2];
-        matrix[lineHero][columnHero] = 'H';
-    }
-
-    public double computeExitDistance() {
-        return ((Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit))-1)/2;
     }
 
     @Override
