@@ -2,6 +2,8 @@ package mummymaze;
 
 import agent.Action;
 import agent.State;
+import eightpuzzle.EightPuzzleEvent;
+import eightpuzzle.EightPuzzleListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class MummyMazeState extends State implements Cloneable{
     @Override
     public void executeAction(Action action) {
         action.execute(this);
-        //firePuzzleChanged(null); //para atualizar a interface gráfica
+        firePuzzleChanged(null); //para atualizar a interface gráfica
     }
 
     public List<String> moveUp() {
@@ -170,5 +172,25 @@ public class MummyMazeState extends State implements Cloneable{
 
     public int getNumColumns() {
         return matrix[0].length;
+    }
+
+    private transient ArrayList<MummyMazeListener> listeners = new ArrayList<MummyMazeListener>(3);
+
+    public synchronized void removeListener(MummyMazeListener l) {
+        if (listeners != null && listeners.contains(l)) {
+            listeners.remove(l);
+        }
+    }
+
+    public synchronized void addListener(MummyMazeListener l) {
+        if (!listeners.contains(l)) {
+            listeners.add(l);
+        }
+    }
+
+    public void firePuzzleChanged(EightPuzzleEvent pe) {
+        for (MummyMazeListener listener : listeners) {
+            listener.puzzleChanged(null);
+        }
     }
 }
