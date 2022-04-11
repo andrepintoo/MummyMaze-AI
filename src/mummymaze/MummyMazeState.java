@@ -2,9 +2,10 @@ package mummymaze;
 
 import agent.Action;
 import agent.State;
-import eightpuzzle.EightPuzzleState;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class MummyMazeState extends State implements Cloneable{
 
@@ -13,8 +14,6 @@ public class MummyMazeState extends State implements Cloneable{
     private int lineExit;
     private int lineHero; //variables to store where the hero is
     private int columnHero;
-
-    private List<String> states;
 
     public MummyMazeState(char[][] matrix) {
         this.matrix = new char[matrix.length][matrix.length];
@@ -41,43 +40,69 @@ public class MummyMazeState extends State implements Cloneable{
         //firePuzzleChanged(null); //para atualizar a interface gráfica
     }
 
-    public void moveUp() {
+    public List<String> moveUp() {
+        List<String> movements = new ArrayList<>();
+        // Hero's movement
         matrix[lineHero][columnHero] = matrix[lineHero-=2][columnHero];
         matrix[lineHero][columnHero] = 'H';
+
+        movements.add(convertMatrixToString(matrix));
 
         //NOVA STRING RESULTANTE DO MOVIMENTO DO HEROI
         //
         //METODO POSSIVEIS MOVIMENTOS DA MUMIA (ALTERA A MATRIZ DESTE ESTADO)
         //NOVAS STRINGS DOS MOVIMENTOS DA MUMIA
 
-        states.add(convertMatrixToString(matrix));
-
         //TODO - moveMummy()
+
+        return movements;
     }
 
-    public void moveRight() {
+    public List<String> moveRight() {
+        List<String> movements = new ArrayList<>();
+        // Hero's movement
         matrix[lineHero][columnHero] = matrix[lineHero][columnHero+=2];
         matrix[lineHero][columnHero] = 'H';
 
-        states.add(convertMatrixToString(matrix));
+        movements.add(convertMatrixToString(matrix));
+
+        //TODO - moveMummy()
+
+        return movements;
     }
 
-    public void moveDown() {
+    public List<String> moveDown() {
+        List<String> movements = new ArrayList<>();
+        // Hero's movement
         matrix[lineHero][columnHero] = matrix[lineHero+=2][columnHero];
         matrix[lineHero][columnHero] = 'H';
 
-        states.add(convertMatrixToString(matrix));
+        movements.add(convertMatrixToString(matrix));
+
+        //TODO - moveMummy()
+
+        return movements;
     }
 
-    public void moveLeft() {
+    public List<String> moveLeft() {
+        List<String> movements = new ArrayList<>();
+        // Hero's movement
         matrix[lineHero][columnHero] = matrix[lineHero][columnHero-=2];
         matrix[lineHero][columnHero] = 'H';
 
-        states.add(convertMatrixToString(matrix));
+        movements.add(convertMatrixToString(matrix));
+
+        //TODO - moveMummy()
+
+        return movements;
     }
 
-    public void moveStandStill(){
-        //ações da mumia com states.add(convertMatrixToString(matrix)); respetivo
+    public List<String> moveStandStill(){
+        List<String> movements = new ArrayList<>();
+
+        //TODO - moveMummy()
+
+        return movements;
     }
 
     public boolean canMoveRight(){
@@ -126,7 +151,7 @@ public class MummyMazeState extends State implements Cloneable{
         return ((Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit))-1)/2;
     }
 
-    private String convertMatrixToString(char[][] matrix) {
+    protected String convertMatrixToString(char[][] matrix) {
         // Matriz -> String
         String s="";
         for (int k = 0; k < 13; k++) {

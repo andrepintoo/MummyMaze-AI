@@ -2,6 +2,8 @@ package mummymaze;
 
 import agent.Action;
 
+import java.util.List;
+
 public class ActionRight extends Action<MummyMazeState> {
 
     public ActionRight(double cost) {
@@ -10,7 +12,9 @@ public class ActionRight extends Action<MummyMazeState> {
 
     @Override
     public void execute(MummyMazeState state) {
-
+        List<String> movements = state.moveRight();
+        addMovement(movements);
+        state.setAction(this);
     }
 
     @Override
