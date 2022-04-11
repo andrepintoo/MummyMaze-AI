@@ -6,10 +6,10 @@ import agent.Problem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MummyAgentProblem extends Problem<MummyMazeState> {
+public class MummyMazeProblem extends Problem<MummyMazeState> {
 
 
-    public MummyAgentProblem(MummyMazeState initialState) {
+    public MummyMazeProblem(MummyMazeState initialState) {
         super(initialState, new ArrayList<>(5));
         actions.add(new ActionUp(1));
         actions.add(new ActionRight(1));

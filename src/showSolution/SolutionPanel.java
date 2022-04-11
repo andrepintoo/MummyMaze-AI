@@ -1,10 +1,18 @@
 package showSolution;
 
+import agent.Action;
+import agent.Solution;
+import mummymaze.MummyMazeAgent;
+import mummymaze.MummyMazeProblem;
+import mummymaze.MummyMazeState;
+
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.LinkedList;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SolutionPanel extends JFrame{
@@ -15,8 +23,33 @@ public class SolutionPanel extends JFrame{
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
+
+		MummyMazeState newState = new MummyMazeState(new char[13][13]);
+		MummyMazeAgent agent = new MummyMazeAgent(newState);
+		List<String> movements = new ArrayList<>();
+
+		try{
+			MummyMazeState initialState = agent.readInitialStateFromFile(new File("nivel1.txt"));
+			MummyMazeProblem problem = new MummyMazeProblem(initialState);
+			Solution solution = agent.solveProblem(problem);
+
+
+			for (Action action: solution.getActions()) {
+				List<String> actionMovements = action.getMovements();
+				for (String movement: actionMovements) {
+					movements.add(movement);
+				}
+			}
+
+			showSolution(movements,solution.getCost());
+
+		}catch (IOException e){
+			e.printStackTrace(System.err);
+		}
+
 		// TODO Auto-generated method stub
-		LinkedList<String> lista = new LinkedList<String>();
+		/*LinkedList<String> lista = new LinkedList<String>();
 		String estado = 	"             \n" +
 		" . . . . .|. \n" +
 		"     -       \n" +
@@ -115,7 +148,7 @@ public class SolutionPanel extends JFrame{
 		" . . . . . . \n" +
 		" S           \n";
 		lista.add(estado);
-		showSolution(lista,10);
+		showSolution(lista,10);*/
 	}
 	
 	private SolutionPanel(){
