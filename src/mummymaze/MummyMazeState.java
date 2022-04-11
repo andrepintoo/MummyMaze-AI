@@ -9,13 +9,13 @@ import java.util.List;
 
 public class MummyMazeState extends State implements Cloneable{
 
-    private final char[][] matrix;
+    private final char[][] matrix; //posições válidas : do [1][1] ao [1][11] (na horizontal) e [1][1] ao [11][1] (na vertical)
     private int columnExit;
     private int lineExit;
     private int lineHero; //variables to store where the hero is
     private int columnHero;
 
-    public MummyMazeState(char[][] matrix) {
+    public MummyMazeState(char[][] matrix) { //será [13][13]
         this.matrix = new char[matrix.length][matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {
@@ -106,45 +106,43 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveRight(){
-        //verificar se tem parede (| ou -), porta fechada (" ou =)
+        int columnRigth = columnHero + 2;
         //verificar se não sai fora dos limites (line < 12 && line > 0 && column < 12 && column > 0)
-        return false;
+        if(columnRigth > matrix.length - 2){
+            return false;
+        }
+        //verificar se tem parede (| ou -), porta fechada (" ou =)
+        return matrix[lineHero][columnRigth] != '|' && matrix[lineHero][columnRigth] != '-' && matrix[lineHero][columnRigth] != '=' && matrix[lineHero][columnRigth] != '"';
     }
 
     public boolean canMoveLeft(){
-        //has something blocking hero's path?
-        if(matrix[lineHero][columnHero] == '|' || matrix[lineHero][columnHero] == '-' || matrix[lineHero][columnHero] == '=' || matrix[lineHero][columnHero] == '"'){
-            return false;
-        }
         //moves off limits?
-        if(columnHero == matrix.length - 1){
+        if(columnHero == 1){
             return false;
         }
-        return true;
+        int columnLeft = columnHero - 2;
+        //has something blocking hero's path?
+        return matrix[lineHero][columnLeft] != '|' && matrix[lineHero][columnLeft] != '-' && matrix[lineHero][columnLeft] != '=' && matrix[lineHero][columnLeft] != '"';
     }
 
     public boolean canMoveUp(){
-        //has something blocking hero's path?
-        if(matrix[lineHero][columnHero] == '|' || matrix[lineHero][columnHero] == '-' || matrix[lineHero][columnHero] == '=' || matrix[lineHero][columnHero] == '"'){
-            return false;
-        }
         //moves off limits?
         if(lineHero == 1){
             return false;
         }
-        return true;
+        int lineUp = lineHero - 2;
+        //has something blocking hero's path?
+        return matrix[lineUp][columnHero] != '|' && matrix[lineUp][columnHero] != '-' && matrix[lineUp][columnHero] != '=' && matrix[lineUp][columnHero] != '"';
     }
 
     public boolean canMoveDown(){
-        //has something blocking hero's path?
-        if(matrix[lineHero][columnHero] == '|' || matrix[lineHero][columnHero] == '-' || matrix[lineHero][columnHero] == '=' || matrix[lineHero][columnHero] == '"'){
-            return false;
-        }
         //moves off limits?
-        if(columnHero == matrix.length - 2){
+        if(lineHero == matrix.length - 2){
             return false;
         }
-        return true;
+        int lineDown = lineHero + 2;
+        //has something blocking hero's path?
+        return matrix[lineDown][columnHero] != '|' && matrix[lineDown][columnHero] != '-' && matrix[lineDown][columnHero] != '=' && matrix[lineDown][columnHero] != '"';
     }
 
     public double computeExitDistance() {
