@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class Action <S extends State>{
     //uma ação tem um state. Vai ser o estado do problema especifico em que se está a trabalhar
 
-    private List<String> movements;
+    private List<String> movements = new ArrayList<>();
     private final double cost; //custo que envolveu a execução da ação
 
     public Action(double cost){
