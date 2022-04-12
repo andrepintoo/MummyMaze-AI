@@ -1,5 +1,8 @@
 package gui;
 
+import showSolution.GameArea;
+import utils.ImageLoader;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -23,17 +26,18 @@ public class PuzzleTileCellRenderer extends JLabel implements TableCellRenderer 
             boolean hasFocus,
             int row,
             int column) {
-        
-        String text = (((Integer) value) == 0) ? "" : ((Integer) value).toString();
-        setText(text);
 
-//        ImageLoader loader = ImageLoader.getLoader();
-//        setText("");
-//        if (((Integer) value).intValue() == 0) {
-//            setIcon(loader.getIcon(Properties.EMPTY_IMAGE));
-//        } else {
-//            setIcon(loader.getIcon(Properties.IMAGE_PREFIX + ((Integer) value).intValue() + Properties.IMAGE_SUFFIX));
-//        }
+        //GameArea jpanel = new GameArea();
+        /*String text = (((Integer) value) == 0) ? "" : ((Integer) value).toString();
+        setText(text);
+*/
+        ImageLoader loader = ImageLoader.getLoader();
+        setText("");
+        if (((Integer) value).intValue() == 0) {
+            setIcon(loader.getIcon(Properties.EMPTY_IMAGE));
+        } else {
+            setIcon(loader.getIcon(Properties.IMAGE_PREFIX + ((Integer) value).intValue() + Properties.IMAGE_SUFFIX));
+        }
         return this;
     }
 }

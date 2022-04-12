@@ -39,6 +39,7 @@ public class GameArea extends JPanel {
 	public GameArea(){
 		super();
 		setPreferredSize(new Dimension(486,474));
+		//setPreferredSize(new Dimension(100,100));
 		loadImages();
 		showSolutionCost = true;
 	}

@@ -152,7 +152,7 @@ public class MummyMazeState extends State implements Cloneable{
         return ((Math.abs(lineHero - lineExit) + Math.abs(columnHero - columnExit))-1)/ (double) 2;
     }
 
-    protected String convertMatrixToString(char[][] matrix) {
+    public String convertMatrixToString(char[][] matrix) {
         // Matriz -> String
         String s="";
         for (int k = 0; k < 13; k++) {
@@ -175,6 +175,17 @@ public class MummyMazeState extends State implements Cloneable{
         return matrix[0].length;
     }
 
+    public int getTileValue(int line, int column) {
+        if (!isValidPosition(line, column)) {
+            throw new IndexOutOfBoundsException("Invalid position!");
+        }
+        return matrix[line][column];
+    }
+
+    public boolean isValidPosition(int line, int column) {
+        return line >= 0 && line < matrix.length && column >= 0 && column < matrix[0].length;
+    }
+
     private transient ArrayList<MummyMazeListener> listeners = new ArrayList<MummyMazeListener>(3);
 
     public synchronized void removeListener(MummyMazeListener l) {
@@ -189,7 +200,7 @@ public class MummyMazeState extends State implements Cloneable{
         }
     }
 
-    public void firePuzzleChanged(EightPuzzleEvent pe) {
+    public void firePuzzleChanged(MummyMazeEvent pe) {
         for (MummyMazeListener listener : listeners) {
             listener.puzzleChanged(null);
         }

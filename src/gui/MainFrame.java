@@ -1,5 +1,6 @@
 package gui;
 
+import agent.Action;
 import agent.Heuristic;
 import agent.Solution;
 import eightpuzzle.EightPuzzleAgent;
@@ -12,7 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,14 +31,18 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+
+import mummymaze.MummyMazeAgent;
+import mummymaze.MummyMazeProblem;
+import mummymaze.MummyMazeState;
 import searchmethods.BeamSearch;
 import searchmethods.DepthLimitedSearch;
 import searchmethods.SearchMethod;
+import showSolution.GameArea;
 
 public class MainFrame extends JFrame {
 
-    private int[][] initialMatrix = {{8, 7, 6}, {5, 4, 3}, {2, 1, 0}};
-    private EightPuzzleAgent agent = new EightPuzzleAgent(new EightPuzzleState(initialMatrix));
+    private MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeAgent(new MummyMazeState(new char[13][13])).setInitialStateFromFile(new File("nivel1.txt")));
     private JComboBox comboBoxSearchMethods;
     private JComboBox comboBoxHeuristics;
     private JLabel labelSearchParameter = new JLabel("limit/beam size:");
@@ -59,7 +67,7 @@ public class MainFrame extends JFrame {
     private void jbInit() throws Exception {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setTitle("Eight Puzzle");
+        this.setTitle("MummyMaze Puzzle");
 
         JPanel contentPane = (JPanel) this.getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -93,14 +101,17 @@ public class MainFrame extends JFrame {
         comboBoxHeuristics.setEnabled(false);
         comboBoxHeuristics.addActionListener(new ComboBoxHeuristics_ActionAdapter(this));
 
+        // Quadradinho branco - estatísticas
         JPanel puzzlePanel = new JPanel(new FlowLayout());
         puzzlePanel.add(tablePuzzle);
-        textArea = new JTextArea(15, 31);
+        textArea = new JTextArea(20, 20);
         JScrollPane scrollPane = new JScrollPane(textArea);
         textArea.setEditable(false);
         puzzlePanel.add(scrollPane);
 
+
         JPanel mainPanel = new JPanel(new BorderLayout());
+        //JPanel mainPanel = new GameArea();
         mainPanel.add(panelButtons, BorderLayout.NORTH);
         mainPanel.add(panelSearchMethods, BorderLayout.CENTER);
         mainPanel.add(puzzlePanel, BorderLayout.SOUTH);
@@ -119,7 +130,7 @@ public class MainFrame extends JFrame {
             table.getColumnModel().getColumn(i).setPreferredWidth(Properties.CELL_WIDTH);
         }
         table.setRowHeight(Properties.CELL_HEIGHT);
-        table.setBorder(BorderFactory.createLineBorder(Color.black));
+        //table.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     public void buttonInitialState_ActionPerformed(ActionEvent e) {
@@ -171,7 +182,7 @@ public class MainFrame extends JFrame {
                 buttonSolve.setEnabled(false);
                 try {
                     prepareSearchAlgorithm();
-                    EightPuzzleProblem problem = new EightPuzzleProblem((EightPuzzleState) agent.getEnvironment().clone());
+                    MummyMazeProblem problem = new MummyMazeProblem((MummyMazeState) agent.getEnvironment().clone());
                     agent.solveProblem(problem);
                 } catch (Exception e) {
                     e.printStackTrace(System.err);

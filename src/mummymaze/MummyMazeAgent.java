@@ -68,4 +68,14 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
         return environment;
     }
 
+    public MummyMazeState setInitialStateFromFile(File file){
+        try{
+            return readInitialStateFromFile(file);
+        }catch (IOException e){
+            e.printStackTrace(System.err);
+        }
+
+        return null;
+    }
+
 }
