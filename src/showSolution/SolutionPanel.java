@@ -2,6 +2,7 @@ package showSolution;
 
 import agent.Action;
 import agent.Solution;
+import mummymaze.HeuristicExitDistance;
 import mummymaze.MummyMazeAgent;
 import mummymaze.MummyMazeProblem;
 import mummymaze.MummyMazeState;
@@ -31,7 +32,7 @@ public class SolutionPanel extends JFrame{
 
 		try{
 			MummyMazeState initialState = agent.readInitialStateFromFile(new File("nivel1.txt"));
-			MummyMazeProblem problem = new MummyMazeProblem(initialState);
+			MummyMazeProblem problem = new MummyMazeProblem(initialState, new HeuristicExitDistance());
 			Solution solution = agent.solveProblem(problem);
 
 

@@ -15,13 +15,13 @@ public class Agent<E extends State> {
     public Agent(E environment) {
         this.environment = environment;
         searchMethods = new ArrayList<>();
+        searchMethods.add(new AStarSearch());
         searchMethods.add(new BreadthFirstSearch());
         searchMethods.add(new UniformCostSearch());
         searchMethods.add(new DepthFirstSearch());
         searchMethods.add(new DepthLimitedSearch());
         searchMethods.add(new IterativeDeepeningSearch());
         searchMethods.add(new GreedyBestFirstSearch());
-        searchMethods.add(new AStarSearch());
         searchMethods.add(new BeamSearch());
         searchMethods.add(new IDAStarSearch());
         searchMethod = searchMethods.get(0);

@@ -108,11 +108,12 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveRight(){
-        int columnRigth = columnHero + 2;
+
         //verificar se não sai fora dos limites (line < 12 && line > 0 && column < 12 && column > 0)
-        if(columnRigth > matrix.length - 2){
+        if(columnHero == matrix.length - 2){
             return false;
         }
+        int columnRigth = columnHero + 1;
         //verificar se tem parede (| ou -), porta fechada (" ou =)
         return matrix[lineHero][columnRigth] != '|' && matrix[lineHero][columnRigth] != '-' && matrix[lineHero][columnRigth] != '=' && matrix[lineHero][columnRigth] != '"';
     }
@@ -122,7 +123,7 @@ public class MummyMazeState extends State implements Cloneable{
         if(columnHero == 1){
             return false;
         }
-        int columnLeft = columnHero - 2;
+        int columnLeft = columnHero - 1;
         //has something blocking hero's path?
         return matrix[lineHero][columnLeft] != '|' && matrix[lineHero][columnLeft] != '-' && matrix[lineHero][columnLeft] != '=' && matrix[lineHero][columnLeft] != '"';
     }
@@ -132,7 +133,7 @@ public class MummyMazeState extends State implements Cloneable{
         if(lineHero == 1){
             return false;
         }
-        int lineUp = lineHero - 2;
+        int lineUp = lineHero - 1;
         //has something blocking hero's path?
         return matrix[lineUp][columnHero] != '|' && matrix[lineUp][columnHero] != '-' && matrix[lineUp][columnHero] != '=' && matrix[lineUp][columnHero] != '"';
     }
@@ -142,7 +143,7 @@ public class MummyMazeState extends State implements Cloneable{
         if(lineHero == matrix.length - 2){
             return false;
         }
-        int lineDown = lineHero + 2;
+        int lineDown = lineHero + 1;
         //has something blocking hero's path?
         return matrix[lineDown][columnHero] != '|' && matrix[lineDown][columnHero] != '-' && matrix[lineDown][columnHero] != '=' && matrix[lineDown][columnHero] != '"';
     }
