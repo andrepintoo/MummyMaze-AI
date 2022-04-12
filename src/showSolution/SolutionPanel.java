@@ -32,7 +32,7 @@ public class SolutionPanel extends JFrame{
 
 		try{
 			MummyMazeState initialState = agent.readInitialStateFromFile(new File("nivel1.txt"));
-			MummyMazeProblem problem = new MummyMazeProblem(initialState, new HeuristicExitDistance());
+			MummyMazeProblem problem = new MummyMazeProblem(initialState);
 			Solution solution = agent.solveProblem(problem);
 
 
