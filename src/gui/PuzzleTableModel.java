@@ -39,10 +39,10 @@ public class PuzzleTableModel extends AbstractTableModel implements MummyMazeLis
     @Override
     public void puzzleChanged(MummyMazeEvent pe){
         fireTableDataChanged();
-        try{
-            Thread.sleep(1000);
-        }catch(InterruptedException ignore){
-        }
+//        try{
+//            Thread.sleep(1000);
+//        }catch(InterruptedException ignore){
+//        }
     }
 
     public void setPuzzle(MummyMazeState puzzle){

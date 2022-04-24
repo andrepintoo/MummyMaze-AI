@@ -2,13 +2,14 @@ package showSolution;
 
 import agent.Action;
 import agent.Solution;
+import gui.*;
 import mummymaze.HeuristicExitDistance;
 import mummymaze.MummyMazeAgent;
 import mummymaze.MummyMazeProblem;
 import mummymaze.MummyMazeState;
 
-import javax.swing.JFrame;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -47,7 +48,7 @@ public class SolutionPanel extends JFrame{
 	}
 	
 	public SolutionPanel(){
-		super("Show solution");
+		super("Mummy Maze");
 		gameArea = new GameArea();
 		getContentPane().setLayout(new BorderLayout());
         getContentPane().add(gameArea,BorderLayout.CENTER);
@@ -109,6 +110,10 @@ public class SolutionPanel extends JFrame{
 
 	private void setSolutionCost(double solutionCost){
 		gameArea.setSolutionCost(solutionCost);
+	}
+
+	public GameArea getGameArea() {
+		return gameArea;
 	}
 
 }

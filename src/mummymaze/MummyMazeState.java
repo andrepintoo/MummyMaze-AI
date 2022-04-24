@@ -162,6 +162,16 @@ public class MummyMazeState extends State implements Cloneable{
         return s;
     }
 
+    public String getStateString() {
+        // Matriz -> String
+        String s="";
+        for (int k = 0; k < 13; k++) {
+            s+=String.valueOf(matrix[k])+"\n";
+        }
+
+        return s;
+    }
+
     @Override
     public Object clone() {
         return new MummyMazeState(matrix);

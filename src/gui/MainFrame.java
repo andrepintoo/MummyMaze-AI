@@ -49,14 +49,17 @@ public class MainFrame extends JFrame {
     MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeState(new char[13][13]));
 
     //Ler o estado inicial de um ficheiro
-    MummyMazeState state;
+    MummyMazeState initialState;
     {
         try {
-            state = agent.readInitialStateFromFile(new File("nivel1.txt"));
+            initialState = agent.readInitialStateFromFile(new File("nivel1.txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private SolutionPanel solutionPanel = new SolutionPanel();
+    private GameArea gameArea = solutionPanel.getGameArea();
 
     private JComboBox comboBoxSearchMethods;
     private JComboBox comboBoxHeuristics;
@@ -84,8 +87,12 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("MummyMaze Puzzle");
 
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(gameArea,BorderLayout.CENTER);
         JPanel contentPane = (JPanel) this.getContentPane();
+//        JPanel contentPane = (JPanel) solutionPanel.getContentPane();
         contentPane.setLayout(new BorderLayout());
+
         JPanel panelButtons = new JPanel(new FlowLayout());
         panelButtons.add(buttonInitialState);
         buttonInitialState.addActionListener(new ButtonInitialState_ActionAdapter(this));
@@ -117,11 +124,13 @@ public class MainFrame extends JFrame {
         comboBoxHeuristics.addActionListener(new ComboBoxHeuristics_ActionAdapter(this));
 
         //Jpanel = gameArea
+//        JPanel puzzlePanel = new JPanel(new FlowLayout());
         JPanel puzzlePanel = new JPanel(new FlowLayout());
-        //SolutionPanel puzzlePanel = new SolutionPanel();
-        /*GameArea gameArea = new GameArea();
-        puzzlePanel.add(gameArea);*/
-        puzzlePanel.add(tablePuzzle);
+//        SolutionPanel puzzlePanel = new SolutionPanel();
+//        GameArea gameArea = new GameArea();
+        puzzlePanel.add(gameArea);
+        showState(initialState.getStateString());
+//        puzzlePanel.add(tablePuzzle);
 
         // caixa de texto branca - estatísticas
         textArea = new JTextArea(20, 20);
@@ -206,7 +215,7 @@ public class MainFrame extends JFrame {
                     agent.solveProblem(problem);*/
                     //TODO
                     //Instanciar o problem
-                    MummyMazeProblem problem = new MummyMazeProblem(state);
+                    MummyMazeProblem problem = new MummyMazeProblem(initialState);
 
                     //executar algoitmo de procura para obter a solução
                     agent.solveProblem(problem);
@@ -257,7 +266,7 @@ public class MainFrame extends JFrame {
                 double cost = agent.getSolutionCost();
 
                 // mostrar a lista de turnos na interface gráfica fornecida
-                SolutionPanel.showSolution(movements, cost);
+                showSolution(movements, cost);
                 buttonReset.setEnabled(true);
                 return null;
             }
@@ -273,6 +282,7 @@ public class MainFrame extends JFrame {
 
     public void buttonReset_ActionPerformed(ActionEvent e) {
         puzzleTableModel.setPuzzle(agent.resetEnvironment());
+        showState(agent.getEnvironment().getStateString());
         buttonShowSolution.setEnabled(true);
         buttonReset.setEnabled(false);
     }
@@ -285,6 +295,57 @@ public class MainFrame extends JFrame {
             BeamSearch searchMethod = (BeamSearch) agent.getSearchMethod();
             searchMethod.setBeamSize(Integer.parseInt(textFieldSearchParameter.getText()));
         }
+    }
+
+    public void showSolution(final List<String> states, final double solutionCost){
+
+        this.setVisible(true);
+        this.pack();
+        Thread t = new Thread(){
+            public void run(){
+                setSolutionCost(solutionCost);
+                for(String s : states)  {
+                    setState(s);
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        t.start();
+    }
+
+    public void showState(final String state){
+        this.setVisible(true);
+        this.pack();
+        Thread t = new Thread(){
+            public void run(){
+                setState(state);
+                setShowSolutionCost(false);
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    private void setState(String state){
+        gameArea.setState(state);
+    }
+
+    public void setShowSolutionCost(boolean showSolutionCost) {
+        gameArea.setShowSolutionCost(showSolutionCost);
+    }
+
+    private void setSolutionCost(double solutionCost){
+        gameArea.setSolutionCost(solutionCost);
     }
 }
 
