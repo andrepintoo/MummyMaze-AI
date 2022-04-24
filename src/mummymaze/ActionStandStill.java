@@ -9,11 +9,16 @@ public class ActionStandStill extends Action<MummyMazeState> {
         super(cost);
     }
 
+    public ActionStandStill(ActionStandStill actionStandStill) {
+        super(actionStandStill.getCost());
+    }
+
+
     @Override
     public void execute(MummyMazeState state) {
         List<String> movements = state.moveStandStill();
         addMovement(movements);
-        state.setAction(this);
+        state.setAction(new ActionStandStill(this));
     }
 
     @Override

@@ -1,4 +1,5 @@
 package mummymaze;
+import agent.Action;
 import agent.Agent;
 
 import java.io.File;
@@ -9,6 +10,8 @@ import java.util.List;
 public class MummyMazeAgent extends Agent<MummyMazeState> {
 
     protected MummyMazeState initialEnvironment;
+    private List<String> movements;
+    private double solutionCost;
 
     public MummyMazeAgent(MummyMazeState environment) {
         super(environment);
@@ -64,8 +67,8 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
         }
 */
         initialEnvironment = new MummyMazeState(matrix);
-        resetEnvironment();
-        return environment;
+        return resetEnvironment();
+        //return environment;
     }
 
     public MummyMazeState setInitialStateFromFile(File file){
@@ -78,4 +81,28 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
         return null;
     }
 
+    @Override
+    public void executeSolution() {
+        // Definir a lista de turnos
+        //super.executeSolution();
+        this.movements = new ArrayList<>();
+        for(Action action : solution.getActions()){ //para passar por todos os passos intermedios até chegar ao estado final
+            environment.executeAction(action);
+            List<String> actionMovements = action.getMovements();
+            for (String movement: actionMovements) {
+                this.movements.add(movement);
+            }
+
+            //definir o custo da solução
+            solutionCost = solution.getCost();
+        }
+    }
+
+    public List<String> getMovements() {
+        return movements;
+    }
+
+    public double getSolutionCost() {
+        return solutionCost;
+    }
 }

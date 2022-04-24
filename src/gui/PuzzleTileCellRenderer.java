@@ -33,11 +33,11 @@ public class PuzzleTileCellRenderer extends JLabel implements TableCellRenderer 
 */
         ImageLoader loader = ImageLoader.getLoader();
         setText("");
-        if (((Integer) value).intValue() == 0) {
+        /*if (((Integer) value).intValue() == 0) {
             setIcon(loader.getIcon(Properties.EMPTY_IMAGE));
         } else {
             setIcon(loader.getIcon(Properties.IMAGE_PREFIX + ((Integer) value).intValue() + Properties.IMAGE_SUFFIX));
-        }
+        }*/
         return this;
     }
 }

@@ -24,135 +24,29 @@ public class SolutionPanel extends JFrame{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
-
-		MummyMazeState newState = new MummyMazeState(new char[13][13]);
-		MummyMazeAgent agent = new MummyMazeAgent(newState);
+//		MummyMazeState newState = new MummyMazeState(new char[13][13]);
+//		MummyMazeAgent agent = new MummyMazeAgent(newState);
+		MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeAgent(new MummyMazeState(new char[13][13])).setInitialStateFromFile(new File("nivel1.txt")));
 		List<String> movements = new ArrayList<>();
 
-		try{
-			MummyMazeState initialState = agent.readInitialStateFromFile(new File("nivel1.txt"));
-			MummyMazeProblem problem = new MummyMazeProblem(initialState);
-			Solution solution = agent.solveProblem(problem);
+		MummyMazeProblem problem = new MummyMazeProblem(agent.getEnvironment());
+		Solution solution = agent.solveProblem(problem);
 
 
-			for (Action action: solution.getActions()) {
-				List<String> actionMovements = action.getMovements();
-				for (String movement: actionMovements) {
-					movements.add(movement);
-				}
+		for (Action action: solution.getActions()) {
+			action.execute(agent.getEnvironment());
+			List<String> actionMovements = action.getMovements();
+			for (String movement: actionMovements) {
+				movements.add(movement);
 			}
-
-			showSolution(movements,solution.getCost());
-
-		}catch (IOException e){
-			e.printStackTrace(System.err);
 		}
 
-		// TODO Auto-generated method stub
-		/*LinkedList<String> lista = new LinkedList<String>();
-		String estado = 	"             \n" +
-		" . . . . .|. \n" +
-		"     -       \n" +
-		" . . . . . H \n" +
-		"     -       \n" +
-		" . . . .|. . \n" +
-		"       -   - \n" +
-		" . . . . .|. \n" +
-		"   - -       \n" +
-		" . . . M . . \n" +
-		"         -   \n" +
-		" . . . . . . \n" +
-		" S           \n";
-		lista.add(estado);
-		estado = 	"             \n" +
-		" . . . . .|. \n" +
-		"     -       \n" +
-		" . . . . H   \n" +
-		"     -       \n" +
-		" . . . .|. . \n" +
-		"       -   - \n" +
-		" . . . . .|. \n" +
-		"   - -       \n" +
-		" . . . M . . \n" +
-		"         -   \n" +
-		" . . . . . . \n" +
-		" S           \n";
-		lista.add(estado);
-		estado = 	"             \n" +
-		" . . . . .|. \n" +
-		"     -       \n" +
-		" . . . H . . \n" +
-		"     -       \n" +
-		" . . . .|. . \n" +
-		"       -   - \n" +
-		" . . . . .|. \n" +
-		"   - -       \n" +
-		" . . . M . . \n" +
-		"         -   \n" +
-		" . . . . . . \n" +
-		" S           \n";
-		lista.add(estado);
-		estado = 	"             \n" +
-		" . . . . .|. \n" +
-		"     -       \n" +
-		" . . H . .   \n" +
-		"     -       \n" +
-		" . . . .|. . \n" +
-		"       -   - \n" +
-		" . . . . .|. \n" +
-		"   - -       \n" +
-		" . . . M . . \n" +
-		"         -   \n" +
-		" . . . . . . \n" +
-		" S           \n";
-		lista.add(estado);
-		estado = 	"             \n" +
-		" . . . . .|. \n" +
-		"     -       \n" +
-		" . H . . . . \n" +
-		"     -       \n" +
-		" . . . .|. . \n" +
-		"       -   - \n" +
-		" . . . . .|. \n" +
-		"   - -       \n" +
-		" . . . M . . \n" +
-		"         -   \n" +
-		" . . . . . . \n" +
-		" S           \n";
-		lista.add(estado);
-		estado = 	"             \n" +
-		" . . . . .|. \n" +
-		"     -       \n" +
-		" H . . . . . \n" +
-		"     -       \n" +
-		" . . . .|. . \n" +
-		"       -   - \n" +
-		" . . . . .|. \n" +
-		"   - -       \n" +
-		" . . . M . . \n" +
-		"         -   \n" +
-		" . . . . . . \n" +
-		" S           \n";
-		lista.add(estado);
-		estado = 	"             \n" +
-		" . . . . .|. \n" +
-		"     -       \n" +
-		" . . . . . . \n" +
-		"     -       \n" +
-		" H . . .|. . \n" +
-		"       -   - \n" +
-		" . . . . .|. \n" +
-		"   - -       \n" +
-		" . . . M . . \n" +
-		"         -   \n" +
-		" . . . . . . \n" +
-		" S           \n";
-		lista.add(estado);
-		showSolution(lista,10);*/
+		showSolution(movements,solution.getCost());
+
+
 	}
 	
-	private SolutionPanel(){
+	public SolutionPanel(){
 		super("Show solution");
 		gameArea = new GameArea();
 		getContentPane().setLayout(new BorderLayout());

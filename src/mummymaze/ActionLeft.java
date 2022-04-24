@@ -10,11 +10,15 @@ public class ActionLeft extends Action<MummyMazeState> {
         super(cost); //TODO definir o custo das ações
     }
 
+    public ActionLeft(ActionLeft actionLeft) {
+        super(actionLeft.getCost());
+    }
+
     @Override
     public void execute(MummyMazeState state) {
         List<String> movements = state.moveLeft();
         addMovement(movements);
-        state.setAction(this);
+        state.setAction(new ActionLeft(this));
     }
 
     @Override

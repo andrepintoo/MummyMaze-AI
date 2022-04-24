@@ -4,16 +4,20 @@ import agent.Action;
 
 import java.util.List;
 
-public class ActionDown extends Action<MummyMazeState> {
+public class ActionDown extends Action<MummyMazeState> implements Cloneable  {
     public ActionDown(double cost) {
         super(cost);
+    }
+
+    public ActionDown(ActionDown actionDown) {
+        super(actionDown.getCost());
     }
 
     @Override
     public void execute(MummyMazeState state) {
         List<String> movements = state.moveDown();
         addMovement(movements);
-        state.setAction(this);
+        state.setAction(new ActionDown(this));
     }
 
     @Override

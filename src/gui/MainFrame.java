@@ -39,10 +39,25 @@ import searchmethods.BeamSearch;
 import searchmethods.DepthLimitedSearch;
 import searchmethods.SearchMethod;
 import showSolution.GameArea;
+import showSolution.SolutionPanel;
 
 public class MainFrame extends JFrame {
 
-    private MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeAgent(new MummyMazeState(new char[13][13])).setInitialStateFromFile(new File("nivel1.txt")));
+    //private MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeAgent(new MummyMazeState(new char[13][13])).setInitialStateFromFile(new File("nivel1.txt")));
+
+    //Instanciar o MummyMazeAgent
+    MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeState(new char[13][13]));
+
+    //Ler o estado inicial de um ficheiro
+    MummyMazeState state;
+    {
+        try {
+            state = agent.readInitialStateFromFile(new File("nivel1.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private JComboBox comboBoxSearchMethods;
     private JComboBox comboBoxHeuristics;
     private JLabel labelSearchParameter = new JLabel("limit/beam size:");
@@ -101,9 +116,14 @@ public class MainFrame extends JFrame {
         comboBoxHeuristics.setEnabled(false);
         comboBoxHeuristics.addActionListener(new ComboBoxHeuristics_ActionAdapter(this));
 
-        // Quadradinho branco - estatísticas
+        //Jpanel = gameArea
         JPanel puzzlePanel = new JPanel(new FlowLayout());
+        //SolutionPanel puzzlePanel = new SolutionPanel();
+        /*GameArea gameArea = new GameArea();
+        puzzlePanel.add(gameArea);*/
         puzzlePanel.add(tablePuzzle);
+
+        // caixa de texto branca - estatísticas
         textArea = new JTextArea(20, 20);
         JScrollPane scrollPane = new JScrollPane(textArea);
         textArea.setEditable(false);
@@ -111,7 +131,6 @@ public class MainFrame extends JFrame {
 
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        //JPanel mainPanel = new GameArea();
         mainPanel.add(panelButtons, BorderLayout.NORTH);
         mainPanel.add(panelSearchMethods, BorderLayout.CENTER);
         mainPanel.add(puzzlePanel, BorderLayout.SOUTH);
@@ -126,6 +145,7 @@ public class MainFrame extends JFrame {
         puzzleTableModel = new PuzzleTableModel(agent.getEnvironment());
         tablePuzzle.setModel(puzzleTableModel);
         table.setDefaultRenderer(Object.class, new PuzzleTileCellRenderer());
+
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setPreferredWidth(Properties.CELL_WIDTH);
         }
@@ -182,8 +202,15 @@ public class MainFrame extends JFrame {
                 buttonSolve.setEnabled(false);
                 try {
                     prepareSearchAlgorithm();
-                    MummyMazeProblem problem = new MummyMazeProblem((MummyMazeState) agent.getEnvironment().clone());
+                    /*MummyMazeProblem problem = new MummyMazeProblem((MummyMazeState) agent.getEnvironment().clone());
+                    agent.solveProblem(problem);*/
+                    //TODO
+                    //Instanciar o problem
+                    MummyMazeProblem problem = new MummyMazeProblem(state);
+
+                    //executar algoitmo de procura para obter a solução
                     agent.solveProblem(problem);
+
                 } catch (Exception e) {
                     e.printStackTrace(System.err);
                 }
@@ -220,7 +247,17 @@ public class MainFrame extends JFrame {
         SwingWorker worker = new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
+                //agent.executeSolution();
+                //TODO
+                //executar a solução = obter a lista de turnos
                 agent.executeSolution();
+
+                //obter a lista de turnos correspondente à solução
+                List<String> movements = agent.getMovements();
+                double cost = agent.getSolutionCost();
+
+                // mostrar a lista de turnos na interface gráfica fornecida
+                SolutionPanel.showSolution(movements, cost);
                 buttonReset.setEnabled(true);
                 return null;
             }

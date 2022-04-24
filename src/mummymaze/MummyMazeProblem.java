@@ -11,18 +11,18 @@ public class MummyMazeProblem extends Problem<MummyMazeState> {
 
 
     public MummyMazeProblem(MummyMazeState initialState) {
-        super(initialState, new ArrayList<>(5));
+        super(initialState, new ArrayList<>());
         actions.add(new ActionUp(1));
         actions.add(new ActionRight(1));
         actions.add(new ActionDown(1));
         actions.add(new ActionLeft(1));
-        actions.add(new ActionStandStill(0));
+        actions.add(new ActionStandStill(1));
     }
 
 
     @Override
     public List<MummyMazeState> executeActions(MummyMazeState state) {
-        List<MummyMazeState> successors_list = new ArrayList<>(5); //tem-se 5 ações
+        List<MummyMazeState> successors_list = new ArrayList<>(5); //tem-se 5 ações possíveis
         for (Action a: actions) {
             if(a.isValid(state)){
                 MummyMazeState successor = (MummyMazeState) state.clone();
