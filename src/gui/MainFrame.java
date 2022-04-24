@@ -41,6 +41,8 @@ import searchmethods.SearchMethod;
 import showSolution.GameArea;
 import showSolution.SolutionPanel;
 
+import static java.lang.Thread.sleep;
+
 public class MainFrame extends JFrame {
 
     //private MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeAgent(new MummyMazeState(new char[13][13])).setInitialStateFromFile(new File("nivel1.txt")));
@@ -129,7 +131,8 @@ public class MainFrame extends JFrame {
 //        SolutionPanel puzzlePanel = new SolutionPanel();
 //        GameArea gameArea = new GameArea();
         puzzlePanel.add(gameArea);
-        showState(initialState.getStateString());
+        setState(initialState.getStateString());
+//        showState(initialState.getStateString());
 //        puzzlePanel.add(tablePuzzle);
 
         // caixa de texto branca - estatísticas
@@ -211,9 +214,7 @@ public class MainFrame extends JFrame {
                 buttonSolve.setEnabled(false);
                 try {
                     prepareSearchAlgorithm();
-                    /*MummyMazeProblem problem = new MummyMazeProblem((MummyMazeState) agent.getEnvironment().clone());
-                    agent.solveProblem(problem);*/
-                    //TODO
+
                     //Instanciar o problem
                     MummyMazeProblem problem = new MummyMazeProblem(initialState);
 
@@ -256,8 +257,6 @@ public class MainFrame extends JFrame {
         SwingWorker worker = new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
-                //agent.executeSolution();
-                //TODO
                 //executar a solução = obter a lista de turnos
                 agent.executeSolution();
 
@@ -266,13 +265,20 @@ public class MainFrame extends JFrame {
                 double cost = agent.getSolutionCost();
 
                 // mostrar a lista de turnos na interface gráfica fornecida
-                showSolution(movements, cost);
-                buttonReset.setEnabled(true);
+                Thread t = showSolution(movements, cost);
+                while(t.isAlive()){
+                    try {
+                        sleep(1);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
                 return null;
             }
 
             @Override
             public void done() {
+                buttonReset.setEnabled(true);
                 buttonShowSolution.setEnabled(true);
                 buttonSolve.setEnabled(true);
             }
@@ -282,7 +288,7 @@ public class MainFrame extends JFrame {
 
     public void buttonReset_ActionPerformed(ActionEvent e) {
         puzzleTableModel.setPuzzle(agent.resetEnvironment());
-        showState(agent.getEnvironment().getStateString());
+        setState(agent.getEnvironment().getStateString());
         buttonShowSolution.setEnabled(true);
         buttonReset.setEnabled(false);
     }
@@ -297,7 +303,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void showSolution(final List<String> states, final double solutionCost){
+    public Thread showSolution(final List<String> states, final double solutionCost){
 
         this.setVisible(true);
         this.pack();
@@ -307,7 +313,7 @@ public class MainFrame extends JFrame {
                 for(String s : states)  {
                     setState(s);
                     try {
-                        sleep(500);
+                        sleep(700);
                     } catch (InterruptedException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -316,6 +322,7 @@ public class MainFrame extends JFrame {
             }
         };
         t.start();
+        return t;
     }
 
     public void showState(final String state){
@@ -325,12 +332,12 @@ public class MainFrame extends JFrame {
             public void run(){
                 setState(state);
                 setShowSolutionCost(false);
-                try {
-                    sleep(500);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+//                try {
+//                    sleep(500);
+//                } catch (InterruptedException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
             }
         };
         t.start();

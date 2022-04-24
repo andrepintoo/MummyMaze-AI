@@ -11,7 +11,7 @@ public class MummyMazeMain {
 
     public static void main(String[] args) throws IOException {
         //Instanciar o MummyMazeAgent
-        //MummyMazeAgent agent = new MummyMazeAgent(null);
+//        MummyMazeAgent agent = new MummyMazeAgent(null);
         MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeState(new char[13][13]));
 
         //Ler o estado inicial de um ficheiro
