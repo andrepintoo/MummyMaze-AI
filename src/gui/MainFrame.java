@@ -136,7 +136,7 @@ public class MainFrame extends JFrame {
 //        puzzlePanel.add(tablePuzzle);
 
         // caixa de texto branca - estatísticas
-        textArea = new JTextArea(20, 20);
+        textArea = new JTextArea(20, 30);
         JScrollPane scrollPane = new JScrollPane(textArea);
         textArea.setEditable(false);
         puzzlePanel.add(scrollPane);
