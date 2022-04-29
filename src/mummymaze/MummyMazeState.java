@@ -195,8 +195,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveRightHero(){
-        int columnRigth = columnHero + 2;
-        return canMoveRight(lineHero, columnHero) && matrix[lineHero][columnRigth] == '.';
+        return canMoveRight(lineHero, columnHero);
     }
 
     public boolean canMoveLeft(int lineEntity, int columnEntity){
@@ -211,8 +210,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveLeftHero(){
-        int columnLeft = columnHero - 2;
-        return canMoveLeft(lineHero, columnHero) && matrix[lineHero][columnLeft] == '.';
+        return canMoveLeft(lineHero, columnHero);
     }
 
     public boolean canMoveUp(int lineEntity, int columnEntity){
@@ -227,8 +225,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveUpHero(){
-        int lineUp = lineHero - 2;
-        return canMoveUp(lineHero, columnHero) && matrix[lineUp][columnHero] == '.';
+        return canMoveUp(lineHero, columnHero);
     }
 
     public boolean canMoveDown(int lineEntity, int columnEntity){
@@ -243,8 +240,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveDownHero(){
-        int lineDown = lineHero + 2;
-        return canMoveDown(lineHero, columnHero) && matrix[lineDown][columnHero] == '.';
+        return canMoveDown(lineHero, columnHero);
     }
 
     public double computeExitDistance() {
