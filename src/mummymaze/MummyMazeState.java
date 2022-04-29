@@ -111,53 +111,69 @@ public class MummyMazeState extends State implements Cloneable{
         return movements;
     }
 
-    public boolean canMoveRight(){
+    public boolean canMoveRight(int lineEntity, int columnEntity){
 
         //verificar se não sai fora dos limites (line < 12 && line > 0 && column < 12 && column > 0)
-        if(columnHero == matrix.length - 2){
+        if(columnEntity == matrix.length - 2){
             return false;
         }
-        int columnRigth = columnHero + 1;
+        int columnRigth = columnEntity + 1;
         //verificar se tem parede (| ou -), porta fechada (" ou =)
-        return matrix[lineHero][columnRigth] != '|' && matrix[lineHero][columnRigth] != '-' &&
-                matrix[lineHero][columnRigth] != '=' && matrix[lineHero][columnRigth] != '"' &&
-                matrix[lineHero][columnRigth] != 'A';
+        return matrix[lineEntity][columnRigth] != '|' && matrix[lineEntity][columnRigth] != '-' &&
+                matrix[lineEntity][columnRigth] != '=' && matrix[lineEntity][columnRigth] != '"';
     }
 
-    public boolean canMoveLeft(){
+    public boolean canMoveRightHero(){
+        int columnRigth = columnHero + 1;
+        return canMoveRight(lineHero, columnHero) && matrix[lineHero][columnRigth] != 'A';
+    }
+
+    public boolean canMoveLeft(int lineEntity, int columnEntity){
         //moves off limits?
-        if(columnHero == 1){
+        if(columnEntity == 1){
             return false;
         }
-        int columnLeft = columnHero - 1;
+        int columnLeft = columnEntity - 1;
         //has something blocking hero's path?
-        return matrix[lineHero][columnLeft] != '|' && matrix[lineHero][columnLeft] != '-' &&
-                matrix[lineHero][columnLeft] != '=' && matrix[lineHero][columnLeft] != '"' &&
-                matrix[lineHero][columnLeft] != 'A';
+        return matrix[lineEntity][columnLeft] != '|' && matrix[lineEntity][columnLeft] != '-' &&
+                matrix[lineEntity][columnLeft] != '=' && matrix[lineEntity][columnLeft] != '"';
     }
 
-    public boolean canMoveUp(){
+    public boolean canMoveLeftHero(){
+        int columnLeft = columnHero + 1;
+        return canMoveLeft(lineHero, columnHero) && matrix[lineHero][columnLeft] != 'A';
+    }
+
+    public boolean canMoveUp(int lineEntity, int columnEntity){
         //moves off limits?
-        if(lineHero == 1){
+        if(lineEntity == 1){
             return false;
         }
+        int lineUp = lineEntity - 1;
+        //has something blocking hero's path?
+        return matrix[lineUp][columnEntity] != '|' && matrix[lineUp][columnEntity] != '-' &&
+                matrix[lineUp][columnEntity] != '=' && matrix[lineUp][columnEntity] != '"';
+    }
+
+    public boolean canMoveUpHero(){
         int lineUp = lineHero - 1;
-        //has something blocking hero's path?
-        return matrix[lineUp][columnHero] != '|' && matrix[lineUp][columnHero] != '-' &&
-                matrix[lineUp][columnHero] != '=' && matrix[lineUp][columnHero] != '"' &&
-                matrix[lineUp][columnHero] != 'A';
+        return canMoveUp(lineHero, columnHero) && matrix[lineUp][columnHero] != 'A';
     }
 
-    public boolean canMoveDown(){
+    public boolean canMoveDown(int lineEntity, int columnEntity){
         //moves off limits?
-        if(lineHero == matrix.length - 2){
+        if(lineEntity == matrix.length - 2){
             return false;
         }
-        int lineDown = lineHero + 1;
+        int lineDown = lineEntity + 1;
         //has something blocking hero's path?
-        return matrix[lineDown][columnHero] != '|' && matrix[lineDown][columnHero] != '-' &&
-                matrix[lineDown][columnHero] != '=' && matrix[lineDown][columnHero] != '"' &&
-                matrix[lineDown][columnHero] != 'A';
+        return matrix[lineDown][columnEntity] != '|' && matrix[lineDown][columnEntity] != '-' &&
+                matrix[lineDown][columnEntity] != '=' && matrix[lineDown][columnEntity] != '"';
+    }
+
+    public boolean canMoveDownHero(){
+        int lineDown = lineHero + 1;
+        return canMoveDown(lineHero, columnHero) && matrix[lineDown][columnHero] != 'A';
     }
 
     public double computeExitDistance() {
