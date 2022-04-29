@@ -41,7 +41,7 @@ public class Agent<E extends State> {
         return solution;
     }
 
-    public void executeSolution() {    
+    public void executeSolution() {
         for(Action action : solution.getActions()){ //para passar por todos os passos intermedios até chegar ao estado final
             environment.executeAction(action); //realiza a solução no estado inicial (environment)
         }

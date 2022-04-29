@@ -38,6 +38,7 @@ public class MummyMazeState extends State implements Cloneable{
 
     @Override
     public void executeAction(Action action) {
+        action.resetMovements();
         action.execute(this);
         firePuzzleChanged(null); //para atualizar a interface gráfica
     }

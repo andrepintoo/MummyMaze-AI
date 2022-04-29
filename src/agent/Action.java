@@ -26,6 +26,10 @@ public abstract class Action <S extends State> implements Cloneable{
         return new ArrayList<>(movements);
     }
 
+    public void resetMovements(){
+        this.movements.clear();
+    }
+
     protected void addMovement(List<String> movements){
         for (String movement: movements) {
             this.movements.add(movement);

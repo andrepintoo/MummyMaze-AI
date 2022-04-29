@@ -5,6 +5,7 @@ import agent.Agent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MummyMazeAgent extends Agent<MummyMazeState> {
@@ -18,10 +19,12 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
         initialEnvironment = (MummyMazeState) environment.clone();
         heuristics.add(new HeuristicExitDistance());
         heuristic = heuristics.get(0);
+        this.movements = new ArrayList<>();
     }
 
     public MummyMazeState resetEnvironment(){
         environment = (MummyMazeState) initialEnvironment.clone();
+
         return environment;
     }
 
@@ -42,30 +45,7 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
             }
             i++;
         }
- /*java.util.Scanner scanner = new java.util.Scanner(file);
 
-        char[][] matrix = new char [13][13];
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 13; j++) {
-                    matrix[i][j] = (char) scanner.nextByte();
-            }
-            scanner.nextLine();
-        }
-*/
-        // String -> Matriz
-        /*
-        int i=0, j=0;
-        char matrix[][] = new char[13][13];
-        for (char t:  scanner.toString().toCharArray()){
-            if(t!='\n') {
-                matrix[i][j] = t;
-                j++;
-            }else{
-                j=0;
-                i++;
-            }
-        }
-*/
         initialEnvironment = new MummyMazeState(matrix);
         return resetEnvironment();
         //return environment;
@@ -85,7 +65,7 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
     public void executeSolution() {
         // Definir a lista de turnos
         //super.executeSolution();
-        this.movements = new ArrayList<>();
+        this.movements.clear();
         for(Action action : solution.getActions()){ //para passar por todos os passos intermedios até chegar ao estado final
             environment.executeAction(action);
             List<String> actionMovements = action.getMovements();

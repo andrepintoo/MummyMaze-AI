@@ -169,7 +169,9 @@ public class MainFrame extends JFrame {
         JFileChooser fc = new JFileChooser(new java.io.File("."));
         try {
             if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                puzzleTableModel.setPuzzle(agent.readInitialStateFromFile(fc.getSelectedFile()));
+                initialState = agent.readInitialStateFromFile(fc.getSelectedFile());
+                puzzleTableModel.setPuzzle(initialState);
+                setState(initialState.getStateString());
                 buttonSolve.setEnabled(true);
                 buttonShowSolution.setEnabled(false);
                 buttonReset.setEnabled(false);
@@ -289,6 +291,7 @@ public class MainFrame extends JFrame {
     public void buttonReset_ActionPerformed(ActionEvent e) {
         puzzleTableModel.setPuzzle(agent.resetEnvironment());
         setState(agent.getEnvironment().getStateString());
+
         buttonShowSolution.setEnabled(true);
         buttonReset.setEnabled(false);
     }
