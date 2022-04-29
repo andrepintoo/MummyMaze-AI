@@ -22,6 +22,6 @@ public class ActionUp extends Action<MummyMazeState> {
 
     @Override
     public boolean isValid(MummyMazeState state) {
-        return state.canMoveUp();
+        return state.canMoveUpHero();
     }
 }

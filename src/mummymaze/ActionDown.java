@@ -22,6 +22,6 @@ public class ActionDown extends Action<MummyMazeState> implements Cloneable  {
 
     @Override
     public boolean isValid(MummyMazeState state) {
-        return state.canMoveDown();
+        return state.canMoveDownHero();
     }
 }
