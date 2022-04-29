@@ -6,6 +6,7 @@ import eightpuzzle.EightPuzzleEvent;
 import eightpuzzle.EightPuzzleListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -16,6 +17,9 @@ public class MummyMazeState extends State implements Cloneable{
     private int lineExit;
     private int lineHero; //variables to store where the hero is
     private int columnHero;
+    private int[] lineWhiteMummies = new int[1];
+    private int[] columnWhiteMummies = new int[1];
+    private int whiteMummies = 0;
 
     public MummyMazeState(char[][] matrix) { //será [13][13]
         this.matrix = new char[matrix.length][matrix.length];
@@ -31,10 +35,17 @@ public class MummyMazeState extends State implements Cloneable{
                     lineExit = i;
                     columnExit = j;
                 }
+                if (this.matrix[i][j] == 'M'){ //stores the white mummy's position in the matrix
+                    lineWhiteMummies = Arrays.copyOf(lineWhiteMummies, whiteMummies);
+                    columnWhiteMummies = Arrays.copyOf(columnWhiteMummies, whiteMummies);
+                    lineWhiteMummies[whiteMummies] = i;
+                    columnWhiteMummies[whiteMummies] = j;
+                    whiteMummies++;
+                }
             }
         }
     }
-
+    //
 
     @Override
     public void executeAction(Action action) {
@@ -51,11 +62,10 @@ public class MummyMazeState extends State implements Cloneable{
 
         movements.add(convertMatrixToString(matrix)); //NOVA STRING RESULTANTE DO MOVIMENTO DO HEROI
 
-        //METODO POSSIVEIS MOVIMENTOS DA MUMIA (ALTERA A MATRIZ DESTE ESTADO)
-        //NOVAS STRINGS DOS MOVIMENTOS DA MUMIA
-
         //TODO - moveMummy()
-        moveWhiteMummy();
+        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+            moveWhiteMummy();
+        }
 
         return movements;
     }

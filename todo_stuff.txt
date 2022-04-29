@@ -1,10 +1,6 @@
 PRIORIDADE:
 
--no MainFrame, ao mostrar a solução está só a mostrar o initialState
-entao também não está a funcionar para selecionar o ficheiro depois
-
--perguntar ao stor pq é que está a "acumular" o tempo para mostrar a solução quando se faz reset
-
+-o stor disse para ter apenas 1 copia da matriz (que noutros grupos estava a rebentar quando fazia o método de procura)
 
 ----------------------------------
 
