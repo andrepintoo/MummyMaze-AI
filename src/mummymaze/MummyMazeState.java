@@ -36,8 +36,10 @@ public class MummyMazeState extends State implements Cloneable{
                     columnExit = j;
                 }
                 if (this.matrix[i][j] == 'M'){ //stores the white mummy's position in the matrix
-                    lineWhiteMummies = Arrays.copyOf(lineWhiteMummies, whiteMummies);
-                    columnWhiteMummies = Arrays.copyOf(columnWhiteMummies, whiteMummies);
+                    if(whiteMummies != 0) {
+                        lineWhiteMummies = Arrays.copyOf(lineWhiteMummies, whiteMummies);
+                        columnWhiteMummies = Arrays.copyOf(columnWhiteMummies, whiteMummies);
+                    }
                     lineWhiteMummies[whiteMummies] = i;
                     columnWhiteMummies[whiteMummies] = j;
                     whiteMummies++;
@@ -64,13 +66,61 @@ public class MummyMazeState extends State implements Cloneable{
 
         //TODO - moveMummy()
         for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
-            moveWhiteMummy();
+            moveWhiteMummy(whiteM, movements);
         }
 
         return movements;
     }
 
-    private void moveWhiteMummy() {
+    private void moveWhiteMummy(int pos, List<String> movements) {
+        int lineMummy = lineWhiteMummies[pos];
+        int columnMummy = columnWhiteMummies[pos];
+
+        for (int i = 0; i < 2; i++) {
+            // Colunas primeiro
+            if (columnMummy != columnHero) {
+                if (columnHero > columnMummy) {
+                    //Right
+                    if (canMoveRight(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = matrix[lineMummy][columnMummy+=2];
+                        matrix[lineMummy][columnMummy] = 'M';
+
+                        movements.add(convertMatrixToString(matrix));
+                    }
+                } else {
+                    //Left
+                    if (canMoveLeft(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = matrix[lineMummy][columnMummy-=2];
+                        matrix[lineMummy][columnMummy] = 'M';
+
+                        movements.add(convertMatrixToString(matrix));
+                    }
+                }
+                columnWhiteMummies[pos] = columnMummy;
+
+                continue;
+            }
+            if (lineHero != lineMummy) {
+                if (lineHero > lineMummy) {
+                    //Down
+                    if (canMoveRight(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = matrix[lineMummy+=2][columnMummy];
+                        matrix[lineMummy][columnMummy] = 'M';
+
+                        movements.add(convertMatrixToString(matrix));
+                    }
+                } else {
+                    //Up
+                    if (canMoveLeft(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = matrix[lineMummy-=2][columnMummy];
+                        matrix[lineMummy][columnMummy] = 'M';
+
+                        movements.add(convertMatrixToString(matrix));
+                    }
+                }
+                lineWhiteMummies[pos] = lineMummy;
+            }
+        }
 
     }
 
@@ -82,7 +132,9 @@ public class MummyMazeState extends State implements Cloneable{
 
         movements.add(convertMatrixToString(matrix));
 
-        //TODO - moveMummy()
+        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+            moveWhiteMummy(whiteM, movements);
+        }
 
         return movements;
     }
@@ -96,6 +148,9 @@ public class MummyMazeState extends State implements Cloneable{
         movements.add(convertMatrixToString(matrix));
 
         //TODO - moveMummy()
+        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+            moveWhiteMummy(whiteM, movements);
+        }
 
         return movements;
     }
@@ -109,6 +164,9 @@ public class MummyMazeState extends State implements Cloneable{
         movements.add(convertMatrixToString(matrix));
 
         //TODO - moveMummy()
+        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+            moveWhiteMummy(whiteM, movements);
+        }
 
         return movements;
     }
@@ -117,6 +175,9 @@ public class MummyMazeState extends State implements Cloneable{
         List<String> movements = new ArrayList<>();
 
         //TODO - moveMummy()
+        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+            moveWhiteMummy(whiteM, movements);
+        }
 
         return movements;
     }
@@ -134,8 +195,8 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveRightHero(){
-        int columnRigth = columnHero + 1;
-        return canMoveRight(lineHero, columnHero) && matrix[lineHero][columnRigth] != 'A';
+        int columnRigth = columnHero + 2;
+        return canMoveRight(lineHero, columnHero) && matrix[lineHero][columnRigth] == '.';
     }
 
     public boolean canMoveLeft(int lineEntity, int columnEntity){
@@ -150,8 +211,8 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveLeftHero(){
-        int columnLeft = columnHero + 1;
-        return canMoveLeft(lineHero, columnHero) && matrix[lineHero][columnLeft] != 'A';
+        int columnLeft = columnHero - 2;
+        return canMoveLeft(lineHero, columnHero) && matrix[lineHero][columnLeft] == '.';
     }
 
     public boolean canMoveUp(int lineEntity, int columnEntity){
@@ -166,8 +227,8 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveUpHero(){
-        int lineUp = lineHero - 1;
-        return canMoveUp(lineHero, columnHero) && matrix[lineUp][columnHero] != 'A';
+        int lineUp = lineHero - 2;
+        return canMoveUp(lineHero, columnHero) && matrix[lineUp][columnHero] == '.';
     }
 
     public boolean canMoveDown(int lineEntity, int columnEntity){
@@ -182,8 +243,8 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveDownHero(){
-        int lineDown = lineHero + 1;
-        return canMoveDown(lineHero, columnHero) && matrix[lineDown][columnHero] != 'A';
+        int lineDown = lineHero + 2;
+        return canMoveDown(lineHero, columnHero) && matrix[lineDown][columnHero] == '.';
     }
 
     public double computeExitDistance() {

@@ -1,8 +1,16 @@
 PRIORIDADE:
+- colocar o atributo gameOver boolean no MMState
+- colocar nos canMove_() a condição false se tiver gameOver (deixar a possibilidade de ir contra a armadilha
+e contra a múmia, para explorar todos os casos sucessores)
+- usar o breadth first search porque garante que é completo e ótimo
+- usar as heurísticas para melhorar o desempenho da pesquisa
+- gameOver -> sair do caso sucessor (não pode procurar mais casos sucessores)
 
 -o stor disse para ter apenas 1 copia da matriz (que noutros grupos estava a rebentar quando fazia o método de procura)
-
+- verificar no mo
 ----------------------------------
+
+---------------------------------
 
 1º actions (cima, baixo, esquerda, direita, ficar parado)
 2º heuristicas
