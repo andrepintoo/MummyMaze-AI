@@ -49,16 +49,19 @@ public class MummyMazeState extends State implements Cloneable{
         matrix[lineHero][columnHero] = matrix[lineHero-=2][columnHero];
         matrix[lineHero][columnHero] = 'H';
 
-        movements.add(convertMatrixToString(matrix));
+        movements.add(convertMatrixToString(matrix)); //NOVA STRING RESULTANTE DO MOVIMENTO DO HEROI
 
-        //NOVA STRING RESULTANTE DO MOVIMENTO DO HEROI
-        //
         //METODO POSSIVEIS MOVIMENTOS DA MUMIA (ALTERA A MATRIZ DESTE ESTADO)
         //NOVAS STRINGS DOS MOVIMENTOS DA MUMIA
 
         //TODO - moveMummy()
+        moveWhiteMummy();
 
         return movements;
+    }
+
+    private void moveWhiteMummy() {
+
     }
 
     public List<String> moveRight() {
@@ -116,7 +119,9 @@ public class MummyMazeState extends State implements Cloneable{
         }
         int columnRigth = columnHero + 1;
         //verificar se tem parede (| ou -), porta fechada (" ou =)
-        return matrix[lineHero][columnRigth] != '|' && matrix[lineHero][columnRigth] != '-' && matrix[lineHero][columnRigth] != '=' && matrix[lineHero][columnRigth] != '"';
+        return matrix[lineHero][columnRigth] != '|' && matrix[lineHero][columnRigth] != '-' &&
+                matrix[lineHero][columnRigth] != '=' && matrix[lineHero][columnRigth] != '"' &&
+                matrix[lineHero][columnRigth] != 'A';
     }
 
     public boolean canMoveLeft(){
@@ -126,7 +131,9 @@ public class MummyMazeState extends State implements Cloneable{
         }
         int columnLeft = columnHero - 1;
         //has something blocking hero's path?
-        return matrix[lineHero][columnLeft] != '|' && matrix[lineHero][columnLeft] != '-' && matrix[lineHero][columnLeft] != '=' && matrix[lineHero][columnLeft] != '"';
+        return matrix[lineHero][columnLeft] != '|' && matrix[lineHero][columnLeft] != '-' &&
+                matrix[lineHero][columnLeft] != '=' && matrix[lineHero][columnLeft] != '"' &&
+                matrix[lineHero][columnLeft] != 'A';
     }
 
     public boolean canMoveUp(){
@@ -136,7 +143,9 @@ public class MummyMazeState extends State implements Cloneable{
         }
         int lineUp = lineHero - 1;
         //has something blocking hero's path?
-        return matrix[lineUp][columnHero] != '|' && matrix[lineUp][columnHero] != '-' && matrix[lineUp][columnHero] != '=' && matrix[lineUp][columnHero] != '"';
+        return matrix[lineUp][columnHero] != '|' && matrix[lineUp][columnHero] != '-' &&
+                matrix[lineUp][columnHero] != '=' && matrix[lineUp][columnHero] != '"' &&
+                matrix[lineUp][columnHero] != 'A';
     }
 
     public boolean canMoveDown(){
@@ -146,7 +155,9 @@ public class MummyMazeState extends State implements Cloneable{
         }
         int lineDown = lineHero + 1;
         //has something blocking hero's path?
-        return matrix[lineDown][columnHero] != '|' && matrix[lineDown][columnHero] != '-' && matrix[lineDown][columnHero] != '=' && matrix[lineDown][columnHero] != '"';
+        return matrix[lineDown][columnHero] != '|' && matrix[lineDown][columnHero] != '-' &&
+                matrix[lineDown][columnHero] != '=' && matrix[lineDown][columnHero] != '"' &&
+                matrix[lineDown][columnHero] != 'A';
     }
 
     public double computeExitDistance() {
