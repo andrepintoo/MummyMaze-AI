@@ -95,7 +95,7 @@ public class MummyMazeState extends State implements Cloneable{
             if (lineHero != lineMummy) {
                 if (lineHero > lineMummy) {
                     //Down
-                    if (canMoveRight(lineMummy, columnMummy)) {
+                    if (canMoveDown(lineMummy, columnMummy)) {
                         matrix[lineMummy][columnMummy] = matrix[lineMummy+=2][columnMummy];
                         matrix[lineMummy][columnMummy] = 'M';
 
@@ -103,7 +103,7 @@ public class MummyMazeState extends State implements Cloneable{
                     }
                 } else {
                     //Up
-                    if (canMoveLeft(lineMummy, columnMummy)) {
+                    if (canMoveUp(lineMummy, columnMummy)) {
                         matrix[lineMummy][columnMummy] = matrix[lineMummy-=2][columnMummy];
                         matrix[lineMummy][columnMummy] = 'M';
 
@@ -120,13 +120,12 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     private boolean hasKilledHero(int lineEnemy, int columnEnemy) {
-        if((canMoveUp(lineEnemy, columnEnemy) && matrix[lineEnemy+2][columnEnemy] == 'H') ||
-             (canMoveDown(lineEnemy, columnEnemy) && matrix[lineEnemy-2][columnEnemy] == 'H') ||
-                     (canMoveLeft(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy-2] == 'H') ||
-                                (canMoveRight(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy+2] == 'H')){
+        if((canMoveUp(lineEnemy, columnEnemy) && matrix[lineEnemy-2][columnEnemy] == 'H') ||
+            (canMoveDown(lineEnemy, columnEnemy) && matrix[lineEnemy+2][columnEnemy] == 'H') ||
+            (canMoveLeft(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy-2] == 'H') ||
+            (canMoveRight(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy+2] == 'H')){
             gameOver = true;
         }
-
         return gameOver;
     }
 

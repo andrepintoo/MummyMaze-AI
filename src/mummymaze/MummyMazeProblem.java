@@ -27,10 +27,11 @@ public class MummyMazeProblem extends Problem<MummyMazeState> {
             if(a.isValid(state)){
                 MummyMazeState successor = (MummyMazeState) state.clone();
                 successor.executeAction(a);
-                successors_list.add(successor);
                 if(successor.isGameOver()){
                     break;
                 }
+                successors_list.add(successor);
+
             }
         }
         return successors_list;
@@ -38,6 +39,6 @@ public class MummyMazeProblem extends Problem<MummyMazeState> {
 
     @Override
     public boolean isGoal(MummyMazeState state) {
-        return state.computeExitDistance() == 0; //AND Hero can't die in the action
+        return state.computeExitDistance() == 0 && !state.isGameOver(); //AND Hero can't die in the action
     }
 }
