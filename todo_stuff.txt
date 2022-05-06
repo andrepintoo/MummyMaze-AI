@@ -6,8 +6,15 @@ e contra a múmia, para explorar todos os casos sucessores)
 - usar as heurísticas para melhorar o desempenho da pesquisa
 - gameOver -> sair do caso sucessor (não pode procurar mais casos sucessores)
 
+Heuristicas possiveis:
+-quanto maior a distancia ao inimigo
+-quanto maior a distancia ao inimigo e mais proximo da saida
+
 -o stor disse para ter apenas 1 copia da matriz (que noutros grupos estava a rebentar quando fazia o método de procura)
-- verificar no mo
+
+
+
+-TEMOS MUITO CODIGO REPETIDO PARA MEXER OS INIMIGOS. DEPOIS METER AS COISAS EM MÉTODOS
 ----------------------------------
 
 ---------------------------------
