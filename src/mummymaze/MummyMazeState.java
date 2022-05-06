@@ -64,6 +64,9 @@ public class MummyMazeState extends State implements Cloneable{
         int columnMummy = columnWhiteMummies[pos];
 
         for (int i = 0; i < 2; i++) {
+            if(hasKilledHero(lineMummy, columnMummy)){
+                break;
+            }
             // Colunas primeiro
             if (columnMummy != columnHero) {
                 if (columnHero > columnMummy) {
@@ -73,6 +76,8 @@ public class MummyMazeState extends State implements Cloneable{
                         matrix[lineMummy][columnMummy] = 'M';
 
                         movements.add(convertMatrixToString(matrix));
+                        columnWhiteMummies[pos] = columnMummy;
+                        continue;
                     }
                 } else {
                     //Left
@@ -81,10 +86,11 @@ public class MummyMazeState extends State implements Cloneable{
                         matrix[lineMummy][columnMummy] = 'M';
 
                         movements.add(convertMatrixToString(matrix));
+                        columnWhiteMummies[pos] = columnMummy;
+                        continue;
                     }
                 }
-                columnWhiteMummies[pos] = columnMummy;
-                continue;
+
             }
             if (lineHero != lineMummy) {
                 if (lineHero > lineMummy) {
@@ -94,6 +100,8 @@ public class MummyMazeState extends State implements Cloneable{
                         matrix[lineMummy][columnMummy] = 'M';
 
                         movements.add(convertMatrixToString(matrix));
+                        lineWhiteMummies[pos] = lineMummy;
+
                     }
                 } else {
                     //Up
@@ -102,14 +110,13 @@ public class MummyMazeState extends State implements Cloneable{
                         matrix[lineMummy][columnMummy] = 'M';
 
                         movements.add(convertMatrixToString(matrix));
+                        lineWhiteMummies[pos] = lineMummy;
                     }
                 }
-                lineWhiteMummies[pos] = lineMummy;
+
             }
 
-            if(hasKilledHero(lineMummy, columnMummy) && i == 0){
-                break;
-            }
+
         }
     }
 
