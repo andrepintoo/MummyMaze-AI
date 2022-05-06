@@ -15,13 +15,18 @@ public class MummyMazeState extends State implements Cloneable{
     private int lineExit;
     private int lineHero; //variables to store where the hero is
     private int columnHero;
-    private int[] lineWhiteMummies = new int[1];
-    private int[] columnWhiteMummies = new int[1];
-    private int whiteMummies = 0;
+    private int[] lineWhiteMummies;
+    private int[] columnWhiteMummies;
+    private int whiteMummies;
+    private int[] lineScorpions;
+    private int[] columnScorpions;
+    private int scorpions;
+
     private boolean gameOver = false;
 
     public MummyMazeState(char[][] matrix) { //será [13][13]
         this.matrix = new char[matrix.length][matrix.length];
+        resetEnemies();
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -36,12 +41,26 @@ public class MummyMazeState extends State implements Cloneable{
                 }
                 if (this.matrix[i][j] == 'M'){ //stores the white mummy's position in the matrix
                     if(whiteMummies != 0) {
-                        lineWhiteMummies = Arrays.copyOf(lineWhiteMummies, whiteMummies);
-                        columnWhiteMummies = Arrays.copyOf(columnWhiteMummies, whiteMummies);
+                        lineWhiteMummies = Arrays.copyOf(lineWhiteMummies, whiteMummies+1);
+                        columnWhiteMummies = Arrays.copyOf(columnWhiteMummies, whiteMummies+1);
                     }
+
                     lineWhiteMummies[whiteMummies] = i;
                     columnWhiteMummies[whiteMummies] = j;
+
                     whiteMummies++;
+                }
+
+                if (this.matrix[i][j] == 'E'){ //stores the scorpion's position in the matrix
+                    if(scorpions != 0) {
+                        lineScorpions = Arrays.copyOf(lineScorpions, scorpions+1);
+                        columnScorpions = Arrays.copyOf(columnScorpions, scorpions+1);
+                    }
+
+                    lineScorpions[scorpions] = i;
+                    columnScorpions[scorpions] = j;
+
+                    scorpions++;
                 }
             }
         }
@@ -57,6 +76,62 @@ public class MummyMazeState extends State implements Cloneable{
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    private void moveScorpion(int pos, List<String> movements){
+        int lineScorpion = lineScorpions[pos];
+        int columnScorpion = columnScorpions[pos];
+
+        if(hasKilledHero(lineScorpion, columnScorpion)){
+            return;
+        }
+        // Colunas primeiro
+        if (columnScorpion != columnHero) {
+            if (columnHero > columnScorpion) {
+                //Right
+                if (canMoveRight(lineScorpion, columnScorpion)) {
+                    matrix[lineScorpion][columnScorpion] = matrix[lineScorpion][columnScorpion+=2];
+                    matrix[lineScorpion][columnScorpion] = 'E';
+
+                    movements.add(convertMatrixToString(matrix));
+                    columnScorpions[pos] = columnScorpion;
+                    return;
+                }
+            } else {
+                //Left
+                if (canMoveLeft(lineScorpion, columnScorpion)) {
+                    matrix[lineScorpion][columnScorpion] = matrix[lineScorpion][columnScorpion-=2];
+                    matrix[lineScorpion][columnScorpion] = 'E';
+
+                    movements.add(convertMatrixToString(matrix));
+                    columnScorpions[pos] = columnScorpion;
+                    return;
+                }
+            }
+
+        }
+        if (lineHero != lineScorpion) {
+            if (lineHero > lineScorpion) {
+                //Down
+                if (canMoveDown(lineScorpion, columnScorpion)) {
+                    matrix[lineScorpion][columnScorpion] = matrix[lineScorpion+=2][columnScorpion];
+                    matrix[lineScorpion][columnScorpion] = 'E';
+
+                    movements.add(convertMatrixToString(matrix));
+                    lineScorpions[pos] = lineScorpion;
+                }
+            } else {
+                //Up
+                if (canMoveUp(lineScorpion, columnScorpion)) {
+                    matrix[lineScorpion][columnScorpion] = matrix[lineScorpion-=2][columnScorpion];
+                    matrix[lineScorpion][columnScorpion] = 'E';
+
+                    movements.add(convertMatrixToString(matrix));
+                    lineScorpions[pos] = lineScorpion;
+                }
+            }
+
+        }
     }
 
     private void moveWhiteMummy(int pos, List<String> movements) {
@@ -116,17 +191,34 @@ public class MummyMazeState extends State implements Cloneable{
 
             }
 
+            hasKilledHero(lineMummy, columnMummy);
 
         }
     }
 
     private boolean hasKilledHero(int lineEnemy, int columnEnemy) {
-        if((canMoveUp(lineEnemy, columnEnemy) && matrix[lineEnemy-2][columnEnemy] == 'H') ||
-            (canMoveDown(lineEnemy, columnEnemy) && matrix[lineEnemy+2][columnEnemy] == 'H') ||
-            (canMoveLeft(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy-2] == 'H') ||
-            (canMoveRight(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy+2] == 'H')){
-            gameOver = true;
+        if(columnEnemy == columnHero) {
+            if(canMoveUp(lineEnemy, columnEnemy) && ((lineEnemy - 2) == lineHero)) {
+                return gameOver = true;
+            }
+            if(canMoveDown(lineEnemy, columnEnemy) && ((lineEnemy + 2) == lineHero)) {
+                return gameOver = true;
+            }
         }
+        if(lineEnemy == lineHero) {
+            if(canMoveLeft(lineEnemy, columnEnemy) && ((columnEnemy - 2) == columnHero)) {
+                return gameOver = true;
+            }
+            if(canMoveRight(lineEnemy, columnEnemy) && ((columnEnemy + 2) == columnHero)) {
+                gameOver = true;
+            }
+        }
+//        if((canMoveUp(lineEnemy, columnEnemy) && matrix[lineEnemy-2][columnEnemy] == 'H')
+//            (canMoveDown(lineEnemy, columnEnemy) && matrix[lineEnemy+2][columnEnemy] == 'H')
+//            (canMoveLeft(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy-2] == 'H') ||
+//            (canMoveRight(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy+2] == 'H')){
+//            gameOver = true;
+//        }
         return gameOver;
     }
 
@@ -142,9 +234,15 @@ public class MummyMazeState extends State implements Cloneable{
 
         movements.add(convertMatrixToString(matrix)); //NOVA STRING RESULTANTE DO MOVIMENTO DO HEROI
 
-        //TODO - moveMummy()
         for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
             moveWhiteMummy(whiteM, movements);
+//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+        }
+
+        //TODO - moveScorpion()
+        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
+            moveScorpion(scorpion, movements);
+            hasKilledHero(lineScorpions[scorpion], columnScorpions[scorpion]);
         }
 
         return movements;
@@ -164,6 +262,13 @@ public class MummyMazeState extends State implements Cloneable{
 
         for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
             moveWhiteMummy(whiteM, movements);
+//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+        }
+
+        //TODO - moveScorpion()
+        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
+            moveScorpion(scorpion, movements);
+            hasKilledHero(lineScorpions[scorpion], columnScorpions[scorpion]);
         }
 
         return movements;
@@ -184,6 +289,13 @@ public class MummyMazeState extends State implements Cloneable{
         //TODO - moveMummy()
         for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
             moveWhiteMummy(whiteM, movements);
+//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+        }
+
+        //TODO - moveScorpion()
+        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
+            moveScorpion(scorpion, movements);
+            hasKilledHero(lineScorpions[scorpion], columnScorpions[scorpion]);
         }
 
         return movements;
@@ -204,6 +316,13 @@ public class MummyMazeState extends State implements Cloneable{
         //TODO - moveMummy()
         for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
             moveWhiteMummy(whiteM, movements);
+//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+        }
+
+        //TODO - moveScorpion()
+        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
+            moveScorpion(scorpion, movements);
+            hasKilledHero(lineScorpions[scorpion], columnScorpions[scorpion]);
         }
 
         return movements;
@@ -215,6 +334,13 @@ public class MummyMazeState extends State implements Cloneable{
         //TODO - moveMummy()
         for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
             moveWhiteMummy(whiteM, movements);
+//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+        }
+
+        //TODO - moveScorpion()
+        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
+            moveScorpion(scorpion, movements);
+            hasKilledHero(lineScorpions[scorpion], columnScorpions[scorpion]);
         }
 
         return movements;
@@ -347,5 +473,16 @@ public class MummyMazeState extends State implements Cloneable{
         for (MummyMazeListener listener : listeners) {
             listener.puzzleChanged(null);
         }
+    }
+
+    public void resetEnemies() {
+        scorpions = 0;
+        lineScorpions = new int[1];
+        columnScorpions = new int[1];
+
+        whiteMummies = 0;
+        lineWhiteMummies = new int[1];
+        columnWhiteMummies = new int[1];
+
     }
 }
