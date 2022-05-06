@@ -2,8 +2,6 @@ package mummymaze;
 
 import agent.Action;
 import agent.State;
-import eightpuzzle.EightPuzzleEvent;
-import eightpuzzle.EightPuzzleListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,16 +51,12 @@ public class MummyMazeState extends State implements Cloneable{
     public void executeAction(Action action) {
         action.resetMovements();
         action.execute(this);
-        firePuzzleChanged(null); //para atualizar a interface gráfica
+        firePuzzleChanged(); //para atualizar a interface gráfica
     }
 
 
     public boolean isGameOver() {
         return gameOver;
-    }
-
-    public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
     }
 
     private void moveWhiteMummy(int pos, List<String> movements) {
@@ -286,22 +280,22 @@ public class MummyMazeState extends State implements Cloneable{
 
     public String convertMatrixToString(char[][] matrix) {
         // Matriz -> String
-        String s="";
+        StringBuilder s= new StringBuilder();
         for (int k = 0; k < 13; k++) {
-            s+=String.valueOf(matrix[k])+"\n";
+            s.append(String.valueOf(matrix[k])).append("\n");
         }
 
-        return s;
+        return s.toString();
     }
 
     public String getStateString() {
         // Matriz -> String
-        String s="";
+        StringBuilder s= new StringBuilder();
         for (int k = 0; k < 13; k++) {
-            s+=String.valueOf(matrix[k])+"\n";
+            s.append(String.valueOf(matrix[k])).append("\n");
         }
 
-        return s;
+        return s.toString();
     }
 
     @Override
@@ -328,7 +322,7 @@ public class MummyMazeState extends State implements Cloneable{
         return line >= 0 && line < matrix.length && column >= 0 && column < matrix[0].length;
     }
 
-    private transient ArrayList<MummyMazeListener> listeners = new ArrayList<MummyMazeListener>(3);
+    private final transient ArrayList<MummyMazeListener> listeners = new ArrayList<>(3);
 
     public synchronized void removeListener(MummyMazeListener l) {
         if (listeners != null && listeners.contains(l)) {
@@ -342,7 +336,7 @@ public class MummyMazeState extends State implements Cloneable{
         }
     }
 
-    public void firePuzzleChanged(MummyMazeEvent pe) {
+    public void firePuzzleChanged() {
         for (MummyMazeListener listener : listeners) {
             listener.puzzleChanged(null);
         }

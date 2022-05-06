@@ -1,7 +1,6 @@
 package mummymaze;
 
 import agent.Action;
-import agent.Heuristic;
 import agent.Problem;
 
 import java.util.ArrayList;

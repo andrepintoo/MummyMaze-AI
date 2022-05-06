@@ -5,7 +5,6 @@ import agent.Agent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MummyMazeAgent extends Agent<MummyMazeState> {
@@ -40,9 +39,10 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
         char[][] matrix = new char [13][13];
         int i = 0;
         for (String s: stringList) {
-            for (int k = 0; k < s.length(); k++) {
-                matrix[i][k] = s.toCharArray()[k];
-            }
+//            for (int k = 0; k < s.length(); k++) {
+//                matrix[i][k] = s.toCharArray()[k];
+//            }
+            System.arraycopy(s.toCharArray(),0,matrix[i],0,s.length());
             i++;
         }
 
@@ -69,9 +69,10 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
         for(Action action : solution.getActions()){ //para passar por todos os passos intermedios até chegar ao estado final
             environment.executeAction(action);
             List<String> actionMovements = action.getMovements();
-            for (String movement: actionMovements) {
-                this.movements.add(movement);
-            }
+            movements.addAll(actionMovements);
+//            for (String movement: actionMovements) {
+//                this.movements.add(movement);
+//            }
 
             //definir o custo da solução
             solutionCost = solution.getCost();

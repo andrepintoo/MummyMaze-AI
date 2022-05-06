@@ -31,8 +31,9 @@ public abstract class Action <S extends State> implements Cloneable{
     }
 
     protected void addMovement(List<String> movements){
-        for (String movement: movements) {
-            this.movements.add(movement);
-        }
+        this.movements.addAll(movements);
+//        for (String movement: movements) {
+//            this.movements.add(movement);
+//        }
     }
 }
