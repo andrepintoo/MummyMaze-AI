@@ -15,8 +15,8 @@ public class ActionDown extends Action<MummyMazeState> implements Cloneable  {
 
     @Override
     public void execute(MummyMazeState state) {
-        List<String> movements = state.moveDown();
-        addMovement(movements);
+        this.movements =  state.moveDown();
+//        addMovement(movements);
         state.setAction(new ActionDown(this));
     }
 

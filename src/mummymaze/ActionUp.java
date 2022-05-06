@@ -15,8 +15,8 @@ public class ActionUp extends Action<MummyMazeState> {
 
     @Override
     public void execute(MummyMazeState state) {
-        List<String> movements = state.moveUp();
-        addMovement(movements);
+        this.movements = state.moveUp();
+        //addMovement(movements);
         state.setAction(new ActionUp(this));
     }
 

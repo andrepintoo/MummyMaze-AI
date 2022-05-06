@@ -44,6 +44,7 @@ import showSolution.SolutionPanel;
 import static java.lang.Thread.sleep;
 
 public class MainFrame extends JFrame {
+    public static boolean SHOWSOLUTION = false;
 
     //private MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeAgent(new MummyMazeState(new char[13][13])).setInitialStateFromFile(new File("nivel1.txt")));
 
@@ -207,6 +208,7 @@ public class MainFrame extends JFrame {
     }
 
     public void buttonSolve_ActionPerformed(ActionEvent e) {
+        SHOWSOLUTION = false;
 
         SwingWorker worker = new SwingWorker<Solution, Void>() {
             @Override
@@ -253,6 +255,7 @@ public class MainFrame extends JFrame {
     }
 
     public void buttonShowSolution_ActionPerformed(ActionEvent e) {
+        SHOWSOLUTION = true;
         buttonShowSolution.setEnabled(false);
         buttonStop.setEnabled(false);
         buttonSolve.setEnabled(false);

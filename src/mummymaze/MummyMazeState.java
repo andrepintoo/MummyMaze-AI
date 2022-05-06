@@ -2,6 +2,7 @@ package mummymaze;
 
 import agent.Action;
 import agent.State;
+import gui.MainFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,9 +63,12 @@ public class MummyMazeState extends State implements Cloneable{
 
     @Override
     public void executeAction(Action action) {
-        action.resetMovements();
+        //action.resetMovements();
         action.execute(this);
-        firePuzzleChanged(); //para atualizar a interface gráfica
+        if (MainFrame.SHOWSOLUTION) {
+            firePuzzleChanged(); //para atualizar a interface gráfica
+
+        }
     }
 
 

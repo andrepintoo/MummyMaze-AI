@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class Action <S extends State> implements Cloneable{
     //uma ação tem um state. Vai ser o estado do problema especifico em que se está a trabalhar
 
-    private List<String> movements = new ArrayList<>();
+    protected List<String> movements;
     private final double cost; //custo que envolveu a execução da ação
 
     public Action(double cost){
@@ -23,7 +23,7 @@ public abstract class Action <S extends State> implements Cloneable{
     }
 
     public List<String> getMovements() {
-        return new ArrayList<>(movements);
+        return movements; //new ArrayList<>(movements);
     }
 
     public void resetMovements(){
