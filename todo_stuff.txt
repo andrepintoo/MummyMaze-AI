@@ -6,6 +6,8 @@ e contra a múmia, para explorar todos os casos sucessores)
 - usar as heurísticas para melhorar o desempenho da pesquisa
 - gameOver -> sair do caso sucessor (não pode procurar mais casos sucessores)
 
+-encapsular o line e column numa classe Cell, para termos CellHero, CellWhiteMummy ... tenha equals, toString...
+
 Heuristicas possiveis:
 -quanto maior a distancia ao inimigo
 -quanto maior a distancia ao inimigo e mais proximo da saida
