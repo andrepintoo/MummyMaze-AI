@@ -92,7 +92,6 @@ public class MummyMazeState extends State implements Cloneable{
         action.execute(this);
         if (MainFrame.SHOWSOLUTION) {
             firePuzzleChanged(); //para atualizar a interface gráfica
-
         }
     }
 
