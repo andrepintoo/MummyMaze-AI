@@ -2,6 +2,7 @@ package mummymaze;
 
 import agent.Action;
 import agent.State;
+import eightpuzzle.EightPuzzleState;
 import gui.MainFrame;
 
 import java.util.ArrayList;
@@ -471,7 +472,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveRightHero(){
-        return canMoveRight(lineHero, columnHero);
+        return !gameOver && canMoveRight(lineHero, columnHero);
     }
 
     public boolean canMoveLeft(int lineEntity, int columnEntity){
@@ -486,7 +487,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveLeftHero(){
-        return canMoveLeft(lineHero, columnHero);
+        return !gameOver && canMoveLeft(lineHero, columnHero);
     }
 
     public boolean canMoveUp(int lineEntity, int columnEntity){
@@ -501,7 +502,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveUpHero(){
-        return canMoveUp(lineHero, columnHero);
+        return !gameOver && canMoveUp(lineHero, columnHero);
     }
 
     public boolean canMoveDown(int lineEntity, int columnEntity){
@@ -516,7 +517,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public boolean canMoveDownHero(){
-        return canMoveDown(lineHero, columnHero);
+        return !gameOver && canMoveDown(lineHero, columnHero);
     }
 
     public double computeExitDistance() {
@@ -526,11 +527,14 @@ public class MummyMazeState extends State implements Cloneable{
     public String convertMatrixToString(char[][] matrix) {
         // Matriz -> String
         StringBuilder s= new StringBuilder();
+//        String s1 = "";
         for (int k = 0; k < 13; k++) {
             s.append(String.valueOf(matrix[k])).append("\n");
+//            s1 += String.valueOf(matrix[k])+"\n";
         }
 
         return s.toString();
+//        return s1;
     }
 
     public String getStateString() {

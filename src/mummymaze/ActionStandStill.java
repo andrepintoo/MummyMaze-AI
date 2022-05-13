@@ -23,6 +23,6 @@ public class ActionStandStill extends Action<MummyMazeState> {
 
     @Override
     public boolean isValid(MummyMazeState state) {
-        return true;
+        return !state.isGameOver();
     }
 }

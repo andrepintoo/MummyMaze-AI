@@ -26,9 +26,9 @@ public class MummyMazeProblem extends Problem<MummyMazeState> {
             if(a.isValid(state)){
                 MummyMazeState successor = (MummyMazeState) state.clone();
                 successor.executeAction(a);
-                if(successor.isGameOver()){
-                    break;
-                }
+//                if(successor.isGameOver()){
+//                    break;
+//                }
                 successors_list.add(successor);
 
             }
