@@ -16,13 +16,13 @@ public class ActionStandStill extends Action<MummyMazeState> {
 
     @Override
     public void execute(MummyMazeState state) {
-        List<String> movements = state.moveStandStill();
-        addMovement(movements);
+        this.movements = state.moveStandStill();
+//        addMovement(movements);
         state.setAction(new ActionStandStill(this));
     }
 
     @Override
     public boolean isValid(MummyMazeState state) {
-        return true;
+        return !state.isGameOver();
     }
 }
