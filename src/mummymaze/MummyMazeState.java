@@ -7,6 +7,7 @@ import gui.MainFrame;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 public class MummyMazeState extends State implements Cloneable{
@@ -309,8 +310,7 @@ public class MummyMazeState extends State implements Cloneable{
     public List<String> moveUp() {
         List<String> movements = new ArrayList<>();
         // Hero's movement
-        int newLine = lineHero-2;
-        if(matrix[newLine][columnHero] == 'A'){
+        if(matrix[lineHero-2][columnHero] == 'A'){
             gameOver = true;
         }
         matrix[lineHero][columnHero] = matrix[lineHero-=2][columnHero];
@@ -600,5 +600,26 @@ public class MummyMazeState extends State implements Cloneable{
         columnRedMummies = new int[1];
         redMummies = 0;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MummyMazeState that = (MummyMazeState) o;
+        return lineHero == that.lineHero && columnHero == that.columnHero && Arrays.equals(lineWhiteMummies, that.lineWhiteMummies) && Arrays.equals(columnWhiteMummies, that.columnWhiteMummies) && Arrays.equals(lineScorpions, that.lineScorpions) && Arrays.equals(columnScorpions, that.columnScorpions) && Arrays.equals(lineRedMummies, that.lineRedMummies) && Arrays.equals(columnRedMummies, that.columnRedMummies);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(lineHero, columnHero);
+        result = 31 * result + Arrays.hashCode(lineWhiteMummies);
+        result = 31 * result + Arrays.hashCode(lineWhiteMummies);
+        result = 31 * result + Arrays.hashCode(columnWhiteMummies);
+        result = 31 * result + Arrays.hashCode(lineScorpions);
+        result = 31 * result + Arrays.hashCode(columnScorpions);
+        result = 31 * result + Arrays.hashCode(lineRedMummies);
+        result = 31 * result + Arrays.hashCode(columnRedMummies);
+        return result;
     }
 }
