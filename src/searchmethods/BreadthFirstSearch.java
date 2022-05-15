@@ -20,9 +20,10 @@ public class BreadthFirstSearch extends GraphSearch<NodeLinkedList> {
                 //          adicionar ao FIM da lista ligada
                 frontier.addLast(new Node(successor,parent)); //até seria o mesmo que fazer .add() ou .addLast()
                     //é preciso criar o node com o parent para depois poder construir a solution
-            } else {
-                System.out.println("debug");
             }
+//            else {
+//                System.out.println("debug");
+//            }
         }
     }
 
