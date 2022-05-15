@@ -1,5 +1,7 @@
 package mummymaze;
 
+import java.util.Objects;
+
 public class Cell {
     private int line;
     private int column;
@@ -87,5 +89,18 @@ public class Cell {
 
     public int getColumn() {
         return column;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cell)) return false;
+        Cell cell = (Cell) o;
+        return line == cell.line && column == cell.column && steppedOnKey == cell.steppedOnKey && steppedOnTrap == cell.steppedOnTrap;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(line, column, steppedOnKey, steppedOnTrap);
     }
 }

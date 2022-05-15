@@ -292,143 +292,145 @@ public class MummyMazeState extends State implements Cloneable{
 
         for (int i = 0; i < 2; i++) {
             if (hasKilledHero(lineMummy, columnMummy) || gameOver) {
+                return;
+            }
 //            if((lineWhiteMummies[pos]==3 && columnWhiteMummies[pos]==1) || (lineWhiteMummies[pos]==9 && columnWhiteMummies[pos]==4)){ //PARA O NIVEL 5, a mumia vai ter que estar numa dessas posições
 //                System.out.println("debug");
 //            }
 
-                // Colunas primeiro
-                if (columnMummy != cellHero.getColumn()) {
-                    if (cellHero.getColumn() > columnMummy) {
-                        //Right
-                        if (canMoveRight(lineMummy, columnMummy)) {
-                            matrix[lineMummy][columnMummy] = '.';
-                            if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                                matrix[lineMummy][columnMummy] = 'T';
-                            } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                                matrix[lineMummy][columnMummy] = 'C';
-                            }
-                            char nextPosition = matrix[lineMummy][columnMummy += 2];
-
-                            killEnemy(lineMummy, columnMummy, nextPosition);
-                            matrix[lineMummy][columnMummy] = 'M';
-
-                            movements.add(convertMatrixToString(matrix));
-                            if (whiteMummies > 1) {
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[pos].setColumn(columnMummy);
-                                }
-                            } else {
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[0].setColumn(columnMummy);
-                                }
-                            }
-                            continue;
+            // Colunas primeiro
+            if (columnMummy != cellHero.getColumn()) {
+                if (cellHero.getColumn() > columnMummy) {
+                    //Right
+                    if (canMoveRight(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = '.';
+                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
+                            matrix[lineMummy][columnMummy] = 'T';
+                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
+                            matrix[lineMummy][columnMummy] = 'C';
                         }
-                    } else {
-                        //Left
-                        if (canMoveLeft(lineMummy, columnMummy)) {
-                            matrix[lineMummy][columnMummy] = '.';
-                            if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                                matrix[lineMummy][columnMummy] = 'T';
-                            } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                                matrix[lineMummy][columnMummy] = 'C';
+                        char nextPosition = matrix[lineMummy][columnMummy += 2];
+
+                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        matrix[lineMummy][columnMummy] = 'M';
+
+                        movements.add(convertMatrixToString(matrix));
+                        if (whiteMummies > 1) {
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[pos].setColumn(columnMummy);
                             }
-                            char nextPosition = matrix[lineMummy][columnMummy -= 2];
+                        } else {
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[0].setColumn(columnMummy);
+                            }
+                        }
+                        continue;
+                    }
+                } else {
+                    //Left
+                    if (canMoveLeft(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = '.';
+                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
+                            matrix[lineMummy][columnMummy] = 'T';
+                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }
+                        char nextPosition = matrix[lineMummy][columnMummy -= 2];
 
-                            killEnemy(lineMummy, columnMummy, nextPosition);
-                            matrix[lineMummy][columnMummy] = 'M';
+                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        matrix[lineMummy][columnMummy] = 'M';
 
-                            movements.add(convertMatrixToString(matrix));
-                            if (whiteMummies > 1) {
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[pos].setColumn(columnMummy);
-                                }
+                        movements.add(convertMatrixToString(matrix));
+                        if (whiteMummies > 1) {
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[pos].setColumn(columnMummy);
+                            }
 //                            columnWhiteMummies[pos] = columnMummy;
-                            } else {
+                        } else {
 //                            columnWhiteMummies[0] = columnMummy;
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[0].setColumn(columnMummy);
-                                }
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[0].setColumn(columnMummy);
                             }
-                            continue;
                         }
+                        continue;
                     }
                 }
-
-                if (cellHero.getLine() != lineMummy) {
-                    if (cellHero.getLine() > lineMummy) {
-                        //Down
-                        if (canMoveDown(lineMummy, columnMummy)) {
-                            matrix[lineMummy][columnMummy] = '.';
-                            if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                                matrix[lineMummy][columnMummy] = 'T';
-                            } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                                matrix[lineMummy][columnMummy] = 'C';
-                            }
-                            char nextPosition = matrix[lineMummy += 2][columnMummy];
-                            killEnemy(lineMummy, columnMummy, nextPosition);
-                            matrix[lineMummy][columnMummy] = 'M';
-
-                            movements.add(convertMatrixToString(matrix));
-                            if (whiteMummies > 1) {
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[pos].setLine(lineMummy);
-                                }
-//                            lineWhiteMummies[pos] = lineMummy;
-                            } else {
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[0].setLine(lineMummy);
-                                }
-//                            lineWhiteMummies[0] = lineMummy;
-                            }
-
-                        }
-                    } else {
-                        //Up
-                        if (canMoveUp(lineMummy, columnMummy)) {
-                            matrix[lineMummy][columnMummy] = '.';
-                            if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                                matrix[lineMummy][columnMummy] = 'T';
-                            } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                                matrix[lineMummy][columnMummy] = 'C';
-                            }
-                            char nextPosition = matrix[lineMummy -= 2][columnMummy];
-                            killEnemy(lineMummy, columnMummy, nextPosition);
-                            matrix[lineMummy][columnMummy] = 'M';
-
-                            movements.add(convertMatrixToString(matrix));
-                            if (whiteMummies > 1) {
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[pos].setLine(lineMummy);
-                                }
-//                            lineWhiteMummies[pos] = lineMummy;
-                            } else {
-                                if (nextPosition == 'A') {
-                                    cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                                } else {
-                                    cellWhiteMummies[0].setLine(lineMummy);
-                                }
-//                            lineWhiteMummies[0] = lineMummy;
-                            }
-                        }
-                    }
-                }
-                hasKilledHero(lineMummy, columnMummy);
             }
+
+            if (cellHero.getLine() != lineMummy) {
+                if (cellHero.getLine() > lineMummy) {
+                    //Down
+                    if (canMoveDown(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = '.';
+                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
+                            matrix[lineMummy][columnMummy] = 'T';
+                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }
+                        char nextPosition = matrix[lineMummy += 2][columnMummy];
+                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        matrix[lineMummy][columnMummy] = 'M';
+
+                        movements.add(convertMatrixToString(matrix));
+                        if (whiteMummies > 1) {
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[pos].setLine(lineMummy);
+                            }
+//                            lineWhiteMummies[pos] = lineMummy;
+                        } else {
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[0].setLine(lineMummy);
+                            }
+//                            lineWhiteMummies[0] = lineMummy;
+                        }
+
+                    }
+                } else {
+                    //Up
+                    if (canMoveUp(lineMummy, columnMummy)) {
+                        matrix[lineMummy][columnMummy] = '.';
+                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
+                            matrix[lineMummy][columnMummy] = 'T';
+                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }
+                        char nextPosition = matrix[lineMummy -= 2][columnMummy];
+                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        matrix[lineMummy][columnMummy] = 'M';
+
+                        movements.add(convertMatrixToString(matrix));
+                        if (whiteMummies > 1) {
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[pos].setLine(lineMummy);
+                            }
+//                            lineWhiteMummies[pos] = lineMummy;
+                        } else {
+                            if (nextPosition == 'A') {
+                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
+                            } else {
+                                cellWhiteMummies[0].setLine(lineMummy);
+                            }
+//                            lineWhiteMummies[0] = lineMummy;
+                        }
+                    }
+                }
+            }
+            hasKilledHero(lineMummy, columnMummy);
+
         }
     }
 
@@ -964,8 +966,7 @@ public class MummyMazeState extends State implements Cloneable{
         if (o == null || getClass() != o.getClass()) return false;
         MummyMazeState that = (MummyMazeState) o;
         //TODO o equals do cell não está otimizado
-        return cellHero.getLine() == that.cellHero.getLine() &&
-               cellHero.getColumn() == that.cellHero.getColumn() && Arrays.equals(cellWhiteMummies, that.cellWhiteMummies)
+        return  cellHero.equals(that.cellHero) && Arrays.equals(cellWhiteMummies, that.cellWhiteMummies)
                 && Arrays.equals(lineScorpions, that.lineScorpions) &&
                Arrays.equals(columnScorpions, that.columnScorpions) && Arrays.equals(lineRedMummies, that.lineRedMummies) &&
                Arrays.equals(columnRedMummies, that.columnRedMummies) &&
@@ -975,7 +976,7 @@ public class MummyMazeState extends State implements Cloneable{
     @Override
     public int hashCode() {
 //        int result = Objects.hash(lineHero, columnHero);
-        int result = Objects.hash(cellHero.getLine(), cellHero.getColumn());
+        int result = cellHero.hashCode();
         result = 31 * result + Arrays.deepHashCode(matrix);
         result = 31 * result + Arrays.hashCode(cellWhiteMummies);
         result = 31 * result + Arrays.hashCode(lineScorpions);
