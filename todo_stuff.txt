@@ -10,6 +10,8 @@ PRIORIDADE:
 
     - falta estatísticas
 
+    - dizer no relatorio como é que estamos a matar inimigos (quem se mexe para cima de um inimigo, mata sempre o inimigo)
+
 PERGUNTAR SE É POSSIVEL TER + QUE 1 CHAVE
 
 Heuristicas possiveis:

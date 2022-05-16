@@ -15,7 +15,7 @@ public class MummyMazeProblem extends Problem<MummyMazeState> {
         actions.add(new ActionRight(1));
         actions.add(new ActionDown(1));
         actions.add(new ActionLeft(1));
-        actions.add(new ActionStandStill(0));
+        actions.add(new ActionStandStill(1));
     }
 
 
