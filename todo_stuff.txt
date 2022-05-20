@@ -9,6 +9,7 @@ PRIORIDADE:
     - falta chave e porta
 
     - falta estatísticas
+    - quando temos muitos inimigos iguais, dá erro na inicialização
 
     - dizer no relatorio como é que estamos a matar inimigos (quem se mexe para cima de um inimigo, mata sempre o inimigo)
 

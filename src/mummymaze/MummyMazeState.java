@@ -314,24 +314,24 @@ public class MummyMazeState extends State implements Cloneable{
         }
     }
 
-    private void killEnemy(int lineScorpion, int columnScorpion, char nextPosition) {
+    private void killEnemy(int lineEnemy, int columnEnemy, char nextPosition) {
         switch(nextPosition){
             case 'M':
-                Cell[] newWhiteMummies;
-                if(whiteMummies > 1){
-                   newWhiteMummies = new Cell[whiteMummies-1];
-                }else{
-                    newWhiteMummies = new Cell[1];
-                }
+                Cell[] newWhiteMummies = new Cell[whiteMummies-1];
+//                if(whiteMummies > 1){
+//                   newWhiteMummies = new Cell[whiteMummies-1];
+//                }else{
+//                    newWhiteMummies = new Cell[1];
+//                }
 
                 for (int i=0,j=0; i<whiteMummies; i++,j++){
-                    newWhiteMummies[j] = new Cell();
                     int line = cellWhiteMummies[i].getLine();
                     int column = cellWhiteMummies[i].getColumn();
-                    if(line == lineScorpion && column == columnScorpion){
+                    if(line == lineEnemy && column == columnEnemy){
                         j--;
                         continue;
                     }
+                    newWhiteMummies[j] = new Cell();
                     newWhiteMummies[j].setPosition(line, column);
                 }
                 whiteMummies--;
@@ -341,7 +341,7 @@ public class MummyMazeState extends State implements Cloneable{
                 int[] newLineRedMummies = new int[redMummies-1];
                 int[] newColumnRedMummies = new int[redMummies-1];
                 for (int i=0,j=0; i<redMummies; i++,j++){
-                    if(lineRedMummies[i]== lineScorpion && columnRedMummies[i]== columnScorpion){
+                    if(lineRedMummies[i]== lineEnemy && columnRedMummies[i]== columnEnemy){
                         j--;
                         continue;
                     }
@@ -364,11 +364,11 @@ public class MummyMazeState extends State implements Cloneable{
                 }
 
                 for (int i=0,j=0; i<scorpions; i++,j++){
-                    newScorpions[j] = new Cell();
+                    newScorpions[j] = new Cell(); //TODO
                     int line = cellScorpions[i].getLine();
                     int column = cellScorpions[i].getColumn();
 //                    if(lineScorpions[i]== lineScorpion && columnScorpions[i]== columnScorpion){
-                    if(line == lineScorpion && column == columnScorpion){
+                    if(line == lineEnemy && column == columnEnemy){
                         j--;
                         continue;
                     }
