@@ -22,18 +22,6 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchMet
         return graphSearch(problem);
     }
 
-    /*
-     function GRAPH-SEARCH(problem) returns a solution, or failure
-        initialize the frontier using the initial state of problem
-        initialize the explored set to be empty
-        while(frontier is not empty)
-            remove the first node from the frontier
-            if the node contains a goal state then return the corresponding solution
-            add the node to the explored set
-            expand the node, adding the resulting nodes to the frontier only if
-                not in the frontier or explored set
-        return failure
-     */
     protected Solution graphSearch(Problem problem) {
         // TODO
         Node node = new Node(problem.getInitialState()); //os nós servem só para encapsular os states
@@ -41,12 +29,18 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchMet
         explored.clear();
         frontier.add(node);
         while (!frontier.isEmpty() && !stopped){
+            //remove the first node from the frontier
             Node frontierNode = frontier.remove();
             State frontierNodeState = frontierNode.getState();
+
+            //if the node contains a goal state then return the corresponding solution
             if(problem.isGoal(frontierNodeState)){
                 return new Solution(problem, frontierNode);
             }
+
+            // add the node to the explored set
             explored.add(frontierNodeState);
+
             //expandir o nó é expandir os nós sucessores
             List<State> successors = problem.executeActions(frontierNodeState);
             addSuccessorsToFrontier(successors, frontierNode); //como depende do algoritmo, chamo o método abstrato e depois cada um faz à sua maneira

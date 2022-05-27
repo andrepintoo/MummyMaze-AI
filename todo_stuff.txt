@@ -1,4 +1,6 @@
 PRIORIDADE:
+    - se posição enemy = hero colocar gameOver, não prever o futuro
+
     - colocar nos canMove_() a condição false se tiver gameOver (deixar a possibilidade de ir contra a armadilha
     e contra a múmia, para explorar todos os casos sucessores)
     - gameOver -> sair do caso sucessor (não pode procurar mais casos sucessores)
