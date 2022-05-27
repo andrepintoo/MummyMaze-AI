@@ -150,7 +150,7 @@ public class MummyMazeState extends State implements Cloneable{
             if (columnHero > columnScorpion) {
                 //Right
                 if (canMoveRight(lineScorpion, columnScorpion)) {
-                    verifySpecialCells(lineScorpion, columnScorpion, cellScorpions[pos]);
+                    verifySpecialCells(cellScorpions[pos]);
 
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion][columnScorpion+=2];
@@ -165,7 +165,7 @@ public class MummyMazeState extends State implements Cloneable{
             } else {
                 //Left
                 if (canMoveLeft(lineScorpion, columnScorpion)) {
-                    verifySpecialCells(lineScorpion, columnScorpion, cellScorpions[pos]);
+                    verifySpecialCells(cellScorpions[pos]);
 
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion][columnScorpion-=2];
@@ -185,7 +185,7 @@ public class MummyMazeState extends State implements Cloneable{
             if (lineHero > lineScorpion) {
                 //Down
                 if (canMoveDown(lineScorpion, columnScorpion)) {
-                    verifySpecialCells(lineScorpion, columnScorpion, cellScorpions[pos]);
+                    verifySpecialCells(cellScorpions[pos]);
 
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion+=2][columnScorpion];
@@ -201,7 +201,7 @@ public class MummyMazeState extends State implements Cloneable{
             } else {
                 //Up
                 if (canMoveUp(lineScorpion, columnScorpion)) {
-                    verifySpecialCells(lineScorpion, columnScorpion, cellScorpions[pos]);
+                    verifySpecialCells(cellScorpions[pos]);
 
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion-=2][columnScorpion];
@@ -239,7 +239,7 @@ public class MummyMazeState extends State implements Cloneable{
                 if (columnHero > columnMummy) {
                     //Right
                     if (canMoveRight(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellWhiteMummies[pos]);
+                        verifySpecialCells(cellWhiteMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy+=2];
@@ -257,7 +257,7 @@ public class MummyMazeState extends State implements Cloneable{
                 } else {
                     //Left
                     if (canMoveLeft(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellWhiteMummies[pos]);
+                        verifySpecialCells(cellWhiteMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy-=2];
@@ -279,7 +279,7 @@ public class MummyMazeState extends State implements Cloneable{
                 if (lineHero > lineMummy) {
                     //Down
                     if (canMoveDown(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellWhiteMummies[pos]);
+                        verifySpecialCells(cellWhiteMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy+=2][columnMummy];
@@ -294,7 +294,7 @@ public class MummyMazeState extends State implements Cloneable{
                 } else {
                     //Up
                     if (canMoveUp(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellWhiteMummies[pos]);
+                        verifySpecialCells(cellWhiteMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy-=2][columnMummy];
@@ -331,7 +331,7 @@ public class MummyMazeState extends State implements Cloneable{
                 if (lineHero > lineMummy) {
                     //Down
                     if (canMoveDown(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellRedMummies[pos]);
+                        verifySpecialCells(cellRedMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy+=2][columnMummy];
@@ -348,7 +348,7 @@ public class MummyMazeState extends State implements Cloneable{
                 } else {
                     //Up
                     if (canMoveUp(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellRedMummies[pos]);
+                        verifySpecialCells(cellRedMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy-=2][columnMummy];
@@ -368,7 +368,7 @@ public class MummyMazeState extends State implements Cloneable{
                 if (columnHero > columnMummy) {
                     //Right
                     if (canMoveRight(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellRedMummies[pos]);
+                        verifySpecialCells(cellRedMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy+=2];
@@ -382,7 +382,7 @@ public class MummyMazeState extends State implements Cloneable{
                 } else {
                     //Left
                     if (canMoveLeft(lineMummy, columnMummy)) {
-                        verifySpecialCells(lineMummy, columnMummy, cellRedMummies[pos]);
+                        verifySpecialCells(cellRedMummies[pos]);
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy-=2];
@@ -482,13 +482,15 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
 
-    private void verifySpecialCells(int lineEntity, int columnEntity, Cell celLEntity) {
+    private void verifySpecialCells(Cell cellEntity) {
+        int lineEntity = cellEntity.getLine();
+        int columnEntity = cellEntity.getColumn();
         for (int i=0; i<traps;i++){
-            if(cellTraps[i].equals(celLEntity)){
+            if(cellTraps[i].equals(cellEntity)){
                 matrix[lineEntity][columnEntity] = 'A';
             }
         }
-        if(cellKey!=null && cellKey.equals(celLEntity)){
+        if(cellKey!=null && cellKey.equals(cellEntity)){
             matrix[lineEntity][columnEntity] = 'C';
         }else if(matrix[lineEntity][columnEntity] != 'A'){
             matrix[lineEntity][columnEntity] = '.';
@@ -523,7 +525,11 @@ public class MummyMazeState extends State implements Cloneable{
             gameOver = true;
         }
 
-        verifySpecialCells(lineHero, columnHero, cellHero);
+        if(lineHero == 3 && columnHero == 9){
+            System.out.println("Debug");
+        }
+
+        verifySpecialCells(cellHero);
 
         lineHero-=2;
 
@@ -552,7 +558,7 @@ public class MummyMazeState extends State implements Cloneable{
             gameOver = true;
         }
 
-        verifySpecialCells(lineHero, columnHero, cellHero);
+        verifySpecialCells(cellHero);
 
         columnHero+=2;
 
@@ -614,7 +620,7 @@ public class MummyMazeState extends State implements Cloneable{
             gameOver = true;
         }
 
-        verifySpecialCells(lineHero, columnHero, cellHero);
+        verifySpecialCells(cellHero);
 
         lineHero+=2;
 
@@ -643,7 +649,7 @@ public class MummyMazeState extends State implements Cloneable{
             gameOver = true;
         }
 
-        verifySpecialCells(lineHero, columnHero, cellHero);
+        verifySpecialCells(cellHero);
 
         columnHero-=2;
 
@@ -664,42 +670,6 @@ public class MummyMazeState extends State implements Cloneable{
         List<String> movements = new ArrayList<>();
         moveEnemies(movements);
         return movements;
-//        //TODO - moveWhiteMummies()
-//        int n = whiteMummies;
-//        for (int whiteM = 0; whiteM < n; whiteM++) {
-//            moveWhiteMummy(whiteM, movements);
-//            if(whiteMummies < n){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
-//                whiteM--;
-//                n--;
-//            }
-//        }
-//
-//        //TODO - moveScorpion()
-//        n = scorpions;
-//        for (int scorpion = 0; scorpion < n; scorpion++) {
-//            String movement = moveScorpion(scorpion);
-//            if(movement!=null){
-//                movements.add(movement);
-//            }
-//            hasKilledHero(cellScorpions[scorpion].getLine(), cellScorpions[scorpion].getColumn());//lineScorpions[scorpion], columnScorpions[scorpion]);
-//            if(scorpions < n){
-//                scorpion--;
-//                n--;
-//            }
-//        }
-//
-//        //TODO - redMummies()
-//        n = redMummies;
-//        for(int redM = 0; redM < n; redM++){
-//            moveRedMummy(redM, movements);
-////            hasKilledHero(lineRedMummies[redM], columnRedMummies[redM]);
-//            if(redMummies < n){
-//                redM--;
-//                n--;
-//            }
-//        }
-
-//        return movements;
     }
 
     private void changeDoorsState() {

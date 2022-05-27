@@ -37,7 +37,7 @@ public class Cell {
         if (this == o) return true;
         if (!(o instanceof Cell)) return false;
         Cell cell = (Cell) o;
-        return line == cell.line && column == cell.column;
+        return this.line == cell.line && this.column == cell.column;
     }
 
     @Override
