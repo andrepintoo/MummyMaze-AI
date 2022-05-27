@@ -2,7 +2,6 @@ package mummymaze;
 
 import agent.Action;
 import agent.State;
-import eightpuzzle.EightPuzzleState;
 import gui.MainFrame;
 
 import java.util.ArrayList;
@@ -10,44 +9,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Arrays.copyOf;
+
 
 public class MummyMazeState extends State implements Cloneable{
 
     private final char[][] matrix; //posições válidas : do [1][1] ao [1][11] (na horizontal) e [1][1] ao [11][1] (na vertical)
-    private int columnExit;
-    private int lineExit;
-    private int lineKey;
-    private int columnKey;
-//    private int lineHero; //variables to store where the hero is
-//    private int columnHero;
-    private Cell cellHero = new Cell(); //cell where the hero is
 
-    //Falta colocar a Cell das armadilhas
+    private Cell cellHero; //cell where the hero is
+    private Cell cellExit;
+    private Cell cellKey;
 
-//    private int[] lineWhiteMummies;
-//    private int[] columnWhiteMummies;
     private Cell[] cellWhiteMummies;
     private int whiteMummies;
 
-    //    private int[] lineScorpions;
-//    private int[] columnScorpions;
     private Cell[] cellScorpions;
     private int scorpions;
 
-    private int[] lineRedMummies;
-    private int[] columnRedMummies;
+    private Cell[] cellRedMummies;
     private int redMummies;
 
-    private int[] lineHorizontalDoors;
-    private int[] columnHorizontalDoors;
+    private Cell[] cellHorizontalDoors;
     private int horizontalDoors;
 
-    private int[] lineVerticalDoors;
-    private int[] columnVerticalDoors;
+    private Cell[] cellVerticalDoors;
     private int verticalDoors;
 
-    private int[] lineTraps;
-    private int[] columnTraps;
+    private Cell[] cellTraps;
     private int traps;
 
     private boolean gameOver = false;
@@ -62,82 +50,64 @@ public class MummyMazeState extends State implements Cloneable{
 
                 switch (matrix[i][j]) {
                     case 'H'://stores the hero's position in the matrix
-                        cellHero.setPosition(i,j);
+                        cellHero = new Cell(i,j);
                         break;
                     case 'S': //stores the exit position in the matrix
-                        lineExit = i;
-                        columnExit = j;
+                        cellExit = new Cell(i,j);
                         break;
                     case 'M': //stores the white mummy's position in the matrix
-                        if (whiteMummies != 0) {
-                            cellWhiteMummies = Arrays.copyOf(cellWhiteMummies, whiteMummies+1);
-                            cellWhiteMummies[whiteMummies] = new Cell();
+                        if(whiteMummies!=0) {
+                            cellWhiteMummies = copyOf(cellWhiteMummies, whiteMummies + 1);
                         }
-                        cellWhiteMummies[whiteMummies].setPosition(i,j);
 
+                        cellWhiteMummies[whiteMummies] = new Cell(i, j);
                         whiteMummies++;
                         break;
                     case 'E': //stores the scorpion's position in the matrix
                         if (scorpions != 0) {
-                            cellScorpions = Arrays.copyOf(cellScorpions, scorpions+1);
-//                        lineScorpions = Arrays.copyOf(lineScorpions, scorpions + 1);
-//                        columnScorpions = Arrays.copyOf(columnScorpions, scorpions + 1);
-                            cellScorpions[scorpions] = new Cell();
+                            cellScorpions = copyOf(cellScorpions, scorpions+1);
                         }
 
-                        cellScorpions[scorpions].setPosition(i,j);
+                        cellScorpions[scorpions] = new Cell(i,j);
                         scorpions++;
                         break;
 
                     case 'V': //stores the red mummy's position in the matrix
+
                         if (redMummies != 0) {
-                            lineRedMummies = Arrays.copyOf(lineRedMummies, redMummies + 1);
-                            columnRedMummies = Arrays.copyOf(columnRedMummies, redMummies + 1);
+                            cellRedMummies = copyOf(cellRedMummies, redMummies+1);
                         }
 
-                        lineRedMummies[redMummies] = i;
-                        columnRedMummies[redMummies] = j;
-
+                        cellRedMummies[redMummies] = new Cell(i,j);
                         redMummies++;
                         break;
                     case '=','_':
                         if (horizontalDoors != 0) {
-                            lineHorizontalDoors = Arrays.copyOf(lineHorizontalDoors, horizontalDoors + 1);
-                            columnHorizontalDoors = Arrays.copyOf(columnHorizontalDoors, horizontalDoors + 1);
+                            cellHorizontalDoors = copyOf(cellHorizontalDoors, horizontalDoors+1);
                         }
 
-                        lineHorizontalDoors[horizontalDoors] = i;
-                        columnHorizontalDoors[horizontalDoors] = j;
-
+                        cellHorizontalDoors[horizontalDoors] = new Cell(i,j);
                         horizontalDoors++;
                         break;
                     case '"',')':
                         if (verticalDoors != 0) {
-                            lineVerticalDoors = Arrays.copyOf(lineVerticalDoors, verticalDoors + 1);
-                            columnVerticalDoors = Arrays.copyOf(columnVerticalDoors, verticalDoors + 1);
+                            cellVerticalDoors = copyOf(cellVerticalDoors, verticalDoors+1);
                         }
 
-                        lineVerticalDoors[verticalDoors] = i;
-                        columnVerticalDoors[verticalDoors] = j;
-
+                        cellVerticalDoors[verticalDoors] = new Cell(i,j);
                         verticalDoors++;
                         break;
                     case 'C':
-                        lineKey = i;
-                        columnKey = j;
+                        cellKey = new Cell(i,j);
                         break;
                     case 'A':
                         if (traps != 0) {
-                            lineTraps = Arrays.copyOf(lineTraps, traps + 1);
-                            columnTraps = Arrays.copyOf(columnTraps, traps + 1);
+                            cellTraps = copyOf(cellTraps, traps+1);
                         }
 
-                        lineTraps[traps] = i;
-                        columnTraps[traps] = j;
-
+                        cellTraps[traps] = new Cell(i,j);
                         traps++;
                         break;
-
                 }
             }
         }
@@ -145,7 +115,6 @@ public class MummyMazeState extends State implements Cloneable{
 
     @Override
     public void executeAction(Action action) {
-        //action.resetMovements();
         action.execute(this);
         if (MainFrame.SHOWSOLUTION) {
             firePuzzleChanged(); //para atualizar a interface gráfica
@@ -157,205 +126,180 @@ public class MummyMazeState extends State implements Cloneable{
         return gameOver;
     }
 
-    private void moveScorpion(int pos, List<String> movements){
+    private String moveScorpion(int pos){
         int lineScorpion = cellScorpions[pos].getLine();//lineScorpions[pos];
         int columnScorpion = cellScorpions[pos].getColumn();//columnScorpions[pos];
 
         if(hasKilledHero(lineScorpion, columnScorpion) || gameOver){
-            return;
+            return null;
         }
         // Colunas primeiro
-        if (columnScorpion != cellHero.getColumn()) {
-            if (cellHero.getColumn() > columnScorpion) {
+        int columnHero = cellHero.getColumn();
+        if (columnScorpion != columnHero) {
+            if (columnHero > columnScorpion) {
                 //Right
                 if (canMoveRight(lineScorpion, columnScorpion)) {
-                    matrix[lineScorpion][columnScorpion] = '.';
-                    if(cellScorpions[pos].hasSteppedOnTrap()){
-                        matrix[lineScorpion][columnScorpion] = 'A';
-                        cellScorpions[pos].leftTrapPosition();
-                    }else if(cellScorpions[pos].hasSteppedOnKey()){
-                        matrix[lineScorpion][columnScorpion] = 'C';
-                        cellScorpions[pos].leftKeyPosition();
+                    for (int i=0; i<traps;i++){
+                        if(cellTraps[i].equals(cellScorpions[pos])){
+                            matrix[lineScorpion][columnScorpion] = 'A';
+                        }
                     }
+                    if(cellKey!=null && cellKey.equals(cellScorpions[pos])){
+                        matrix[lineScorpion][columnScorpion] = 'C';
+                    }else if(matrix[lineScorpion][columnScorpion] != 'A'){
+                        matrix[lineScorpion][columnScorpion] = '.';
+                    }
+
+                    // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion][columnScorpion+=2];
-                    killEnemy(lineScorpion, columnScorpion, nextPosition);
+                    pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
+
                     matrix[lineScorpion][columnScorpion] = 'E';
 
-                    movements.add(convertMatrixToString(matrix));
-                    if(scorpions>1) {
-                        if(nextPosition == 'A'){
-                            cellScorpions[pos].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[pos].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[pos].setColumn(columnScorpion);
-                        }
-                    }else{
-                        if(nextPosition == 'A'){
-                            cellScorpions[0].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[0].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[0].setColumn(columnScorpion);
-                        }
-                    }
-                    return;
+                    cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
+
+                    return convertMatrixToString(matrix);
                 }
             } else {
                 //Left
                 if (canMoveLeft(lineScorpion, columnScorpion)) {
-                    matrix[lineScorpion][columnScorpion] = '.';
-                    if(cellScorpions[pos].hasSteppedOnTrap()){
-                        matrix[lineScorpion][columnScorpion] = 'A';
-                        cellScorpions[pos].leftTrapPosition();
-                    }else if(cellScorpions[pos].hasSteppedOnKey()){
-                        matrix[lineScorpion][columnScorpion] = 'C';
-                        cellScorpions[pos].leftKeyPosition();
+                    for (int i=0; i<traps;i++){
+                        if(cellTraps[i].equals(cellScorpions[pos])){
+                            matrix[lineScorpion][columnScorpion] = 'A';
+                        }
                     }
+                    if(cellKey!=null && cellKey.equals(cellScorpions[pos])){
+                        matrix[lineScorpion][columnScorpion] = 'C';
+                    }else if(matrix[lineScorpion][columnScorpion] != 'A'){
+                        matrix[lineScorpion][columnScorpion] = '.';
+                    }
+
+                    // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion][columnScorpion-=2];
-                    killEnemy(lineScorpion, columnScorpion, nextPosition);
+                    pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
+
                     matrix[lineScorpion][columnScorpion] = 'E';
 
-                    movements.add(convertMatrixToString(matrix));
-                    if(scorpions>1) {
-                        if(nextPosition == 'A'){
-                            cellScorpions[pos].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[pos].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[pos].setColumn(columnScorpion);
-                        }
-                    }else{
-                        if(nextPosition == 'A'){
-                            cellScorpions[0].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[0].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[0].setColumn(columnScorpion);
-                        }
-                    }
-                    return;
+                    cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
+
+                    return convertMatrixToString(matrix);
                 }
             }
 
         }
-        if (cellHero.getLine() != lineScorpion) {
-            if (cellHero.getLine() > lineScorpion) {
+        int lineHero = cellHero.getLine();
+        if (lineHero != lineScorpion) {
+            if (lineHero > lineScorpion) {
                 //Down
                 if (canMoveDown(lineScorpion, columnScorpion)) {
-                    matrix[lineScorpion][columnScorpion] = '.';
-                    if(cellScorpions[pos].hasSteppedOnTrap()){
-                        matrix[lineScorpion][columnScorpion] = 'A';
-                        cellScorpions[pos].leftTrapPosition();
-                    }else if(cellScorpions[pos].hasSteppedOnKey()){
-                        matrix[lineScorpion][columnScorpion] = 'C';
-                        cellScorpions[pos].leftKeyPosition();
+                    for (int i=0; i<traps;i++){
+                        if(cellTraps[i].equals(cellScorpions[pos])){
+                            matrix[lineScorpion][columnScorpion] = 'A';
+                        }
                     }
+                    if(cellKey!=null && cellKey.equals(cellScorpions[pos])){
+                        matrix[lineScorpion][columnScorpion] = 'C';
+                    }else if(matrix[lineScorpion][columnScorpion] != 'A'){
+                        matrix[lineScorpion][columnScorpion] = '.';
+                    }
+
+                    // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion+=2][columnScorpion];
-                    killEnemy(lineScorpion, columnScorpion, nextPosition);
+
+                    pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
+
                     matrix[lineScorpion][columnScorpion] = 'E';
 
-                    movements.add(convertMatrixToString(matrix));
+                    cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
 
-                    if(scorpions>1) {
-                        if(nextPosition == 'A'){
-                            cellScorpions[pos].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[pos].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[pos].setLine(lineScorpion);
-                        }
-                    }else{
-                        if(nextPosition == 'A'){
-                            cellScorpions[0].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[0].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[0].setLine(lineScorpion);
-                        }
-                    }
+                    return convertMatrixToString(matrix);
                 }
             } else {
                 //Up
                 if (canMoveUp(lineScorpion, columnScorpion)) {
-                    matrix[lineScorpion][columnScorpion] = '.';
-                    if(cellScorpions[pos].hasSteppedOnTrap()){
-                        matrix[lineScorpion][columnScorpion] = 'A';
-                        cellScorpions[pos].leftTrapPosition();
-                    }else if(cellScorpions[pos].hasSteppedOnKey()){
-                        matrix[lineScorpion][columnScorpion] = 'C';
-                        cellScorpions[pos].leftKeyPosition();
+                    for (int i=0; i<traps;i++){
+                        if(cellTraps[i].equals(cellScorpions[pos])){
+                            matrix[lineScorpion][columnScorpion] = 'A';
+                        }
                     }
+                    if(cellKey!=null && cellKey.equals(cellScorpions[pos])){
+                        matrix[lineScorpion][columnScorpion] = 'C';
+                    }else if(matrix[lineScorpion][columnScorpion] != 'A'){
+                        matrix[lineScorpion][columnScorpion] = '.';
+                    }
+
+                    // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion-=2][columnScorpion];
-                    killEnemy(lineScorpion, columnScorpion, nextPosition);
+
+                    pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
+
                     matrix[lineScorpion][columnScorpion] = 'E';
 
-                    movements.add(convertMatrixToString(matrix));
-                    if(scorpions>1) {
-                        if(nextPosition == 'A'){
-                            cellScorpions[pos].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[pos].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[pos].setLine(lineScorpion);
-                        }
-                    }else{
-                        if(nextPosition == 'A'){
-                            cellScorpions[0].setPositionSteppedOnTrap(lineScorpion, columnScorpion);
-                        }else if(nextPosition == 'C'){
-                            cellScorpions[0].setPositionSteppedOnKey(lineScorpion, columnScorpion);
-                        }else{
-                            cellScorpions[0].setLine(lineScorpion);
-                        }
-                    }
+                    cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
+
+                    return convertMatrixToString(matrix);
                 }
             }
 
         }
+
+        return null;
     }
 
-    private void killEnemy(int lineEnemy, int columnEnemy, char nextPosition) {
+    private int killEnemy(int lineEnemy, int columnEnemy, char nextPosition, char typeEnemy, int pos) {
+        int newIndex = pos;
         switch(nextPosition){
             case 'M':
-                Cell[] newWhiteMummies = new Cell[whiteMummies-1];
-//                if(whiteMummies > 1){
-//                   newWhiteMummies = new Cell[whiteMummies-1];
-//                }else{
-//                    newWhiteMummies = new Cell[1];
-//                }
+                Cell[] newWhiteMummies;
+                if(whiteMummies > 1){
+                   newWhiteMummies = new Cell[whiteMummies-1];
+                }else{
+                    newWhiteMummies = new Cell[1];
+                }
 
                 for (int i=0,j=0; i<whiteMummies; i++,j++){
+                    if(pos==i){
+                        j--;
+                        continue;
+                    }
+
                     int line = cellWhiteMummies[i].getLine();
                     int column = cellWhiteMummies[i].getColumn();
-                    if(line == lineEnemy && column == columnEnemy){
-                        j--;
-                        continue;
+                    newWhiteMummies[j] = new Cell(line, column);
+                    if(line == lineEnemy && column == columnEnemy && typeEnemy=='M'){
+                        newIndex=j;
                     }
-                    newWhiteMummies[j] = new Cell();
-                    newWhiteMummies[j].setPosition(line, column);
                 }
+
                 whiteMummies--;
-                cellWhiteMummies = Arrays.copyOf(newWhiteMummies, whiteMummies);
+                cellWhiteMummies = copyOf(newWhiteMummies, whiteMummies);
                 break;
             case 'V':
-                int[] newLineRedMummies = new int[redMummies-1];
-                int[] newColumnRedMummies = new int[redMummies-1];
+                Cell[] newRedMummies;
+                if(redMummies > 1){
+                    newRedMummies = new Cell[redMummies-1];
+                }else{
+                    newRedMummies = new Cell[1];
+                }
+
                 for (int i=0,j=0; i<redMummies; i++,j++){
-                    if(lineRedMummies[i]== lineEnemy && columnRedMummies[i]== columnEnemy){
+                    if(pos==i){
                         j--;
                         continue;
                     }
-                    newLineRedMummies[j] = lineRedMummies[i];
-                    newColumnRedMummies[j] = columnRedMummies[i];
+
+                    int line = cellRedMummies[i].getLine();
+                    int column = cellRedMummies[i].getColumn();
+                    newRedMummies[j] = new Cell(line,column);
+                    if(line == lineEnemy && column == columnEnemy && typeEnemy=='V'){
+                        newIndex = j;
+                    }
+
                 }
                 redMummies--;
-
-                lineRedMummies = Arrays.copyOf(newLineRedMummies, redMummies);
-                columnRedMummies = Arrays.copyOf(newColumnRedMummies, redMummies);
+                cellRedMummies = copyOf(newRedMummies, redMummies);
                 break;
             case 'E':
-//                int[] newLineScorpions = new int[scorpions-1];
-//                int[] newColumnScorpions = new int[scorpions-1];
                 Cell[] newScorpions;
                 if(scorpions > 1){
                      newScorpions = new Cell[scorpions-1];
@@ -364,275 +308,271 @@ public class MummyMazeState extends State implements Cloneable{
                 }
 
                 for (int i=0,j=0; i<scorpions; i++,j++){
-                    newScorpions[j] = new Cell(); //TODO
-                    int line = cellScorpions[i].getLine();
-                    int column = cellScorpions[i].getColumn();
-//                    if(lineScorpions[i]== lineScorpion && columnScorpions[i]== columnScorpion){
-                    if(line == lineEnemy && column == columnEnemy){
+                    if(pos==i){
                         j--;
                         continue;
                     }
-                    newScorpions[j].setPosition(line, column);
-//                    newLineScorpions[j] = line;
-//                    newColumnScorpions[j] = column;
+
+                    int line = cellScorpions[i].getLine();
+                    int column = cellScorpions[i].getColumn();
+                    newScorpions[j] = new Cell(line, column);
+                    if(line == lineEnemy && column == columnEnemy && typeEnemy=='E'){
+                        newIndex = j;
+                    }
+
                 }
                 scorpions--;
-                cellScorpions = Arrays.copyOf(newScorpions, scorpions);
-//                lineScorpions = Arrays.copyOf(newLineScorpions, scorpions);
-//                columnScorpions = Arrays.copyOf(newColumnScorpions, scorpions);
+                cellScorpions = copyOf(newScorpions, scorpions);
                 break;
         }
+        return newIndex;
     }
+
 
     private void moveWhiteMummy(int pos, List<String> movements) {
         int lineMummy = cellWhiteMummies[pos].getLine();
         int columnMummy = cellWhiteMummies[pos].getColumn();
 
-        for (int i = 0; i < 2; i++) {
+        int columnHero = cellHero.getColumn();
+        int lineHero = cellHero.getLine();
+
+        for (int n = 0; n < 2; n++) {
             if (hasKilledHero(lineMummy, columnMummy) || gameOver) {
                 return;
             }
-//            if((lineWhiteMummies[pos]==3 && columnWhiteMummies[pos]==1) || (lineWhiteMummies[pos]==9 && columnWhiteMummies[pos]==4)){ //PARA O NIVEL 5, a mumia vai ter que estar numa dessas posições
-//                System.out.println("debug");
-//            }
 
             // Colunas primeiro
-            if (columnMummy != cellHero.getColumn()) {
-                if (cellHero.getColumn() > columnMummy) {
+            if (columnMummy != columnHero) {
+                if (columnHero > columnMummy) {
                     //Right
                     if (canMoveRight(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
-                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                            matrix[lineMummy][columnMummy] = 'A';
-                            cellWhiteMummies[pos].leftTrapPosition();
-                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                            matrix[lineMummy][columnMummy] = 'C';
-                            cellWhiteMummies[pos].leftKeyPosition();
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellWhiteMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
                         }
-                        char nextPosition = matrix[lineMummy][columnMummy += 2];
+                        if(cellKey!=null && cellKey.equals(cellWhiteMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
 
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        // Analyse if there's an enemy to kill
+                        char nextPosition = matrix[lineMummy][columnMummy+=2];
+
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'M', pos);
+
                         matrix[lineMummy][columnMummy] = 'M';
 
-                        movements.add(convertMatrixToString(matrix));
-                        if (whiteMummies > 1) {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            } else if(nextPosition == 'C'){
-                                cellWhiteMummies[pos].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            }else{
-                                cellWhiteMummies[pos].setColumn(columnMummy);
-                            }
+                        cellWhiteMummies[pos].setPosition(lineMummy,columnMummy);
 
-                        } else {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            } else if(nextPosition == 'C'){
-                                cellWhiteMummies[0].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            }else{
-                                cellWhiteMummies[0].setColumn(columnMummy);
-                            }
-                        }
+                        movements.add(convertMatrixToString(matrix));
                         continue;
                     }
                 } else {
                     //Left
                     if (canMoveLeft(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
-                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                            matrix[lineMummy][columnMummy] = 'A';
-                            cellWhiteMummies[pos].leftTrapPosition();
-                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                            matrix[lineMummy][columnMummy] = 'C';
-                            cellWhiteMummies[pos].leftKeyPosition();
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellWhiteMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
                         }
-                        char nextPosition = matrix[lineMummy][columnMummy -= 2];
+                        if(cellKey!=null && cellKey.equals(cellWhiteMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
 
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        // Analyse if there's an enemy to kill
+                        char nextPosition = matrix[lineMummy][columnMummy-=2];
+
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'M', pos);
+
                         matrix[lineMummy][columnMummy] = 'M';
 
+                        cellWhiteMummies[pos].setPosition(lineMummy,columnMummy);
+
                         movements.add(convertMatrixToString(matrix));
-                        if (whiteMummies > 1) {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            } else if(nextPosition == 'C') {
-                                cellWhiteMummies[pos].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            }else{
-                                cellWhiteMummies[pos].setColumn(columnMummy);
-                            }
-                        } else {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            } else if(nextPosition == 'C') {
-                                cellWhiteMummies[pos].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            }else {
-                                cellWhiteMummies[0].setColumn(columnMummy);
-                            }
-                        }
                         continue;
                     }
                 }
             }
 
-            if (cellHero.getLine() != lineMummy) {
-                if (cellHero.getLine() > lineMummy) {
+            if (lineHero != lineMummy) {
+                if (lineHero > lineMummy) {
                     //Down
                     if (canMoveDown(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
-                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                            matrix[lineMummy][columnMummy] = 'A';
-                            cellWhiteMummies[pos].leftTrapPosition();
-                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                            matrix[lineMummy][columnMummy] = 'C';
-                            cellWhiteMummies[pos].leftKeyPosition();
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellWhiteMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
                         }
-                        char nextPosition = matrix[lineMummy += 2][columnMummy];
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        if(cellKey!=null && cellKey.equals(cellWhiteMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
+
+                        // Analyse if there's an enemy to kill
+                        char nextPosition = matrix[lineMummy+=2][columnMummy];
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'M', pos);
+
                         matrix[lineMummy][columnMummy] = 'M';
 
+                        cellWhiteMummies[pos].setPosition(lineMummy,columnMummy);
+
                         movements.add(convertMatrixToString(matrix));
-                        if (whiteMummies > 1) {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            }else if(nextPosition == 'C') {
-                                cellWhiteMummies[pos].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            }else{
-                                cellWhiteMummies[pos].setLine(lineMummy);
-                            }
-                        } else {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            }else if(nextPosition == 'C') {
-                                cellWhiteMummies[0].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            }else{
-                                cellWhiteMummies[0].setLine(lineMummy);
-                            }
-                        }
                     }
                 } else {
                     //Up
                     if (canMoveUp(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
-                        if (cellWhiteMummies[pos].hasSteppedOnTrap()) {
-                            matrix[lineMummy][columnMummy] = 'A';
-                            cellWhiteMummies[pos].leftTrapPosition();
-                        } else if (cellWhiteMummies[pos].hasSteppedOnKey()) {
-                            matrix[lineMummy][columnMummy] = 'C';
-                            cellWhiteMummies[pos].leftKeyPosition();
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellWhiteMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
                         }
-                        char nextPosition = matrix[lineMummy -= 2][columnMummy];
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        if(cellKey!=null && cellKey.equals(cellWhiteMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
+
+                        // Analyse if there's an enemy to kill
+                        char nextPosition = matrix[lineMummy-=2][columnMummy];
+
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'M', pos);
+
                         matrix[lineMummy][columnMummy] = 'M';
 
+                        cellWhiteMummies[pos].setPosition(lineMummy,columnMummy);
+
                         movements.add(convertMatrixToString(matrix));
-                        if (whiteMummies > 1) {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[pos].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            } else if(nextPosition == 'C') {
-                                cellWhiteMummies[pos].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            } else {
-                                cellWhiteMummies[pos].setLine(lineMummy);
-                            }
-                        } else {
-                            if (nextPosition == 'A') {
-                                cellWhiteMummies[0].setPositionSteppedOnTrap(lineMummy, columnMummy);
-                            } else if(nextPosition == 'C') {
-                                cellWhiteMummies[0].setPositionSteppedOnKey(lineMummy, columnMummy);
-                            } else {
-                                cellWhiteMummies[0].setLine(lineMummy);
-                            }
-                        }
                     }
                 }
             }
+
             hasKilledHero(lineMummy, columnMummy);
         }
     }
 
     private void moveRedMummy(int pos, List<String> movements) {
-        int lineMummy = lineRedMummies[pos];
-        int columnMummy = columnRedMummies[pos];
+        int lineMummy = cellRedMummies[pos].getLine();
+        int columnMummy = cellRedMummies[pos].getColumn();
 
-        for (int i = 0; i < 2; i++) {
+        int columnHero = cellHero.getColumn();
+        int lineHero = cellHero.getLine();
+
+        for (int n = 0; n < 2; n++) {
             if(hasKilledHero(lineMummy, columnMummy) || gameOver){
                 break;
             }
             //linhas primeiro
-            if (cellHero.getLine() != lineMummy) {
-                if (cellHero.getLine() > lineMummy) {
+            if (lineHero != lineMummy) {
+                if (lineHero > lineMummy) {
                     //Down
                     if (canMoveDown(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellRedMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
+                        }
+                        if(cellKey!=null && cellKey.equals(cellRedMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
+
+                        // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy+=2][columnMummy];
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
+
                         matrix[lineMummy][columnMummy] = 'V';
 
                         movements.add(convertMatrixToString(matrix));
-                        if(redMummies>1) {
-                            lineRedMummies[pos] = lineMummy;
-                        }else{
-                            lineRedMummies[0] = lineMummy;
-                        }
-//                        hasKilledHero(lineMummy, columnMummy);
+
+                        cellRedMummies[pos].setPosition(lineMummy,columnMummy);
                         continue;
                     }
                 } else {
                     //Up
                     if (canMoveUp(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellRedMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
+                        }
+                        if(cellKey!=null && cellKey.equals(cellRedMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
+
+                        // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy-=2][columnMummy];
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
+
                         matrix[lineMummy][columnMummy] = 'V';
 
                         movements.add(convertMatrixToString(matrix));
-                        if(redMummies>1) {
-                            lineRedMummies[pos] = lineMummy;
-                        }else{
-                            lineRedMummies[0] = lineMummy;
-                        }
-//                        hasKilledHero(lineMummy, columnMummy);
+                        cellRedMummies[pos].setPosition(lineMummy,columnMummy);
                         continue;
                     }
                 }
             }
 
-            hasKilledHero(lineMummy, columnMummy);
 
-            if (columnMummy != cellHero.getColumn()) {
-                if (cellHero.getColumn() > columnMummy) {
+
+            if (columnMummy != columnHero) {
+                if (columnHero > columnMummy) {
                     //Right
                     if (canMoveRight(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellRedMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
+                        }
+                        if(cellKey!=null && cellKey.equals(cellRedMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
+
+                        // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy+=2];
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
+
                         matrix[lineMummy][columnMummy] = 'V';
 
                         movements.add(convertMatrixToString(matrix));
-                        if(redMummies>1) {
-                            columnRedMummies[pos] = columnMummy;
-                        }else{
-                            columnRedMummies[0] = columnMummy;
-                        }
-//                        hasKilledHero(lineMummy, columnMummy);
+                        cellRedMummies[pos].setPosition(lineMummy,columnMummy);
                     }
                 } else {
                     //Left
                     if (canMoveLeft(lineMummy, columnMummy)) {
-                        matrix[lineMummy][columnMummy] = '.';
+                        for (int i=0; i<traps;i++){
+                            if(cellTraps[i].equals(cellRedMummies[pos])){
+                                matrix[lineMummy][columnMummy] = 'A';
+                            }
+                        }
+                        if(cellKey!=null && cellKey.equals(cellRedMummies[pos])){
+                            matrix[lineMummy][columnMummy] = 'C';
+                        }else if(matrix[lineMummy][columnMummy] != 'A'){
+                            matrix[lineMummy][columnMummy] = '.';
+                        }
+
+                        // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy-=2];
-                        killEnemy(lineMummy, columnMummy, nextPosition);
+                        pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
+
                         matrix[lineMummy][columnMummy] = 'V';
 
                         movements.add(convertMatrixToString(matrix));
-                        if(redMummies>1) {
-                            columnRedMummies[pos] = columnMummy;
-                        }else{
-                            columnRedMummies[0] = columnMummy;
-                        }
-//                        hasKilledHero(lineMummy, columnMummy);
+                        cellRedMummies[pos].setPosition(lineMummy,columnMummy);
                     }
                 }
             }
+
+            hasKilledHero(lineMummy, columnMummy);
         }
     }
 
@@ -657,14 +597,7 @@ public class MummyMazeState extends State implements Cloneable{
                 gameOver = true;
             }
         }
-//        if((canMoveUp(lineEnemy, columnEnemy) && matrix[lineEnemy-2][columnEnemy] == 'H') ||
-//            (canMoveDown(lineEnemy, columnEnemy) && matrix[lineEnemy+2][columnEnemy] == 'H') ||
-//        if((canMoveUp(lineEnemy, columnEnemy) && matrix[lineEnemy-2][columnEnemy] == 'H')
-//            (canMoveDown(lineEnemy, columnEnemy) && matrix[lineEnemy+2][columnEnemy] == 'H')
-//            (canMoveLeft(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy-2] == 'H') ||
-//            (canMoveRight(lineEnemy, columnEnemy) && matrix[lineEnemy][columnEnemy+2] == 'H')){
-//            gameOver = true;
-//        }
+
         return gameOver;
     }
 
@@ -674,58 +607,75 @@ public class MummyMazeState extends State implements Cloneable{
         // Hero's movement
         int columnHero = cellHero.getColumn();
         int lineHero = cellHero.getLine();
+
         char nextPosition = matrix[lineHero-2][columnHero];
         if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
             gameOver = true;
         }
 
-        if(cellHero.hasSteppedOnKey()){
-            matrix[lineHero][columnHero] = 'C';
-            cellHero.leftKeyPosition();
-        }else{
-            matrix[lineHero][columnHero] = '.';//matrix[lineHero-=2][columnHero]; // '.'
+        for (int i=0; i<traps;i++){
+            if(cellTraps[i].equals(cellHero)){
+                matrix[lineHero][columnHero] = 'A';
+            }
         }
+        if(cellKey!=null && cellKey.equals(cellHero)){
+            matrix[lineHero][columnHero] = 'C';
+        }else if(matrix[lineHero][columnHero] != 'A'){
+            matrix[lineHero][columnHero] = '.';
+        }
+
         lineHero-=2;
 
         if(nextPosition=='C'){
             for (int i = 0; i < horizontalDoors; i++) {
-                if(matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]=='='){
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='_';
+                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
+                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
+
+                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
                 }else {
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='=';
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
                 }
             }
+
             for (int i = 0; i < verticalDoors; i++) {
-                if(matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=='"'){
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=')';
+                int lineVerticalDoors = cellVerticalDoors[i].getLine();
+                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
+
+                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
+                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
                 }else {
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]='"';
+                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
                 }
             }
-            cellHero.setPositionSteppedOnKey(lineHero, columnHero);
         }
 
         matrix[lineHero][columnHero] = 'H';
-        cellHero.setLine(lineHero);
+        cellHero.setPosition(lineHero,columnHero);
 
         movements.add(convertMatrixToString(matrix));
 
+        //TODO - moveWhiteMummies()
         int n = whiteMummies;
         for (int whiteM = 0; whiteM < n; whiteM++) {
             moveWhiteMummy(whiteM, movements);
-//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
-            if(n>whiteMummies){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
-                n = whiteMummies;
+            if(whiteMummies < n){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
+                whiteM--;
+                n--;
             }
         }
 
         //TODO - moveScorpion()
         n = scorpions;
         for (int scorpion = 0; scorpion < n; scorpion++) {
-            moveScorpion(scorpion, movements);
+            String movement = moveScorpion(scorpion);
+            if(movement!=null){
+                movements.add(movement);
+            }
             hasKilledHero(cellScorpions[scorpion].getLine(), cellScorpions[scorpion].getColumn());//lineScorpions[scorpion], columnScorpions[scorpion]);
-            if(n>scorpions){
-                n = scorpions;
+            if(scorpions < n){
+                scorpion--;
+                n--;
             }
         }
 
@@ -734,8 +684,9 @@ public class MummyMazeState extends State implements Cloneable{
         for(int redM = 0; redM < n; redM++){
             moveRedMummy(redM, movements);
 //            hasKilledHero(lineRedMummies[redM], columnRedMummies[redM]);
-            if(n>redMummies){
-                n = redMummies;
+            if(redMummies < n){
+                redM--;
+                n--;
             }
         }
 
@@ -744,58 +695,89 @@ public class MummyMazeState extends State implements Cloneable{
 
     public List<String> moveRight() {
         List<String> movements = new ArrayList<>();
-        // Hero's movement
+
         int lineHero = cellHero.getLine();
         int columnHero = cellHero.getColumn();
+
         char nextPosition = matrix[lineHero][columnHero+2];
         if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
             gameOver = true;
         }
 
-        if(cellHero.hasSteppedOnKey()){
-            matrix[lineHero][columnHero] = 'C';
-            cellHero.leftKeyPosition();
-        }else{
-            matrix[lineHero][columnHero] = '.';//matrix[lineHero][columnHero+=2];
+        for (int i=0; i<traps;i++){
+            if(cellTraps[i].equals(cellHero)){
+                matrix[lineHero][columnHero] = 'A';
+            }
         }
+        if(cellKey!=null && cellKey.equals(cellHero)){
+            matrix[lineHero][columnHero] = 'C';
+        }else if(matrix[lineHero][columnHero] != 'A'){
+            matrix[lineHero][columnHero] = '.';
+        }
+
         columnHero+=2;
 
         if(nextPosition == 'C'){
             for (int i = 0; i < horizontalDoors; i++) {
-                if(matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]=='='){
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='_';
+                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
+                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
+
+                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
                 }else {
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='=';
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
                 }
             }
+
             for (int i = 0; i < verticalDoors; i++) {
-                if(matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=='"'){
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=')';
+                int lineVerticalDoors = cellVerticalDoors[i].getLine();
+                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
+
+                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
+                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
                 }else {
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]='"';
+                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
                 }
             }
-            cellHero.setPositionSteppedOnKey(lineHero, columnHero);
         }
 
         matrix[lineHero][columnHero] = 'H';
-        cellHero.setColumn(columnHero);
+        cellHero.setPosition(lineHero,columnHero);
 
         movements.add(convertMatrixToString(matrix));
 
-        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+        //TODO - moveWhiteMummies()
+        int n = whiteMummies;
+        for (int whiteM = 0; whiteM < n; whiteM++) {
             moveWhiteMummy(whiteM, movements);
-//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+            if(whiteMummies < n){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
+                whiteM--;
+                n--;
+            }
         }
 
-        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
-            moveScorpion(scorpion, movements);
+        //TODO - moveScorpion()
+        n = scorpions;
+        for (int scorpion = 0; scorpion < n; scorpion++) {
+            String movement = moveScorpion(scorpion);
+            if(movement!=null){
+                movements.add(movement);
+            }
             hasKilledHero(cellScorpions[scorpion].getLine(), cellScorpions[scorpion].getColumn());//lineScorpions[scorpion], columnScorpions[scorpion]);
+            if(scorpions < n){
+                scorpion--;
+                n--;
+            }
         }
 
-        for(int redM = 0; redM < redMummies; redM++){
+        //TODO - redMummies()
+        n = redMummies;
+        for(int redM = 0; redM < n; redM++){
             moveRedMummy(redM, movements);
-//            hasKilledHero(lineRedMummies[redM], columnRedMummies[redM]);
+            if(redMummies < n){
+                redM--;
+                n--;
+            }
         }
 
         return movements;
@@ -803,58 +785,88 @@ public class MummyMazeState extends State implements Cloneable{
 
     public List<String> moveDown() {
         List<String> movements = new ArrayList<>();
-        // Hero's movement
+
         int lineHero = cellHero.getLine();
         int columnHero = cellHero.getColumn();
+
         char nextPosition = matrix[lineHero+2][columnHero];
         if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
             gameOver = true;
         }
 
-        if(cellHero.hasSteppedOnKey()){ //se ele tiver pisado numa chave antes, então coloca na posição anterior a chave
-            matrix[lineHero][columnHero] = 'C';
-            cellHero.leftKeyPosition();
-        }else{
-            matrix[lineHero][columnHero] = '.';//matrix[lineHero+=2][columnHero];
+        for (int i=0; i<traps;i++){
+            if(cellTraps[i].equals(cellHero)){
+                matrix[lineHero][columnHero] = 'A';
+            }
         }
+        if(cellKey!=null && cellKey.equals(cellHero)){
+            matrix[lineHero][columnHero] = 'C';
+        }else if(matrix[lineHero][columnHero] != 'A'){
+            matrix[lineHero][columnHero] = '.';
+        }
+
         lineHero+=2;
 
         if(nextPosition == 'C'){
             for (int i = 0; i < horizontalDoors; i++) {
-                if(matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]=='='){
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='_';
-                }else {
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='=';
-                }
-            }
-            for (int i = 0; i < verticalDoors; i++) {
-                if(matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=='"'){
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=')';
-                }else {
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]='"';
-                }
-            }
-            cellHero.setPositionSteppedOnKey(lineHero, columnHero);
-        }
+                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
+                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
 
+                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
+                }else {
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
+                }
+            }
+
+            for (int i = 0; i < verticalDoors; i++) {
+                int lineVerticalDoors = cellVerticalDoors[i].getLine();
+                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
+
+                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
+                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
+                }else {
+                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
+                }
+            }
+        }
 
         matrix[lineHero][columnHero] = 'H';
-        cellHero.setLine(lineHero);
+        cellHero.setPosition(lineHero,columnHero);
         movements.add(convertMatrixToString(matrix));
 
-        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+        //TODO - moveWhiteMummies()
+        int n = whiteMummies;
+        for (int whiteM = 0; whiteM < n; whiteM++) {
             moveWhiteMummy(whiteM, movements);
-//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+            if(whiteMummies < n){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
+                whiteM--;
+                n--;
+            }
         }
 
-        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
-            moveScorpion(scorpion, movements);
+        //TODO - moveScorpion()
+        n = scorpions;
+        for (int scorpion = 0; scorpion < n; scorpion++) {
+            String movement = moveScorpion(scorpion);
+            if(movement!=null){
+                movements.add(movement);
+            }
             hasKilledHero(cellScorpions[scorpion].getLine(), cellScorpions[scorpion].getColumn());//lineScorpions[scorpion], columnScorpions[scorpion]);
+            if(scorpions < n){
+                scorpion--;
+                n--;
+            }
         }
 
-        for(int redM = 0; redM < redMummies; redM++){
+        //TODO - redMummies()
+        n = redMummies;
+        for(int redM = 0; redM < n; redM++){
             moveRedMummy(redM, movements);
-//            hasKilledHero(lineRedMummies[redM], columnRedMummies[redM]);
+            if(redMummies < n){
+                redM--;
+                n--;
+            }
         }
 
         return movements;
@@ -862,60 +874,88 @@ public class MummyMazeState extends State implements Cloneable{
 
     public List<String> moveLeft() {
         List<String> movements = new ArrayList<>();
-        // Hero's movement
+
         int lineHero = cellHero.getLine();
         int columnHero = cellHero.getColumn();
+
         char nextPosition = matrix[lineHero][columnHero-2];
         if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
             gameOver = true;
         }
 
-        if(cellHero.hasSteppedOnKey()){ //se ele tiver pisado numa chave antes, então coloca na posição anterior a chave
-            matrix[lineHero][columnHero] = 'C';
-            cellHero.leftKeyPosition();
-        }else{
-            matrix[lineHero][columnHero] = '.'; //matrix[lineHero][columnHero-=2];
+        for (int i=0; i<traps;i++){
+            if(cellTraps[i].equals(cellHero)){
+                matrix[lineHero][columnHero] = 'A';
+            }
         }
+        if(cellKey!=null && cellKey.equals(cellHero)){
+            matrix[lineHero][columnHero] = 'C';
+        }else if(matrix[lineHero][columnHero] != 'A'){
+            matrix[lineHero][columnHero] = '.';
+        }
+
         columnHero-=2;
 
-        if(nextPosition=='C'){
+        if(nextPosition == 'C'){
             for (int i = 0; i < horizontalDoors; i++) {
-                if(matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]=='='){
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='_';
+                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
+                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
+
+                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
                 }else {
-                    matrix[lineHorizontalDoors[i]][columnHorizontalDoors[i]]='=';
+                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
                 }
             }
+
             for (int i = 0; i < verticalDoors; i++) {
-                if(matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=='"'){
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]=')';
+                int lineVerticalDoors = cellVerticalDoors[i].getLine();
+                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
+
+                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
+                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
                 }else {
-                    matrix[lineVerticalDoors[i]][columnVerticalDoors[i]]='"';
+                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
                 }
             }
-            cellHero.setPositionSteppedOnKey(lineHero, columnHero);
         }
 
         matrix[lineHero][columnHero] = 'H';
-        cellHero.setColumn(columnHero);
-
+        cellHero.setPosition(lineHero,columnHero);
         movements.add(convertMatrixToString(matrix));
 
-        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+        //TODO - moveWhiteMummies()
+        int n = whiteMummies;
+        for (int whiteM = 0; whiteM < n; whiteM++) {
             moveWhiteMummy(whiteM, movements);
-//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+            if(whiteMummies < n){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
+                whiteM--;
+                n--;
+            }
         }
 
         //TODO - moveScorpion()
-        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
-            moveScorpion(scorpion, movements);
+        n = scorpions;
+        for (int scorpion = 0; scorpion < n; scorpion++) {
+            String movement = moveScorpion(scorpion);
+            if(movement!=null){
+                movements.add(movement);
+            }
             hasKilledHero(cellScorpions[scorpion].getLine(), cellScorpions[scorpion].getColumn());//lineScorpions[scorpion], columnScorpions[scorpion]);
+            if(scorpions < n){
+                scorpion--;
+                n--;
+            }
         }
 
         //TODO - redMummies()
-        for(int redM = 0; redM < redMummies; redM++){
+        n = redMummies;
+        for(int redM = 0; redM < n; redM++){
             moveRedMummy(redM, movements);
-//            hasKilledHero(lineRedMummies[redM], columnRedMummies[redM]);
+            if(redMummies < n){
+                redM--;
+                n--;
+            }
         }
 
         return movements;
@@ -924,21 +964,39 @@ public class MummyMazeState extends State implements Cloneable{
     public List<String> moveStandStill(){
         List<String> movements = new ArrayList<>();
 
-        for (int whiteM = 0; whiteM < whiteMummies; whiteM++) {
+        //TODO - moveWhiteMummies()
+        int n = whiteMummies;
+        for (int whiteM = 0; whiteM < n; whiteM++) {
             moveWhiteMummy(whiteM, movements);
-//            hasKilledHero(lineWhiteMummies[whiteM], columnWhiteMummies[whiteM]);
+            if(whiteMummies < n){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
+                whiteM--;
+                n--;
+            }
         }
 
         //TODO - moveScorpion()
-        for (int scorpion = 0; scorpion < scorpions; scorpion++) {
-            moveScorpion(scorpion, movements);
+        n = scorpions;
+        for (int scorpion = 0; scorpion < n; scorpion++) {
+            String movement = moveScorpion(scorpion);
+            if(movement!=null){
+                movements.add(movement);
+            }
             hasKilledHero(cellScorpions[scorpion].getLine(), cellScorpions[scorpion].getColumn());//lineScorpions[scorpion], columnScorpions[scorpion]);
+            if(scorpions < n){
+                scorpion--;
+                n--;
+            }
         }
 
         //TODO - redMummies()
-        for(int redM = 0; redM < redMummies; redM++){
+        n = redMummies;
+        for(int redM = 0; redM < n; redM++){
             moveRedMummy(redM, movements);
 //            hasKilledHero(lineRedMummies[redM], columnRedMummies[redM]);
+            if(redMummies < n){
+                redM--;
+                n--;
+            }
         }
 
         return movements;
@@ -950,10 +1008,11 @@ public class MummyMazeState extends State implements Cloneable{
         if(columnEntity == matrix.length - 2){
             return false;
         }
-        int columnRigth = columnEntity + 1;
+
+        char matrixPosition = matrix[lineEntity][columnEntity+1];
         //verificar se tem parede (| ou -), porta fechada (" ou =)
-        return matrix[lineEntity][columnRigth] != '|' && matrix[lineEntity][columnRigth] != '-' &&
-                matrix[lineEntity][columnRigth] != '=' && matrix[lineEntity][columnRigth] != '"';
+        return  matrixPosition != '|' && matrixPosition != '-' &&
+                matrixPosition != '=' && matrixPosition != '"';
     }
 
     public boolean canMoveRightHero(){
@@ -965,10 +1024,12 @@ public class MummyMazeState extends State implements Cloneable{
         if(columnEntity == 1){
             return false;
         }
-        int columnLeft = columnEntity - 1;
+
         //has something blocking hero's path?
-        return matrix[lineEntity][columnLeft] != '|' && matrix[lineEntity][columnLeft] != '-' &&
-                matrix[lineEntity][columnLeft] != '=' && matrix[lineEntity][columnLeft] != '"';
+        char matrixPosition = matrix[lineEntity][columnEntity-1];
+        //verificar se tem parede (| ou -), porta fechada (" ou =)
+        return  matrixPosition != '|' && matrixPosition != '-' &&
+                matrixPosition != '=' && matrixPosition != '"';
     }
 
     public boolean canMoveLeftHero(){
@@ -977,13 +1038,14 @@ public class MummyMazeState extends State implements Cloneable{
 
     public boolean canMoveUp(int lineEntity, int columnEntity){
         //moves off limits?
-        if(lineEntity == 1/* < 2*/){
+        if(lineEntity == 1){
             return false;
         }
-        int lineUp = lineEntity - 1;
-        //has something blocking hero's path?
-        return matrix[lineUp][columnEntity] != '|' && matrix[lineUp][columnEntity] != '-' &&
-                matrix[lineUp][columnEntity] != '=' && matrix[lineUp][columnEntity] != '"';
+
+        char matrixPosition = matrix[lineEntity-1][columnEntity];
+        //verificar se tem parede (| ou -), porta fechada (" ou =)
+        return  matrixPosition != '|' && matrixPosition != '-' &&
+                matrixPosition != '=' && matrixPosition != '"';
     }
 
     public boolean canMoveUpHero(){
@@ -995,10 +1057,11 @@ public class MummyMazeState extends State implements Cloneable{
         if(lineEntity == matrix.length - 2){
             return false;
         }
-        int lineDown = lineEntity + 1;
-        //has something blocking hero's path?
-        return matrix[lineDown][columnEntity] != '|' && matrix[lineDown][columnEntity] != '-' &&
-                matrix[lineDown][columnEntity] != '=' && matrix[lineDown][columnEntity] != '"';
+
+        char matrixPosition = matrix[lineEntity+1][columnEntity];
+        //verificar se tem parede (| ou -), porta fechada (" ou =)
+        return  matrixPosition != '|' && matrixPosition != '-' &&
+                matrixPosition != '=' && matrixPosition != '"';
     }
 
     public boolean canMoveDownHero(){
@@ -1006,20 +1069,17 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public double computeExitDistance() {
-        return ((Math.abs(cellHero.getLine() - lineExit) + Math.abs(cellHero.getColumn() - columnExit))-1)/ (double) 2;
+        return ((Math.abs(cellHero.getLine() - cellExit.getLine()) + Math.abs(cellHero.getColumn() - cellExit.getColumn()))-1)/ (double) 2;
     }
 
     public String convertMatrixToString(char[][] matrix) {
         // Matriz -> String
         StringBuilder s= new StringBuilder();
-//        String s1 = "";
         for (int k = 0; k < 13; k++) {
             s.append(String.valueOf(matrix[k])).append("\n");
-//            s1 += String.valueOf(matrix[k])+"\n";
         }
 
         return s.toString();
-//        return s1;
     }
 
     public String getStateString() {
@@ -1078,62 +1138,63 @@ public class MummyMazeState extends State implements Cloneable{
 
     public void resetEnemies() {
         scorpions = 0;
-//        lineScorpions = new int[1];
-//        columnScorpions = new int[1];
         cellScorpions = new Cell[1];
-        cellScorpions[0] = new Cell();
 
         whiteMummies = 0;
-//        lineWhiteMummies = new int[1];
-//        columnWhiteMummies = new int[1];
         cellWhiteMummies = new Cell[1];
-        cellWhiteMummies[0] = new Cell();
 
-        lineRedMummies = new int[1];
-        columnRedMummies = new int[1];
         redMummies = 0;
+        cellRedMummies = new Cell[1];
 
-        lineHorizontalDoors = new int[1];
-        columnHorizontalDoors = new int[1];
         horizontalDoors = 0;
+        cellHorizontalDoors = new Cell[1];
 
-        lineVerticalDoors = new int[1];
-        columnVerticalDoors = new int[1];
         verticalDoors = 0;
+        cellVerticalDoors = new Cell[1];
 
-        lineTraps = new int[1];
-        columnTraps = new int[1];
         traps = 0;
+        cellTraps = new Cell[1];
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MummyMazeState that = (MummyMazeState) o;
-        return  cellHero.equals(that.cellHero) && Arrays.equals(cellWhiteMummies, that.cellWhiteMummies) &&
-                Arrays.equals(cellScorpions, that.cellScorpions) &&
-                Arrays.equals(lineRedMummies, that.lineRedMummies) &&
-                Arrays.equals(columnRedMummies, that.columnRedMummies) &&
-                Arrays.deepEquals(matrix, that.matrix);
+        if(!(o instanceof MummyMazeState)){
+            return false;
+        }
+
+        MummyMazeState s = (MummyMazeState) o;
+        if(matrix.length != s.matrix.length){
+            return false;
+        }
+
+        return Arrays.deepEquals(matrix,s.matrix);
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        MummyMazeState that = (MummyMazeState) o;
+//        return  cellHero.equals(that.cellHero) && Arrays.equals(cellWhiteMummies, that.cellWhiteMummies) &&
+//                Arrays.equals(cellScorpions, that.cellScorpions) &&
+//                Arrays.equals(lineRedMummies, that.lineRedMummies) &&
+//                Arrays.equals(columnRedMummies, that.columnRedMummies) &&
+//                Arrays.deepEquals(matrix, that.matrix);
     }
 
     @Override
     public int hashCode() {
-//        int result = Objects.hash(lineHero, columnHero);
-        int result = cellHero.hashCode();
-        result = 31 * result + Arrays.deepHashCode(matrix);
-        result = 31 * result + Arrays.hashCode(cellWhiteMummies);
-        result = 31 * result + Arrays.hashCode(cellScorpions);
-        result = 31 * result + Arrays.hashCode(lineRedMummies);
-        result = 31 * result + Arrays.hashCode(columnRedMummies);
-        result = 31 * result + Arrays.hashCode(lineHorizontalDoors);
-        result = 31 * result + Arrays.hashCode(columnHorizontalDoors);
-        result = 31 * result + Arrays.hashCode(lineVerticalDoors);
-        result = 31 * result + Arrays.hashCode(columnVerticalDoors);
-        result = 31 * result + Objects.hash(lineKey, columnKey);
-        result = 31 * result + Arrays.hashCode(lineTraps);
-        result = 31 * result + Arrays.hashCode(columnTraps);
-        return result;
+        return 97 * 7 + Arrays.deepHashCode(this.matrix);
+////        int result = Objects.hash(lineHero, columnHero);
+//        int result = cellHero.hashCode();
+//        result = 31 * result + Arrays.deepHashCode(matrix);
+////        result = 31 * result + cellWhiteMummies.hashCode();
+////        result = 31 * result + cellScorpions.hashCode();
+//        result = 31 * result + Arrays.hashCode(lineRedMummies);
+//        result = 31 * result + Arrays.hashCode(columnRedMummies);
+//        result = 31 * result + Arrays.hashCode(lineHorizontalDoors);
+//        result = 31 * result + Arrays.hashCode(columnHorizontalDoors);
+//        result = 31 * result + Arrays.hashCode(lineVerticalDoors);
+//        result = 31 * result + Arrays.hashCode(columnVerticalDoors);
+//        result = 31 * result + Objects.hash(lineKey, columnKey);
+//        result = 31 * result + Arrays.hashCode(lineTraps);
+//        result = 31 * result + Arrays.hashCode(columnTraps);
+//        return result;
     }
 }

@@ -77,9 +77,10 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
 //                this.movements.add(movement);
 //            }
 
-            //definir o custo da solução
-            solutionCost = solution.getCost();
+
         }
+        //definir o custo da solução
+        solutionCost = solution.getCost();
     }
 
     public List<String> getMovements() {
