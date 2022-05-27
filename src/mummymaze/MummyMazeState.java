@@ -58,6 +58,8 @@ public class MummyMazeState extends State implements Cloneable{
                     case 'M': //stores the white mummy's position in the matrix
                         if(whiteMummies!=0) {
                             cellWhiteMummies = copyOf(cellWhiteMummies, whiteMummies + 1);
+                        }else{
+                            cellWhiteMummies = new Cell[1];
                         }
 
                         cellWhiteMummies[whiteMummies] = new Cell(i, j);
@@ -66,6 +68,8 @@ public class MummyMazeState extends State implements Cloneable{
                     case 'E': //stores the scorpion's position in the matrix
                         if (scorpions != 0) {
                             cellScorpions = copyOf(cellScorpions, scorpions+1);
+                        }else{
+                            cellScorpions = new Cell[1];
                         }
 
                         cellScorpions[scorpions] = new Cell(i,j);
@@ -73,9 +77,10 @@ public class MummyMazeState extends State implements Cloneable{
                         break;
 
                     case 'V': //stores the red mummy's position in the matrix
-
                         if (redMummies != 0) {
                             cellRedMummies = copyOf(cellRedMummies, redMummies+1);
+                        }else{
+                            cellRedMummies = new Cell[1];
                         }
 
                         cellRedMummies[redMummies] = new Cell(i,j);
@@ -84,6 +89,8 @@ public class MummyMazeState extends State implements Cloneable{
                     case '=','_':
                         if (horizontalDoors != 0) {
                             cellHorizontalDoors = copyOf(cellHorizontalDoors, horizontalDoors+1);
+                        }else{
+                            cellHorizontalDoors = new Cell[1];
                         }
 
                         cellHorizontalDoors[horizontalDoors] = new Cell(i,j);
@@ -92,6 +99,8 @@ public class MummyMazeState extends State implements Cloneable{
                     case '"',')':
                         if (verticalDoors != 0) {
                             cellVerticalDoors = copyOf(cellVerticalDoors, verticalDoors+1);
+                        }else{
+                            cellVerticalDoors = new Cell[1];
                         }
 
                         cellVerticalDoors[verticalDoors] = new Cell(i,j);
@@ -103,6 +112,8 @@ public class MummyMazeState extends State implements Cloneable{
                     case 'A':
                         if (traps != 0) {
                             cellTraps = copyOf(cellTraps, traps+1);
+                        }else{
+                            cellTraps = new Cell[1];
                         }
 
                         cellTraps[traps] = new Cell(i,j);
@@ -855,22 +866,11 @@ public class MummyMazeState extends State implements Cloneable{
 
     public void resetEnemies() {
         scorpions = 0;
-        cellScorpions = new Cell[1];
-
         whiteMummies = 0;
-        cellWhiteMummies = new Cell[1];
-
         redMummies = 0;
-        cellRedMummies = new Cell[1];
-
         horizontalDoors = 0;
-        cellHorizontalDoors = new Cell[1];
-
         verticalDoors = 0;
-        cellVerticalDoors = new Cell[1];
-
         traps = 0;
-        cellTraps = new Cell[1];
     }
 
     @Override
