@@ -468,16 +468,16 @@ public class MummyMazeState extends State implements Cloneable{
         }
     }
 
-    private void verifySpecialCells(int lineMummy, int columnMummy, Cell celLEntity) {
+    private void verifySpecialCells(int lineEntity, int columnEntity, Cell celLEntity) {
         for (int i=0; i<traps;i++){
             if(cellTraps[i].equals(celLEntity)){
-                matrix[lineMummy][columnMummy] = 'A';
+                matrix[lineEntity][columnEntity] = 'A';
             }
         }
         if(cellKey!=null && cellKey.equals(celLEntity)){
-            matrix[lineMummy][columnMummy] = 'C';
-        }else if(matrix[lineMummy][columnMummy] != 'A'){
-            matrix[lineMummy][columnMummy] = '.';
+            matrix[lineEntity][columnEntity] = 'C';
+        }else if(matrix[lineEntity][columnEntity] != 'A'){
+            matrix[lineEntity][columnEntity] = '.';
         }
     }
 
@@ -523,27 +523,7 @@ public class MummyMazeState extends State implements Cloneable{
         lineHero-=2;
 
         if(nextPosition=='C'){
-            for (int i = 0; i < horizontalDoors; i++) {
-                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
-                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
-
-                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
-                }else {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
-                }
-            }
-
-            for (int i = 0; i < verticalDoors; i++) {
-                int lineVerticalDoors = cellVerticalDoors[i].getLine();
-                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
-
-                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
-                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
-                }else {
-                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
-                }
-            }
+            changeDoorsState();
         }
 
         matrix[lineHero][columnHero] = 'H';
@@ -605,27 +585,7 @@ public class MummyMazeState extends State implements Cloneable{
         columnHero+=2;
 
         if(nextPosition == 'C'){
-            for (int i = 0; i < horizontalDoors; i++) {
-                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
-                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
-
-                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
-                }else {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
-                }
-            }
-
-            for (int i = 0; i < verticalDoors; i++) {
-                int lineVerticalDoors = cellVerticalDoors[i].getLine();
-                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
-
-                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
-                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
-                }else {
-                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
-                }
-            }
+            changeDoorsState();
         }
 
         matrix[lineHero][columnHero] = 'H';
@@ -686,27 +646,7 @@ public class MummyMazeState extends State implements Cloneable{
         lineHero+=2;
 
         if(nextPosition == 'C'){
-            for (int i = 0; i < horizontalDoors; i++) {
-                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
-                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
-
-                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
-                }else {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
-                }
-            }
-
-            for (int i = 0; i < verticalDoors; i++) {
-                int lineVerticalDoors = cellVerticalDoors[i].getLine();
-                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
-
-                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
-                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
-                }else {
-                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
-                }
-            }
+            changeDoorsState();
         }
 
         matrix[lineHero][columnHero] = 'H';
@@ -766,27 +706,7 @@ public class MummyMazeState extends State implements Cloneable{
         columnHero-=2;
 
         if(nextPosition == 'C'){
-            for (int i = 0; i < horizontalDoors; i++) {
-                int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
-                int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
-
-                if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
-                }else {
-                    matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
-                }
-            }
-
-            for (int i = 0; i < verticalDoors; i++) {
-                int lineVerticalDoors = cellVerticalDoors[i].getLine();
-                int columnVerticalDoors = cellVerticalDoors[i].getColumn();
-
-                if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
-                    matrix[lineVerticalDoors][columnVerticalDoors]=')';
-                }else {
-                    matrix[lineVerticalDoors][columnVerticalDoors]='"';
-                }
-            }
+            changeDoorsState();
         }
 
         matrix[lineHero][columnHero] = 'H';
@@ -869,6 +789,30 @@ public class MummyMazeState extends State implements Cloneable{
         }
 
         return movements;
+    }
+
+    private void changeDoorsState() {
+        for (int i = 0; i < horizontalDoors; i++) {
+            int lineHorizontalDoors = cellHorizontalDoors[i].getLine();
+            int columnHorizontalDoors = cellHorizontalDoors[i].getColumn();
+
+            if (matrix[lineHorizontalDoors][columnHorizontalDoors]=='=') {
+                matrix[lineHorizontalDoors][columnHorizontalDoors] = '_';
+            }else {
+                matrix[lineHorizontalDoors][columnHorizontalDoors] = '=';
+            }
+        }
+
+        for (int i = 0; i < verticalDoors; i++) {
+            int lineVerticalDoors = cellVerticalDoors[i].getLine();
+            int columnVerticalDoors = cellVerticalDoors[i].getColumn();
+
+            if(matrix[lineVerticalDoors][columnVerticalDoors]=='"'){
+                matrix[lineVerticalDoors][columnVerticalDoors]=')';
+            }else {
+                matrix[lineVerticalDoors][columnVerticalDoors]='"';
+            }
+        }
     }
 
     public boolean canMoveRight(int lineEntity, int columnEntity){
