@@ -490,7 +490,7 @@ public class MummyMazeState extends State implements Cloneable{
                 matrix[lineEntity][columnEntity] = 'A';
             }
         }
-        if(cellKey!=null && cellKey.equals(cellEntity)){
+        if(cellKey!=null && cellKey.equals(cellEntity)){ //experimentar mudar para cellEntity.getLine() == lineKey && cellEntity.getColumn() == columnKey para ver se entra aqui no nivel 22
             matrix[lineEntity][columnEntity] = 'C';
         }else if(matrix[lineEntity][columnEntity] != 'A'){
             matrix[lineEntity][columnEntity] = '.';
@@ -766,6 +766,58 @@ public class MummyMazeState extends State implements Cloneable{
         return ((Math.abs(cellHero.getLine() - cellExit.getLine()) + Math.abs(cellHero.getColumn() - cellExit.getColumn()))-1)/ (double) 2;
     }
 
+    public double computeDistanceToEnemies() {
+        double distance = 0;
+        for (int i = 0; i < whiteMummies; i++) {
+            distance += Math.abs(cellHero.getLine() - cellWhiteMummies[i].getLine()) + Math.abs(cellHero.getColumn() - cellWhiteMummies[i].getColumn());
+        }
+        for (int i = 0; i < redMummies; i++) {
+            distance += Math.abs(cellHero.getLine() - cellRedMummies[i].getLine()) + Math.abs(cellHero.getColumn() - cellRedMummies[i].getColumn());
+        }
+        for (int i = 0; i < scorpions; i++) {
+            distance += Math.abs(cellHero.getLine() - cellScorpions[i].getLine()) + Math.abs(cellHero.getColumn() - cellScorpions[i].getColumn());
+        }
+
+        return 1/distance;
+    }
+
+    public double computeWallsAroundEnemies() {
+        double walls = 0;
+        for (int i = 0; i < whiteMummies; i++) {
+            if(matrix[cellWhiteMummies[i].getLine()][cellWhiteMummies[i].getColumn()-1] == '|' ||
+                    matrix[cellWhiteMummies[i].getLine()][cellWhiteMummies[i].getColumn()+1] == '|' ||
+                    matrix[cellWhiteMummies[i].getLine()-1][cellWhiteMummies[i].getColumn()] == '-' ||
+                    matrix[cellWhiteMummies[i].getLine()+1][cellWhiteMummies[i].getColumn()] == '-' ){
+                walls++;
+            }
+        }
+        for (int i = 0; i < scorpions; i++) {
+            if(matrix[cellScorpions[i].getLine()][cellScorpions[i].getColumn()-1] == '|' ||
+                    matrix[cellScorpions[i].getLine()][cellScorpions[i].getColumn()+1] == '|' ||
+                    matrix[cellScorpions[i].getLine()-1][cellScorpions[i].getColumn()] == '-' ||
+                    matrix[cellScorpions[i].getLine()+1][cellScorpions[i].getColumn()] == '-' ){
+                walls++;
+            }
+        }
+        for (int i = 0; i < redMummies; i++) {
+            if(matrix[cellRedMummies[i].getLine()][cellRedMummies[i].getColumn()-1] == '|' ||
+                    matrix[cellRedMummies[i].getLine()][cellRedMummies[i].getColumn()+1] == '|' ||
+                    matrix[cellRedMummies[i].getLine()-1][cellRedMummies[i].getColumn()] == '-' ||
+                    matrix[cellRedMummies[i].getLine()+1][cellRedMummies[i].getColumn()] == '-' ){
+                walls++;
+            }
+        }
+        return 1/walls;
+    }
+
+    public double computeNumberEnemies() {
+        int enemies = scorpions + redMummies + whiteMummies;
+        if(enemies == 0){
+            return 0;
+        }
+        return 1/enemies;
+    }
+
     public String convertMatrixToString(char[][] matrix) {
         // Matriz -> String
         StringBuilder s= new StringBuilder();
@@ -880,4 +932,6 @@ public class MummyMazeState extends State implements Cloneable{
 //        result = 31 * result + Arrays.hashCode(columnTraps);
 //        return result;
     }
+
+
 }
