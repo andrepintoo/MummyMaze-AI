@@ -1,12 +1,5 @@
 PRIORIDADE:
-    - colocar nos canMove_() a condição false se tiver gameOver (deixar a possibilidade de ir contra a armadilha
-    e contra a múmia, para explorar todos os casos sucessores)
-    - gameOver -> sair do caso sucessor (não pode procurar mais casos sucessores)
 
-    - encapsular o line e column numa classe Cell, para termos CellHero, CellWhiteMummy ... tenha equals, toString...
-    - falta problema de trocar de posição com a armadilha (quando são os inimigos)
-    - falta o nível 5 :'(
-    - falta chave e porta
 
     - falta estatísticas
     - quando temos muitos inimigos iguais, dá erro na inicialização
@@ -15,10 +8,7 @@ PRIORIDADE:
 
 PERGUNTAR SE É POSSIVEL TER + QUE 1 CHAVE
 
-Heuristicas possiveis:
-    - quanto maior a distancia ao inimigo -> fazer o inverso desse valor * 100 talvez (para ter sempre um inteiro ...)
-    - quanto maior a distancia ao inimigo e mais proximo da saida
-    - quanto mais paredes estiverem ao pé do inimigo, melhor
+
 
 
 -TEMOS MUITO CODIGO REPETIDO PARA MEXER OS INIMIGOS. DEPOIS METER AS COISAS EM MÉTODOS
