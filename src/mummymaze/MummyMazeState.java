@@ -124,6 +124,102 @@ public class MummyMazeState extends State implements Cloneable{
         }
     }
 
+    public MummyMazeState(char[][] matrix, Cell key, Cell[] trapsCell) { //será [13][13]
+        this.matrix = new char[matrix.length][matrix.length];
+        resetEnemies();
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                this.matrix[i][j] = matrix[i][j];
+
+                switch (matrix[i][j]) {
+                    case 'H'://stores the hero's position in the matrix
+                        cellHero = new Cell(i,j);
+                        break;
+                    case 'S': //stores the exit position in the matrix
+                        cellExit = new Cell(i,j);
+                        break;
+                    case 'M': //stores the white mummy's position in the matrix
+                        if(whiteMummies!=0) {
+                            cellWhiteMummies = copyOf(cellWhiteMummies, whiteMummies + 1);
+                        }else{
+                            cellWhiteMummies = new Cell[1];
+                        }
+
+                        cellWhiteMummies[whiteMummies] = new Cell(i, j);
+                        whiteMummies++;
+                        break;
+                    case 'E': //stores the scorpion's position in the matrix
+                        if (scorpions != 0) {
+                            cellScorpions = copyOf(cellScorpions, scorpions+1);
+                        }else{
+                            cellScorpions = new Cell[1];
+                        }
+
+                        cellScorpions[scorpions] = new Cell(i,j);
+                        scorpions++;
+                        break;
+
+                    case 'V': //stores the red mummy's position in the matrix
+                        if (redMummies != 0) {
+                            cellRedMummies = copyOf(cellRedMummies, redMummies+1);
+                        }else{
+                            cellRedMummies = new Cell[1];
+                        }
+
+                        cellRedMummies[redMummies] = new Cell(i,j);
+                        redMummies++;
+                        break;
+                    case '=','_':
+                        if (horizontalDoors != 0) {
+                            cellHorizontalDoors = copyOf(cellHorizontalDoors, horizontalDoors+1);
+                        }else{
+                            cellHorizontalDoors = new Cell[1];
+                        }
+
+                        cellHorizontalDoors[horizontalDoors] = new Cell(i,j);
+                        horizontalDoors++;
+                        break;
+                    case '"',')':
+                        if (verticalDoors != 0) {
+                            cellVerticalDoors = copyOf(cellVerticalDoors, verticalDoors+1);
+                        }else{
+                            cellVerticalDoors = new Cell[1];
+                        }
+
+                        cellVerticalDoors[verticalDoors] = new Cell(i,j);
+                        verticalDoors++;
+                        break;
+                    case 'C':
+                        cellKey = new Cell(i,j);
+                        break;
+                    case 'A':
+                        if (traps != 0) {
+                            cellTraps = copyOf(cellTraps, traps+1);
+                        }else{
+                            cellTraps = new Cell[1];
+                        }
+
+                        cellTraps[traps] = new Cell(i,j);
+                        traps++;
+                        break;
+                }
+            }
+        }
+        this.cellKey = key;
+        if(trapsCell != null) {
+            for (Cell t: trapsCell) {
+                if (traps != 0) {
+                    cellTraps = copyOf(cellTraps, traps+1);
+                }else{
+                    cellTraps = new Cell[1];
+                }
+                cellTraps[traps] = t;
+                traps++;
+            }
+        }
+    }
+
     @Override
     public void executeAction(Action action) {
         action.execute(this);
@@ -840,7 +936,7 @@ public class MummyMazeState extends State implements Cloneable{
 
     @Override
     public Object clone() {
-        return new MummyMazeState(matrix);
+        return new MummyMazeState(matrix, cellKey, cellTraps);
     }
 
     public int getNumLines() {
