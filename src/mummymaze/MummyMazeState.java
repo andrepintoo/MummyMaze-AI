@@ -724,7 +724,6 @@ public class MummyMazeState extends State implements Cloneable{
         for (int whiteM = 0; whiteM < n; whiteM++) {
             moveWhiteMummy(whiteM, movements);
             if(whiteMummies < n){ //se um mummy morreu, o numero de mummies diminui (para nao fazer o ciclo com o nº de mummies anterior)
-                whiteM--;
                 n--;
             }
         }
@@ -736,7 +735,6 @@ public class MummyMazeState extends State implements Cloneable{
                 movements.add(movement);
             }
             if(scorpions < n){
-                scorpion--;
                 n--;
             }
 
@@ -746,7 +744,6 @@ public class MummyMazeState extends State implements Cloneable{
         for(int redM = 0; redM < n; redM++){
             moveRedMummy(redM, movements);
             if(redMummies < n){
-                redM--;
                 n--;
             }
         }
