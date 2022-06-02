@@ -190,23 +190,12 @@ public class MummyMazeState extends State implements Cloneable{
                         cellVerticalDoors[verticalDoors] = new Cell(i,j);
                         verticalDoors++;
                         break;
-                    case 'C':
-                        cellKey = new Cell(i,j);
-                        break;
-                    case 'A':
-                        if (traps != 0) {
-                            cellTraps = copyOf(cellTraps, traps+1);
-                        }else{
-                            cellTraps = new Cell[1];
-                        }
-
-                        cellTraps[traps] = new Cell(i,j);
-                        traps++;
-                        break;
                 }
             }
         }
-        this.cellKey = key;
+        if(key!=null) {
+            this.cellKey = new Cell(key.getLine(), key.getColumn());
+        }
         if(trapsCell != null) {
             for (Cell t: trapsCell) {
                 if (traps != 0) {
@@ -250,11 +239,18 @@ public class MummyMazeState extends State implements Cloneable{
 
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion][columnScorpion+=2];
+
+                    if(nextPosition=='C'){
+                        changeDoorsState();
+                    }
+
                     pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
 
                     matrix[lineScorpion][columnScorpion] = 'E';
 
                     cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
+
+                    hasKilledHero(lineScorpion, columnScorpion);
 
                     return convertMatrixToString(matrix);
                 }
@@ -265,11 +261,18 @@ public class MummyMazeState extends State implements Cloneable{
 
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion][columnScorpion-=2];
+
+                    if(nextPosition=='C'){
+                        changeDoorsState();
+                    }
+
                     pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
 
                     matrix[lineScorpion][columnScorpion] = 'E';
 
                     cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
+
+                    hasKilledHero(lineScorpion, columnScorpion);
 
                     return convertMatrixToString(matrix);
                 }
@@ -286,11 +289,17 @@ public class MummyMazeState extends State implements Cloneable{
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion+=2][columnScorpion];
 
+                    if(nextPosition=='C'){
+                        changeDoorsState();
+                    }
+
                     pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
 
                     matrix[lineScorpion][columnScorpion] = 'E';
 
                     cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
+
+                    hasKilledHero(lineScorpion, columnScorpion);
 
                     return convertMatrixToString(matrix);
                 }
@@ -302,11 +311,17 @@ public class MummyMazeState extends State implements Cloneable{
                     // Analyse if there's an enemy to kill
                     char nextPosition = matrix[lineScorpion-=2][columnScorpion];
 
+                    if(nextPosition=='C'){
+                        changeDoorsState();
+                    }
+
                     pos = killEnemy(lineScorpion, columnScorpion, nextPosition,'E', pos);
 
                     matrix[lineScorpion][columnScorpion] = 'E';
 
                     cellScorpions[pos].setPosition(lineScorpion,columnScorpion);
+
+                    hasKilledHero(lineScorpion, columnScorpion);
 
                     return convertMatrixToString(matrix);
                 }
@@ -340,6 +355,10 @@ public class MummyMazeState extends State implements Cloneable{
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy+=2];
 
+                        if(nextPosition=='C'){
+                            changeDoorsState();
+                        }
+
                         pos = killEnemy(lineMummy, columnMummy, nextPosition,'M', pos);
 
                         matrix[lineMummy][columnMummy] = 'M';
@@ -357,6 +376,10 @@ public class MummyMazeState extends State implements Cloneable{
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy-=2];
+
+                        if(nextPosition=='C'){
+                            changeDoorsState();
+                        }
 
                         pos = killEnemy(lineMummy, columnMummy, nextPosition,'M', pos);
 
@@ -394,6 +417,10 @@ public class MummyMazeState extends State implements Cloneable{
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy-=2][columnMummy];
+
+                        if(nextPosition=='C'){
+                            changeDoorsState();
+                        }
 
                         pos = killEnemy(lineMummy, columnMummy, nextPosition,'M', pos);
 
@@ -431,6 +458,11 @@ public class MummyMazeState extends State implements Cloneable{
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy+=2][columnMummy];
+
+                        if(nextPosition=='C'){
+                            changeDoorsState();
+                        }
+
                         pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
 
                         matrix[lineMummy][columnMummy] = 'V';
@@ -448,6 +480,11 @@ public class MummyMazeState extends State implements Cloneable{
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy-=2][columnMummy];
+
+                        if(nextPosition=='C'){
+                            changeDoorsState();
+                        }
+
                         pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
 
                         matrix[lineMummy][columnMummy] = 'V';
@@ -468,6 +505,11 @@ public class MummyMazeState extends State implements Cloneable{
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy+=2];
+
+                        if(nextPosition=='C'){
+                            changeDoorsState();
+                        }
+
                         pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
 
                         matrix[lineMummy][columnMummy] = 'V';
@@ -482,6 +524,11 @@ public class MummyMazeState extends State implements Cloneable{
 
                         // Analyse if there's an enemy to kill
                         char nextPosition = matrix[lineMummy][columnMummy-=2];
+
+                        if(nextPosition=='C'){
+                            changeDoorsState();
+                        }
+
                         pos = killEnemy(lineMummy, columnMummy, nextPosition,'V', pos);
 
                         matrix[lineMummy][columnMummy] = 'V';
@@ -688,11 +735,11 @@ public class MummyMazeState extends State implements Cloneable{
             if(movement!=null){
                 movements.add(movement);
             }
-            hasKilledHero(cellScorpions[scorpion].getLine(), cellScorpions[scorpion].getColumn());
             if(scorpions < n){
                 scorpion--;
                 n--;
             }
+
         }
 
         n = redMummies;
@@ -1011,7 +1058,13 @@ public class MummyMazeState extends State implements Cloneable{
 
     @Override
     public int hashCode() {
-        return 97 * 7 + Arrays.deepHashCode(this.matrix);
+        int result = 97 * 7 + Arrays.deepHashCode(this.matrix);
+        result = 31 * result + Objects.hash(whiteMummies);
+        result = 31 * result + Objects.hash(redMummies);
+        result = 31 * result + Objects.hash(scorpions);
+        return result;
+//        return 97 * 7 + Arrays.deepHashCode(this.matrix);
+
 ////        int result = Objects.hash(lineHero, columnHero);
 //        int result = cellHero.hashCode();
 //        result = 31 * result + Arrays.deepHashCode(matrix);
@@ -1028,6 +1081,7 @@ public class MummyMazeState extends State implements Cloneable{
 //        result = 31 * result + Arrays.hashCode(columnTraps);
 //        return result;
     }
+
 
 
 }

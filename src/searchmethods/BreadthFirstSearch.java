@@ -22,7 +22,7 @@ public class BreadthFirstSearch extends GraphSearch<NodeLinkedList> {
                     //é preciso criar o node com o parent para depois poder construir a solution
             }
 //            else {
-//                System.out.println("debug");
+//                System.out.println(!explored.contains(successor));
 //            }
         }
     }
