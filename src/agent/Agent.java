@@ -1,6 +1,8 @@
 package agent;
 
 import java.util.ArrayList;
+
+import mummymaze.MummyMazeAgent;
 import searchmethods.*;
 
 public class Agent<E extends State> {

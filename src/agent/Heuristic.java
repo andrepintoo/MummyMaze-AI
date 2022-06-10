@@ -20,5 +20,7 @@ public abstract class Heuristic <P extends Problem, S extends State>{
 
     public void setProblem(P problem) {
         this.problem = problem;
-    }    
+    }
+
+    public abstract String toString();
 }

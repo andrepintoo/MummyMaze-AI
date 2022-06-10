@@ -92,6 +92,7 @@ public class MummyMazeAgent extends Agent<MummyMazeState> {
     }
 
     public double getSolutionCost() {
-        return solutionCost;
+        return super.solution.getCost();
     }
+
 }

@@ -280,16 +280,18 @@ public class MummyMazeState extends State implements Cloneable{
         if(key!=null) {
             this.cellKey = new Cell(key.getLine(), key.getColumn());
         }
+
         if(trapsCell != null) {
-            for (Cell t: trapsCell) {
-                if (traps != 0) {
-                    cellTraps = copyOf(cellTraps, traps+1);
-                }else{
-                    cellTraps = new Cell[1];
-                }
-                cellTraps[traps] = t;
-                traps++;
-            }
+            cellTraps = trapsCell.clone();
+//            for (Cell t: trapsCell) {
+//                if (traps != 0) {
+//                    cellTraps = copyOf(cellTraps, traps+1);
+//                }else{
+//                    cellTraps = new Cell[1];
+//                }
+//                cellTraps[traps] = t;
+//                traps++;
+//            }
         }
     }
     */
@@ -912,6 +914,7 @@ public class MummyMazeState extends State implements Cloneable{
     }
 
     public List<String> moveLeft() {
+
         List<String> moves = new ArrayList<>();
         moves.add(((Hero) cellHero).moveLeftSuper(this, 'H'));
         moveEnemies(moves);
@@ -939,6 +942,28 @@ public class MummyMazeState extends State implements Cloneable{
 //        moveEnemies(movements);
 //
 //        return movements;
+
+    }
+
+    private boolean verifyNextPositionIsKey(Cell c, int lineEntity, int columnEntity) {
+        if(c!=null) {
+//        for (Cell c: cellKeys) {
+            if (c.getLine() == lineEntity && c.getColumn() == columnEntity) {
+                return true;
+            }
+//        }
+        }
+        return false;
+    }
+
+    private void verifyNextPositionIsGameOver(Cell[] cellEntities, int lineHero, int columnHero) {
+        if(cellEntities!=null) {
+            for (Cell c : cellEntities) {
+                if (c.getLine() == lineHero && c.getColumn() == columnHero) {
+                    gameOver = true;
+                }
+            }
+        }
     }
 
     public List<String> moveStandStill(){

@@ -12,4 +12,6 @@ public interface SearchMethod {
    void stop();
    
    boolean hasBeenStopped();
+
+   String toString();
 }

@@ -13,7 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ import mummymaze.MummyMazeProblem;
 import mummymaze.MummyMazeState;
 import searchmethods.BeamSearch;
 import searchmethods.DepthLimitedSearch;
+import searchmethods.InformedSearch;
 import searchmethods.SearchMethod;
 import showSolution.GameArea;
 import showSolution.SolutionPanel;
@@ -56,6 +59,7 @@ public class MainFrame extends JFrame {
     {
         try {
             initialState = agent.readInitialStateFromFile(new File("nivel1.txt"));
+            currentLevel = "nivel1";
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,12 +74,15 @@ public class MainFrame extends JFrame {
     private JTextField textFieldSearchParameter = new JTextField("0", 5);
     private PuzzleTableModel puzzleTableModel;
     private JTable tablePuzzle = new JTable();
-    private JButton buttonInitialState = new JButton("Read initial state");
+    private JButton buttonInitialState = new JButton("Read Level");
     private JButton buttonSolve = new JButton("Solve");
     private JButton buttonStop = new JButton("Stop");
     private JButton buttonShowSolution = new JButton("Show solution");
-    private JButton buttonReset = new JButton("Reset to initial state");
+    private JButton buttonReset = new JButton("Reset to inital state");
     private JTextArea textArea;
+
+    private String currentLevel;
+    private String currentAlgorithm;
 
     public MainFrame() {
         try {
@@ -137,11 +144,10 @@ public class MainFrame extends JFrame {
 //        puzzlePanel.add(tablePuzzle);
 
         // caixa de texto branca - estatísticas
-        textArea = new JTextArea(20, 30);
+        textArea = new JTextArea(14, 30);
         JScrollPane scrollPane = new JScrollPane(textArea);
         textArea.setEditable(false);
         puzzlePanel.add(scrollPane);
-
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(panelButtons, BorderLayout.NORTH);
@@ -176,7 +182,11 @@ public class MainFrame extends JFrame {
                 buttonSolve.setEnabled(true);
                 buttonShowSolution.setEnabled(false);
                 buttonReset.setEnabled(false);
+
+                currentLevel = (fc.getSelectedFile().getName()).split(".txt")[0];
             }
+
+
         } catch (IOException e1) {
             e1.printStackTrace(System.err);
         } catch (NoSuchElementException e2) {
@@ -236,7 +246,25 @@ public class MainFrame extends JFrame {
                 if (!agent.hasBeenStopped()) {
                     textArea.setText(agent.getSearchReport());
                     if (agent.hasSolution()) {
+                        File file = new File("statistics_"+currentLevel+".xls");
+                        if(!file.exists()){
+                            appendToTextFile("statistics_"+currentLevel+".xls", buildExperimentHeader()+"\r\n");
+                        }
+
                         buttonShowSolution.setEnabled(true);
+
+                        SearchMethod searchMethod = agent.getSearchMethod();
+                        String heuristicString;
+                        if(searchMethod instanceof InformedSearch){
+                            heuristicString = agent.getHeuristic().toString();
+                        }else{
+                            heuristicString = "-";
+                        }
+                        appendToTextFile("statistics_"+currentLevel+".xls", searchMethod.toString()+"\t"+
+                                heuristicString+"\t"+agent.getSolutionCost()+"\t"+
+                                searchMethod.getStatistics().numExpandedNodes+"\t"+searchMethod.getStatistics().maxFrontierSize+"\t"+
+                                searchMethod.getStatistics().numGeneratedNodes+"\t"+searchMethod.getStatistics().getDurationInSeconds()+"\r\n");
+
                     }
                 }
                 buttonSolve.setEnabled(true);
@@ -245,6 +273,36 @@ public class MainFrame extends JFrame {
         };
 
         worker.execute();
+    }
+
+    private String buildExperimentHeader() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Algorithm:" + "\t");
+        sb.append("Heuristic:" + "\t");
+        sb.append("Solution Cost:" + "\t");
+        sb.append("Expanded Nodes:" + "\t");
+        sb.append("Max Frontier Size:" + "\t");
+        sb.append("Generated Nodes:" + "\t");
+        sb.append("Duration:" + "\t");
+        return sb.toString();
+    }
+
+    public static void appendToTextFile(String fileName, String string){
+        BufferedWriter w = null;
+        try {
+            w = new BufferedWriter(new FileWriter(fileName, true));
+            w.write(string);
+
+        } catch (Exception e) {
+            System.err.println("Error: " + e);
+        } finally {
+            try {
+                if (w != null){
+                    w.close();
+                }
+            } catch (IOException ignore) {
+            }
+        }
     }
 
     public void buttonStop_ActionPerformed(ActionEvent e) {
