@@ -4,10 +4,7 @@ import agent.Action;
 import agent.State;
 import gui.MainFrame;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static java.util.Arrays.copyOf;
 
@@ -38,7 +35,53 @@ public class MummyMazeState extends State implements Cloneable{
     private Cell[] cellTraps;
     private int traps;
 
+
+//    private List<Cell> cellElementos;
+
     private boolean gameOver = false;
+
+    public MummyMazeState(MummyMazeState m){
+        this.matrix = m.matrix;
+        if(m.cellHero != null){
+            this.cellHero = (Cell) m.cellHero.clone();
+        }
+
+        if(m.cellExit != null){
+            this.cellExit = (Cell) m.cellExit.clone();
+        }
+        if(m.cellKey != null){
+            this.cellKey = (Cell) m.cellKey.clone();
+        }
+        if(m.cellWhiteMummies != null){
+            cellWhiteMummies = new Cell[m.whiteMummies];
+            for (int i = 0; i < m.whiteMummies; i++) {
+                cellWhiteMummies[i] = (Cell) m.cellWhiteMummies[i].clone();
+            }
+//            this.cellWhiteMummies = m.cellWhiteMummies.clone();
+        }
+        this.whiteMummies = m.whiteMummies;
+
+        if(m.cellScorpions != null){
+            this.cellScorpions = m.cellScorpions.clone();
+        }
+        this.scorpions = m.scorpions;
+        if(m.cellRedMummies != null){
+            this.cellRedMummies = m.cellRedMummies.clone();
+        }
+        this.redMummies = m.redMummies;
+        if(m.cellHorizontalDoors != null){
+            this.cellHorizontalDoors = m.cellHorizontalDoors.clone();
+        }
+        this.horizontalDoors = m.horizontalDoors;
+        if(m.cellVerticalDoors != null){
+            this.cellVerticalDoors = m.cellVerticalDoors.clone();
+        }
+        this.verticalDoors = m.verticalDoors;
+        if(m.cellTraps != null){
+            this.cellTraps = m.cellTraps.clone();
+        }
+        this.traps = m.traps;
+    }
 
     public MummyMazeState(char[][] matrix) { //será [13][13]
         this.matrix = new char[matrix.length][matrix.length];
@@ -626,7 +669,6 @@ public class MummyMazeState extends State implements Cloneable{
         return newIndex;
     }
 
-
     private void verifySpecialCells(Cell cellEntity) {
         int lineEntity = cellEntity.getLine();
         int columnEntity = cellEntity.getColumn();
@@ -658,7 +700,6 @@ public class MummyMazeState extends State implements Cloneable{
 
     }
 
-
     public List<String> moveUp() {
         List<String> movements = new ArrayList<>();
         // Hero's movement
@@ -668,10 +709,6 @@ public class MummyMazeState extends State implements Cloneable{
         char nextPosition = matrix[lineHero-2][columnHero];
         if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
             gameOver = true;
-        }
-
-        if(lineHero == 3 && columnHero == 9){
-            System.out.println("Debug");
         }
 
         verifySpecialCells(cellHero);
@@ -774,7 +811,6 @@ public class MummyMazeState extends State implements Cloneable{
         cellHero.setPosition(lineHero,columnHero);
 
         movements.add(convertMatrixToString(matrix));
-
         moveEnemies(movements);
 
         return movements;
@@ -803,11 +839,9 @@ public class MummyMazeState extends State implements Cloneable{
         if(verifyNextPositionIsKey(cellKey, lineHero, columnHero)){
             changeDoorsState();
         }
-
         matrix[lineHero][columnHero] = 'H';
         cellHero.setPosition(lineHero,columnHero);
         movements.add(convertMatrixToString(matrix));
-
         moveEnemies(movements);
 
         return movements;
@@ -887,7 +921,7 @@ public class MummyMazeState extends State implements Cloneable{
             return false;
         }
 
-        //has something blocking hero's path?
+        //has something blocking entity's path?
         char matrixPosition = matrix[lineEntity][columnEntity-1];
         //verificar se tem parede (| ou -), porta fechada (" ou =)
         return  matrixPosition != '|' && matrixPosition != '-' &&
@@ -992,7 +1026,6 @@ public class MummyMazeState extends State implements Cloneable{
         for (int k = 0; k < 13; k++) {
             s.append(String.valueOf(matrix[k])).append("\n");
         }
-
         return s.toString();
     }
 
@@ -1002,13 +1035,13 @@ public class MummyMazeState extends State implements Cloneable{
         for (int k = 0; k < 13; k++) {
             s.append(String.valueOf(matrix[k])).append("\n");
         }
-
         return s.toString();
     }
 
     @Override
     public Object clone() {
-        return new MummyMazeState(matrix, cellKey, cellTraps);
+        return new MummyMazeState(this.matrix, cellKey, cellTraps);
+//        return new MummyMazeState(this);
     }
 
     public int getNumLines() {
@@ -1064,21 +1097,11 @@ public class MummyMazeState extends State implements Cloneable{
         if(!(o instanceof MummyMazeState)){
             return false;
         }
-
         MummyMazeState s = (MummyMazeState) o;
         if(matrix.length != s.matrix.length){
             return false;
         }
-
         return Arrays.deepEquals(matrix,s.matrix);
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        MummyMazeState that = (MummyMazeState) o;
-//        return  cellHero.equals(that.cellHero) && Arrays.equals(cellWhiteMummies, that.cellWhiteMummies) &&
-//                Arrays.equals(cellScorpions, that.cellScorpions) &&
-//                Arrays.equals(lineRedMummies, that.lineRedMummies) &&
-//                Arrays.equals(columnRedMummies, that.columnRedMummies) &&
-//                Arrays.deepEquals(matrix, that.matrix);
     }
 
     @Override
@@ -1088,25 +1111,5 @@ public class MummyMazeState extends State implements Cloneable{
         result = 31 * result + Objects.hash(redMummies);
         result = 31 * result + Objects.hash(scorpions);
         return result;
-//        return 97 * 7 + Arrays.deepHashCode(this.matrix);
-
-////        int result = Objects.hash(lineHero, columnHero);
-//        int result = cellHero.hashCode();
-//        result = 31 * result + Arrays.deepHashCode(matrix);
-////        result = 31 * result + cellWhiteMummies.hashCode();
-////        result = 31 * result + cellScorpions.hashCode();
-//        result = 31 * result + Arrays.hashCode(lineRedMummies);
-//        result = 31 * result + Arrays.hashCode(columnRedMummies);
-//        result = 31 * result + Arrays.hashCode(lineHorizontalDoors);
-//        result = 31 * result + Arrays.hashCode(columnHorizontalDoors);
-//        result = 31 * result + Arrays.hashCode(lineVerticalDoors);
-//        result = 31 * result + Arrays.hashCode(columnVerticalDoors);
-//        result = 31 * result + Objects.hash(lineKey, columnKey);
-//        result = 31 * result + Arrays.hashCode(lineTraps);
-//        result = 31 * result + Arrays.hashCode(columnTraps);
-//        return result;
     }
-
-
-
 }
