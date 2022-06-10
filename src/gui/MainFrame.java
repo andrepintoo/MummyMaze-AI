@@ -39,6 +39,7 @@ import mummymaze.MummyMazeProblem;
 import mummymaze.MummyMazeState;
 import searchmethods.BeamSearch;
 import searchmethods.DepthLimitedSearch;
+import searchmethods.InformedSearch;
 import searchmethods.SearchMethod;
 import showSolution.GameArea;
 import showSolution.SolutionPanel;
@@ -183,7 +184,6 @@ public class MainFrame extends JFrame {
                 buttonReset.setEnabled(false);
 
                 currentLevel = (fc.getSelectedFile().getName()).split(".txt")[0];
-
             }
 
 
@@ -254,7 +254,14 @@ public class MainFrame extends JFrame {
                         buttonShowSolution.setEnabled(true);
 
                         SearchMethod searchMethod = agent.getSearchMethod();
-                        appendToTextFile("statistics_"+currentLevel+".xls", searchMethod.toString()+"\t"+agent.getSolutionCost()+"\t"+
+                        String heuristicString;
+                        if(searchMethod instanceof InformedSearch){
+                            heuristicString = agent.getHeuristic().toString();
+                        }else{
+                            heuristicString = "-";
+                        }
+                        appendToTextFile("statistics_"+currentLevel+".xls", searchMethod.toString()+"\t"+
+                                heuristicString+"\t"+agent.getSolutionCost()+"\t"+
                                 searchMethod.getStatistics().numExpandedNodes+"\t"+searchMethod.getStatistics().maxFrontierSize+"\t"+
                                 searchMethod.getStatistics().numGeneratedNodes+"\t"+searchMethod.getStatistics().getDurationInSeconds()+"\r\n");
 
@@ -271,6 +278,7 @@ public class MainFrame extends JFrame {
     private String buildExperimentHeader() {
         StringBuilder sb = new StringBuilder();
         sb.append("Algorithm:" + "\t");
+        sb.append("Heuristic:" + "\t");
         sb.append("Solution Cost:" + "\t");
         sb.append("Expanded Nodes:" + "\t");
         sb.append("Max Frontier Size:" + "\t");
