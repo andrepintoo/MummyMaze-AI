@@ -2,13 +2,18 @@ package mummymaze;
 
 import java.util.Objects;
 
-public class Cell {
+public class Cell implements Cloneable{
     private int line;
     private int column;
 
     public Cell(int line, int column) {
         this.line = line;
         this.column = column;
+    }
+
+    public Cell(Cell clone){
+        this.line = clone.line;
+        this.column = clone.column;
     }
 
     public void setPosition(int line, int column) {
@@ -43,5 +48,10 @@ public class Cell {
     @Override
     public int hashCode() {
         return Objects.hash(line, column);
+    }
+
+    @Override
+    protected Object clone() {
+        return new Cell(this);
     }
 }

@@ -123,7 +123,7 @@ public class MainFrame extends JFrame {
         textFieldSearchParameter.addKeyListener(new TextFieldSearchParameter_KeyAdapter(this));
         comboBoxHeuristics = new JComboBox(agent.getHeuristicsArray());
         panelSearchMethods.add(comboBoxHeuristics);
-        comboBoxHeuristics.setEnabled(false);
+        comboBoxHeuristics.setEnabled(true);
         comboBoxHeuristics.addActionListener(new ComboBoxHeuristics_ActionAdapter(this));
 
         //Jpanel = gameArea

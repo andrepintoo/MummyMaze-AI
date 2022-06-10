@@ -12,6 +12,8 @@ PRIORIDADE:
     - falta estatísticas
     - quando temos muitos inimigos iguais, dá erro na inicialização
 
+    - implementar o IDA*
+
     - dizer no relatorio como é que estamos a matar inimigos (quem se mexe para cima de um inimigo, mata sempre o inimigo)
 
 PERGUNTAR SE É POSSIVEL TER + QUE 1 CHAVE
