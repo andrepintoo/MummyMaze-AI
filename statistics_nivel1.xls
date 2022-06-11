@@ -18,3 +18,15 @@ A* search	Distance to enemies and to exit	10.0	16	24	63	0.006
 A* search	Distance to enemies and to exit	10.0	16	24	63	0.007
 A* search	Distance to enemies and to exit	10.0	16	24	63	0.007
 A* search	Distance to enemies and to exit	10.0	16	24	63	0.008
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.005
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.005
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.005
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+Breadth first search	-	10.0	69	15	172	0.007
+Uniform cost search	-	10.0	70	15	176	0.003
+Depth first search	-	12.0	13	20	51	0.001
+Iterative deepening search	-	10.0	1215	15	3760	0.014
+Depth first search	-	12.0	13	20	51	0.0

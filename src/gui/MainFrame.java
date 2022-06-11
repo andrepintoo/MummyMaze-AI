@@ -2,8 +2,8 @@ package gui;
 
 import agent.Heuristic;
 import agent.Solution;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,19 +14,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 
+import agent.Statistics;
 import mummymaze.MummyMazeAgent;
 import mummymaze.MummyMazeProblem;
 import mummymaze.MummyMazeState;
@@ -70,6 +60,9 @@ public class MainFrame extends JFrame {
     private JButton buttonStop = new JButton("Stop");
     private JButton buttonShowSolution = new JButton("Show solution");
     private JButton buttonReset = new JButton("Reset to inital state");
+
+    private JButton buttonStatistics = new JButton("Get Statistics from this Level");
+
     private JTextArea textArea;
 
     private String currentLevel;
@@ -108,6 +101,10 @@ public class MainFrame extends JFrame {
         panelButtons.add(buttonReset);
         buttonReset.setEnabled(false);
         buttonReset.addActionListener(new ButtonReset_ActionAdapter(this));
+
+        panelButtons.add(buttonStatistics);
+        buttonStatistics.setEnabled(true);
+        buttonStatistics.addActionListener(new ButtonStatistics_ActionAdapter(this));
 
         JPanel panelSearchMethods = new JPanel(new FlowLayout());
         comboBoxSearchMethods = new JComboBox(agent.getSearchMethodsArray());
@@ -223,7 +220,7 @@ public class MainFrame extends JFrame {
                     //Instanciar o problem
                     MummyMazeProblem problem = new MummyMazeProblem(initialState);
 
-                    //executar algoitmo de procura para obter a solução
+                    //executar algoritmo de procura para obter a solução
                     agent.solveProblem(problem);
 
                 } catch (Exception e) {
@@ -264,6 +261,47 @@ public class MainFrame extends JFrame {
         };
 
         worker.execute();
+    }
+
+    public void buttonStatistics_ActionPerformed(ActionEvent e) throws IOException {
+        Statistics statistics = new Statistics();
+
+        List<SearchMethod> search = agent.getSearchMethods();
+        MummyMazeState estado = agent.readInitialStateFromFile(new File(currentLevel+".txt"));
+
+        for (SearchMethod searchMethod : search) {
+            try {
+//                prepareSearchAlgorithm();
+                agent.resetEnvironment();
+                agent.stop();
+
+                //Instanciar o problem
+//                MummyMazeProblem problem = new MummyMazeProblem(initialState);
+                MummyMazeProblem problem = new MummyMazeProblem(estado);
+                agent.setSearchMethod(searchMethod);
+                //executar algoritmo de procura para obter a solução
+                statistics.addSolution(agent.solveProblemForEverySearchMethod(problem, searchMethod), searchMethod.toString(),
+                        agent.getSearchReportStatistics());
+
+            } catch (Exception e1) {
+                e1.printStackTrace(System.err);
+            }
+        }
+        JFrame frame = new JFrame("Statistics from " + currentLevel);
+        frame.setPreferredSize(new Dimension(850, 300));
+        frame.setMinimumSize(new Dimension(850, 300));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+        JList<String> list = new JList<>(model);
+
+        for (int i = 0; i < statistics.getSize(); i++) {
+            model.add(i, statistics.getSolutionDescription(i));
+        }
+
+        frame.add(new JScrollPane(list));
     }
 
     private String buildExperimentHeader() {
@@ -409,6 +447,7 @@ public class MainFrame extends JFrame {
     private void setSolutionCost(double solutionCost){
         gameArea.setSolutionCost(solutionCost);
     }
+
 }
 
 class ComboBoxSearchMethods_ActionAdapter implements ActionListener {
@@ -492,6 +531,24 @@ class ButtonShowSolution_ActionAdapter implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         adaptee.buttonShowSolution_ActionPerformed(e);
+    }
+}
+
+class ButtonStatistics_ActionAdapter implements ActionListener {
+
+    private final MainFrame adaptee;
+
+    ButtonStatistics_ActionAdapter(MainFrame adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            adaptee.buttonStatistics_ActionPerformed(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
 

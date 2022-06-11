@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import mummymaze.MummyMazeAgent;
 import searchmethods.*;
@@ -41,6 +42,22 @@ public class Agent<E extends State> {
         long end = System.currentTimeMillis();
         searchMethod.getStatistics().setDuration(end - start);
         return solution;
+    }
+
+    public Solution solveProblemForEverySearchMethod(Problem problem, SearchMethod searchMethod) {
+        if (heuristic != null) { //se tiver uma heuristica (caso o metodo de procura seja informado)
+            problem.setHeuristic(heuristic);
+            heuristic.setProblem(problem);
+        }
+        long start = System.currentTimeMillis();
+        solution = searchMethod.search(problem); //procura atraves do searchmethod que temos selecionado (na interface grafica)
+        long end = System.currentTimeMillis();
+        searchMethod.getStatistics().setDuration(end - start);
+        return solution;
+    }
+
+    public ArrayList<SearchMethod> getSearchMethods() {
+        return searchMethods;
     }
 
     public void executeSolution() {
@@ -107,6 +124,22 @@ public class Agent<E extends State> {
         sb.append("Max frontier size: " + searchMethod.getStatistics().maxFrontierSize + "\n");
         sb.append("Num of generated nodes: " + searchMethod.getStatistics().numGeneratedNodes+ "\n");
         sb.append("Total duration: " + searchMethod.getStatistics().getDurationInSeconds()+" seconds\n");
+
+        return sb.toString();
+    }
+
+    public String getSearchReportStatistics() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(searchMethod + " -> \n");
+        if (solution == null) {
+            sb.append("No solution found -\n");
+        } else {
+            sb.append("Solution cost: " + Double.toString(solution.getCost()) + " - \n");
+        }
+        sb.append("Num of expanded nodes: " + searchMethod.getStatistics().numExpandedNodes + " - \n"); //é onde descreve o comportamento
+        sb.append("Max frontier size: " + searchMethod.getStatistics().maxFrontierSize + " - \n");
+        sb.append("Num of generated nodes: " + searchMethod.getStatistics().numGeneratedNodes+ " - \n");
+        sb.append("Total duration: " + searchMethod.getStatistics().getDurationInSeconds()+" seconds  \n");
 
         return sb.toString();
     }
