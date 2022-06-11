@@ -1,13 +1,8 @@
 package gui;
 
-import agent.Action;
 import agent.Heuristic;
 import agent.Solution;
-import eightpuzzle.EightPuzzleAgent;
-import eightpuzzle.EightPuzzleProblem;
-import eightpuzzle.EightPuzzleState;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,10 +12,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -48,8 +41,6 @@ import static java.lang.Thread.sleep;
 
 public class MainFrame extends JFrame {
     public static boolean SHOWSOLUTION = false;
-
-    //private MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeAgent(new MummyMazeState(new char[13][13])).setInitialStateFromFile(new File("nivel1.txt")));
 
     //Instanciar o MummyMazeAgent
     MummyMazeAgent agent = new MummyMazeAgent(new MummyMazeState(new char[13][13]));
@@ -331,7 +322,7 @@ public class MainFrame extends JFrame {
                 Thread t = showSolution(movements, cost);
                 while(t.isAlive()){
                     try {
-                        sleep(1);
+                        sleep(300);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
@@ -377,7 +368,7 @@ public class MainFrame extends JFrame {
                 for(String s : states)  {
                     setState(s);
                     try {
-                        sleep(700);
+                        sleep(300);
                     } catch (InterruptedException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();

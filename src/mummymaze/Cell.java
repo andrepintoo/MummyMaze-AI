@@ -5,25 +5,15 @@ import java.util.Objects;
 public class Cell implements Cloneable{
     protected int line;
     protected int column;
-    protected char symbol;
 
-    public Cell(int line, int column, char symbol) {
+    public Cell(int line, int column) {
         this.line = line;
         this.column = column;
-        this.symbol = symbol;
     }
 
     public Cell(Cell clone){
         this.line = clone.line;
         this.column = clone.column;
-    }
-
-    public char getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
     }
 
     public void setPosition(int line, int column) {
@@ -52,7 +42,7 @@ public class Cell implements Cloneable{
         if (this == o) return true;
         if (!(o instanceof Cell)) return false;
         Cell cell = (Cell) o;
-        return this.line == cell.line && this.column == cell.column && this.symbol == ((Cell) o).symbol;
+        return this.line == cell.line && this.column == cell.column;
     }
 
     @Override

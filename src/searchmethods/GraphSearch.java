@@ -31,6 +31,7 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchMet
         while (!frontier.isEmpty() && !stopped){
             //remove the first node from the frontier
             Node frontierNode = frontier.remove();
+
             State frontierNodeState = frontierNode.getState();
 
             //if the node contains a goal state then return the corresponding solution

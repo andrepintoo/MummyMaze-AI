@@ -70,7 +70,7 @@ public class SolutionPanel extends JFrame{
             	for(String s : states)  {
                 	p.setState(s);
                 	try {
-						sleep(1000);
+						sleep(200);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

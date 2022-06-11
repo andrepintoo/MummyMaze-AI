@@ -1,12 +1,11 @@
 package mummymaze;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class RedMummy extends Mummy{
 
-    public RedMummy(int line, int column, char symbol) {
-        super(line, column, symbol);
+    public RedMummy(int line, int column) {
+        super(line, column);
     }
 
     public RedMummy(RedMummy m){
@@ -14,8 +13,8 @@ public class RedMummy extends Mummy{
     }
 
     @Override
-    public List<String> moveEnemy(MummyMazeState state) {
-        List<String> movements = new ArrayList<>();
+    public LinkedList<String> moveEnemy(MummyMazeState state) {
+        LinkedList<String> movements = new LinkedList<>();
         int lineHero = state.getCellHero().getLine();
         int columnHero = state.getCellHero().getColumn();
         for (int n = 0; n < 2; n++) {

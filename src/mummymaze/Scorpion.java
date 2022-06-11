@@ -1,12 +1,11 @@
 package mummymaze;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class Scorpion extends Enemy{
 
-    public Scorpion(int line, int column, char symbol) {
-        super(line, column, symbol);
+    public Scorpion(int line, int column) {
+        super(line, column);
     }
 
     public Scorpion(Scorpion s){
@@ -14,8 +13,8 @@ public class Scorpion extends Enemy{
     }
 
     @Override
-    public List<String> moveEnemy(MummyMazeState state) { //meter isto no Enemy e enviar o caracter para fazer updateSymbol
-        List<String> movements = new ArrayList<>();
+    public LinkedList<String> moveEnemy(MummyMazeState state) {
+        LinkedList<String> movements = new LinkedList<>();
         if(state.isGameOver() || state.hasKilledHero(line, column)){
             return null;
         }
@@ -31,13 +30,6 @@ public class Scorpion extends Enemy{
                 if(canMoveLeft(state)){
                     movements.add(moveLeftSuper(state, 'E'));
                     return movements;
-//                    super.moveLeft(state);
-//                    state.updateSymbol(line,column,'E');
-//                    state.killEnemy(this);
-//                    state.hasKilledHero(line,column);
-//                    List<String> move = new ArrayList<>();
-//                    move.add(state.convertMatrixToString(state.getMatrix()));
-//                    return move;
                 }
             }
         }
@@ -46,25 +38,11 @@ public class Scorpion extends Enemy{
                 if(canMoveDown(state)){
                     movements.add(moveDownSuper(state,'E'));
                     return movements;
-//                    super.moveDown(state);
-//                    state.updateSymbol(line,column,'E');
-//                    state.killEnemy(this);
-//                    state.hasKilledHero(line,column);
-//                    List<String> move = new ArrayList<>();
-//                    move.add(state.convertMatrixToString(state.getMatrix()));
-//                    return move;
                 }
             }else{
                 if(canMoveUp(state)){
                     movements.add(moveUpSuper(state,'E'));
                     return movements;
-//                    super.moveUp(state);
-//                    state.updateSymbol(line,column,'E');
-//                    state.killEnemy(this);
-//                    state.hasKilledHero(line,column);
-//                    List<String> move = new ArrayList<>();
-//                    move.add(state.convertMatrixToString(state.getMatrix()));
-//                    return move;
                 }
             }
         }
