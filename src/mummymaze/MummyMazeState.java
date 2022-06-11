@@ -177,15 +177,27 @@ public class MummyMazeState extends State implements Cloneable{
     private LinkedList<String> moveEnemies(){
         LinkedList<String> newMoves = new LinkedList<>();
 
-        for (Enemy e : (LinkedList<Enemy>) cellEnemies.clone()){
-            LinkedList<String> strings = e.moveEnemy(this);
-            if(strings != null) {
-                for (String s : strings) {
-                    newMoves.add(s);
+        LinkedList<Enemy> cellEnemiesCopy = (LinkedList<Enemy>) cellEnemies.clone();
+        for (Enemy e : cellEnemiesCopy){
+            if(containsEnemy(cellEnemies,e)) {
+                LinkedList<String> strings = e.moveEnemy(this);
+                if (strings != null) {
+                    for (String s : strings) {
+                        newMoves.add(s);
+                    }
                 }
             }
         }
         return newMoves;
+    }
+
+    public boolean containsEnemy(LinkedList<Enemy> enemies, Enemy enemy){
+        for (Enemy e: enemies) {
+            if(e==enemy){
+                return true;
+            }
+        }
+        return false;
     }
 
     public LinkedList<String> moveUp() {
