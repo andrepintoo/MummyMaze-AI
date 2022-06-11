@@ -27,11 +27,13 @@ public class RedMummy extends Mummy{
                     if(canMoveDown(state)){
                         movements.add(moveDownSuper(state,'V'));
                         state.hasKilledHero(line, column);
+                        continue;
                     }
                 }else{
                     if(canMoveUp(state)){
                         movements.add(moveUpSuper(state,'V'));
                         state.hasKilledHero(line, column);
+                        continue;
                     }
                 }
             }
@@ -40,13 +42,11 @@ public class RedMummy extends Mummy{
                     if(canMoveRight(state)){
                         movements.add(moveRightSuper(state, 'V'));
                         state.hasKilledHero(line, column);
-                        continue;
                     }
                 }else{
                     if(canMoveLeft(state)){
                         movements.add(moveLeftSuper(state, 'V'));
                         state.hasKilledHero(line, column);
-                        continue;
                     }
                 }
             }

@@ -12,7 +12,7 @@ public abstract class Entity extends Cell{
 
     public String moveRightSuper(MummyMazeState state, char character){
         char nextPosition = state.getPosition(line, column+2);
-        if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
+        if(symbol=='H' && (nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E')){
             state.setGameOver(true);
         }
         if(nextPosition == 'C'){
@@ -26,7 +26,7 @@ public abstract class Entity extends Cell{
 
     public String moveLeftSuper(MummyMazeState state, char character){
         char nextPosition = state.getPosition(line, column-2);
-        if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
+        if(symbol=='H' && (nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E')){
             state.setGameOver(true);
         }
 
@@ -43,7 +43,7 @@ public abstract class Entity extends Cell{
 
     public String moveUpSuper(MummyMazeState state, char character){
         char nextPosition = state.getPosition(line-2, column);
-        if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
+        if(symbol=='H' && (nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E')){
             state.setGameOver(true);
         }
 
@@ -60,7 +60,7 @@ public abstract class Entity extends Cell{
 
     public String moveDownSuper(MummyMazeState state, char character){
         char nextPosition = state.getPosition(line+2, column);
-        if(nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E'){
+        if(symbol=='H' && (nextPosition == 'A' || nextPosition == 'M' || nextPosition == 'V' || nextPosition == 'E')){
             state.setGameOver(true);
         }
         if(nextPosition == 'C'){

@@ -88,7 +88,13 @@ public class MummyMazeState extends State implements Cloneable{
 //    }
 
     public MummyMazeState(MummyMazeState m){
-        this.matrix = m.matrix;
+        this.matrix = new char[m.getNumLines()][m.getNumColumns()];
+        for (int i = 0; i < m.getNumLines(); i++) {
+            for (int j = 0; j < m.getNumColumns(); j++) {
+                this.matrix[i][j] = m.matrix[i][j];
+            }
+        }
+
         if(m.cellHero != null){
             this.cellHero = (Cell) m.cellHero.clone();
         }
