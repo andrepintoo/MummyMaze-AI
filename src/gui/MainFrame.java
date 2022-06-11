@@ -271,15 +271,12 @@ public class MainFrame extends JFrame {
 
         for (SearchMethod searchMethod : search) {
             try {
-//                prepareSearchAlgorithm();
                 agent.resetEnvironment();
                 agent.stop();
 
-                //Instanciar o problem
-//                MummyMazeProblem problem = new MummyMazeProblem(initialState);
                 MummyMazeProblem problem = new MummyMazeProblem(estado);
                 agent.setSearchMethod(searchMethod);
-                //executar algoritmo de procura para obter a solução
+
                 statistics.addSolution(agent.solveProblemForEverySearchMethod(problem, searchMethod), searchMethod.toString(),
                         agent.getSearchReportStatistics());
 
@@ -287,9 +284,10 @@ public class MainFrame extends JFrame {
                 e1.printStackTrace(System.err);
             }
         }
-        JFrame frame = new JFrame("Statistics from " + currentLevel);
-        frame.setPreferredSize(new Dimension(850, 300));
-        frame.setMinimumSize(new Dimension(850, 300));
+
+        JFrame frame = new JFrame("Statistics from '" + currentLevel + "' with Heuristic '"+ agent.getHeuristic().toString() +"'");
+        frame.setPreferredSize(new Dimension(900, 300));
+        frame.setMinimumSize(new Dimension(900, 300));
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

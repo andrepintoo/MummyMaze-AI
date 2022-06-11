@@ -9,10 +9,6 @@ public class Statistics {
         solutions = new LinkedList<>();
     }
 
-//    public LinkedList<Solution> getSolutions() {
-//        return solutions;
-//    }
-
     public void addSolution(Solution solution, String searchMethod, String statistics){
         solutions.add(new SolutionWithDescription(solution, searchMethod, statistics));
     }
