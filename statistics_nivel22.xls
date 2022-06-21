@@ -2,3 +2,4 @@ Algorithm:	Heuristic:	Solution Cost:	Expanded Nodes:	Max Frontier Size:	Generate
 A* search	Distance to enemies and to exit	38.0	194	48	598	0.012
 A* search	Distance to enemies and to exit	38.0	194	48	598	0.012
 A* search	Distance to enemies and to exit	38.0	194	50	598	0.009
+A* search	Distance to enemies and to exit	38.0	194	48	598	0.013

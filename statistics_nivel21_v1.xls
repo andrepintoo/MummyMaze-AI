@@ -1,2 +1,3 @@
 Algorithm:	Heuristic:	Solution Cost:	Expanded Nodes:	Max Frontier Size:	Generated Nodes:	Duration:	
 A* search	Distance to enemies and to exit	17.0	240	36	454	0.03
+A* search	Total distance to exit door	17.0	247	33	457	0.008
