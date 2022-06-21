@@ -1,0 +1,2 @@
+Algorithm:	Heuristic:	Solution Cost:	Expanded Nodes:	Max Frontier Size:	Generated Nodes:	Duration:	
+A* search	Total distance to exit door	15.0	365	85	811	0.009

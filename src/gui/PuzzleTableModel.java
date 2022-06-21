@@ -1,8 +1,5 @@
 package gui;
 
-import eightpuzzle.EightPuzzleEvent;
-import eightpuzzle.EightPuzzleListener;
-import eightpuzzle.EightPuzzleState;
 import mummymaze.MummyMazeEvent;
 import mummymaze.MummyMazeListener;
 import mummymaze.MummyMazeState;

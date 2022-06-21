@@ -300,6 +300,10 @@ public class MainFrame extends JFrame {
         }
 
         frame.add(new JScrollPane(list));
+        agent = new MummyMazeAgent(new MummyMazeState(new char[13][13]));
+        agent.readInitialStateFromFile(new File(currentLevel+".txt"));
+
+        System.out.println(123);
     }
 
     private String buildExperimentHeader() {

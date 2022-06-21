@@ -10,3 +10,16 @@ A* search	Distance to enemies and to exit	23.0	290	53	658	1.939
 A* search	Distance to enemies and to exit	23.0	290	53	658	0.034
 A* search	Distance to enemies and to exit	33.0	332	47	738	0.041
 A* search	Distance to enemies and to exit	33.0	332	47	738	0.016
+A* search	Distance to enemies and to exit	33.0	332	47	738	0.015
+A* search	Total distance to exit door	33.0	375	25	747	0.009
+A* search	Walls around enemies	33.0	347	29	716	0.008
+A* search	Number of enemies	33.0	383	33	763	0.003
+A* search	Distance to enemies	33.0	341	46	763	0.003
+A* search	Number of enemies	33.0	383	33	763	0.002
+Greedy best first search	Number of enemies	33.0	349	26	718	0.003
+Greedy best first search	Total distance to exit door	33.0	145	38	358	0.002
+Greedy best first search	Distance to enemies and to exit	33.0	157	46	406	0.001
+Greedy best first search	Total distance to exit door	33.0	145	38	358	0.002
+Greedy best first search	Walls around enemies	33.0	329	46	692	0.003
+Greedy best first search	Number of enemies	33.0	349	26	718	0.004
+Greedy best first search	Distance to enemies	35.0	296	49	669	0.003

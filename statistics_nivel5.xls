@@ -1,3 +1,28 @@
 Algorithm:	Heuristic:	Solution Cost:	Expanded Nodes:	Max Frontier Size:	Generated Nodes:	Duration:	
 A* search	Distance to enemies and to exit	35.0	84	36	278	0.005
 A* search	Distance to enemies and to exit	35.0	84	36	278	0.016
+Beam search	Distance to enemies and to exit	36.0	78	5	256	0.001
+Beam search	Distance to enemies and to exit	36.0	72	4	238	0.001
+Beam search	Distance to enemies and to exit	36.0	72	4	238	0.001
+A* search	Distance to enemies and to exit	35.0	84	36	278	0.001
+Depth first search	-	38.0	152	28	286	0.001
+A* search	Distance to enemies and to exit	35.0	84	36	278	0.001
+A* search	Distance to enemies and to exit	35.0	84	36	278	0.01
+A* search	Distance to enemies and to exit	35.0	84	36	278	0.005
+A* search	Total distance to exit door	35.0	118	11	289	0.003
+A* search	Walls around enemies	36.0	106	13	269	0.003
+A* search	Number of enemies	35.0	120	11	293	0.001
+A* search	Distance to enemies	35.0	88	35	293	0.002
+Breadth first search	-	35.0	120	11	293	0.002
+Uniform cost search	-	35.0	120	11	293	0.002
+Breadth first search	-	35.0	120	11	293	0.002
+Uniform cost search	-	35.0	120	11	293	0.002
+Breadth first search	-	35.0	120	11	293	0.001
+Depth first search	-	38.0	152	28	286	0.002
+Depth first search	-	38.0	152	28	286	0.001
+Greedy best first search	Distance to enemies and to exit	35.0	83	35	275	0.002
+Greedy best first search	Total distance to exit door	35.0	112	9	272	0.002
+Greedy best first search	Walls around enemies	36.0	104	13	272	0.001
+Greedy best first search	Number of enemies	37.0	125	14	317	0.001
+Greedy best first search	Distance to enemies	39.0	81	37	267	0.001
+Iterative deepening search	-	35.0	22990	24	43494	0.117

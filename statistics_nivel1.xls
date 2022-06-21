@@ -1,0 +1,53 @@
+Algorithm:	Heuristic:	Solution Cost:	Expanded Nodes:	Max Frontier Size:	Generated Nodes:	Duration:	
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.0
+Depth first search	-	12.0	13	20	51	0.0
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.0
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	0.0	0	0	1	0.0
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.005
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.001
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Total distance to exit door	10.0	25	20	68	0.003
+A* search	Walls around enemies	10.0	55	18	156	0.003
+A* search	Number of enemies	10.0	70	15	176	0.002
+A* search	Distance to enemies	10.0	44	31	168	0.001
+Iterative deepening search	-	10.0	1215	15	3760	0.017
+Iterative deepening search	-	10.0	1215	15	3760	0.008
+Iterative deepening search	-	10.0	1215	15	3760	0.007
+Iterative deepening search	-	10.0	1215	15	3760	0.009
+Iterative deepening search	-	10.0	1215	15	3760	0.008
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.005
+A* search	Total distance to exit door	10.0	25	20	68	0.002
+A* search	Walls around enemies	10.0	55	18	156	0.002
+A* search	Number of enemies	10.0	70	15	176	0.002
+A* search	Distance to enemies	10.0	44	31	168	0.002
+A* search	Number of enemies	10.0	70	15	176	0.001
+A* search	Distance to enemies	10.0	44	31	168	0.001
+Breadth first search	-	10.0	69	15	172	0.003
+Uniform cost search	-	10.0	70	15	176	0.001
+Breadth first search	-	10.0	69	15	172	0.001
+Depth first search	-	12.0	13	20	51	0.0
+Uniform cost search	-	10.0	70	15	176	0.002
+Breadth first search	-	10.0	69	15	172	0.001
+Uniform cost search	-	10.0	70	15	176	0.0
+Greedy best first search	Distance to enemies and to exit	10.0	19	29	73	0.001
+Greedy best first search	Total distance to exit door	10.0	34	22	83	0.0
+Greedy best first search	Walls around enemies	10.0	52	23	154	0.001
+Greedy best first search	Number of enemies	10.0	21	17	81	0.001
+Greedy best first search	Distance to enemies	13.0	23	13	88	0.0
+Greedy best first search	Number of enemies	10.0	21	17	81	0.001
+Depth first search	-	12.0	13	20	51	0.0
+Iterative deepening search	-	10.0	1215	15	3760	0.013
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.005
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.002
+A* search	Walls around enemies	10.0	55	18	156	0.003
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.005
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.0
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.001
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.004
+A* search	Distance to enemies and to exit	10.0	16	24	63	0.001

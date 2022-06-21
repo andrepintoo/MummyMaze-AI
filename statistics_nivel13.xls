@@ -2,3 +2,13 @@ Algorithm:	Heuristic:	Solution Cost:	Expanded Nodes:	Max Frontier Size:	Generate
 A* search	Distance to enemies and to exit	32.0	99	17	287	0.011
 A* search	Distance to enemies and to exit	32.0	99	17	287	0.016
 A* search	Distance to enemies and to exit	32.0	99	17	287	0.009
+A* search	Distance to enemies and to exit	32.0	99	17	287	0.009
+A* search	Total distance to exit door	32.0	112	9	291	0.003
+A* search	Walls around enemies	32.0	111	10	295	0.002
+A* search	Number of enemies	32.0	112	10	291	0.003
+A* search	Distance to enemies	32.0	101	18	294	0.002
+Greedy best first search	Total distance to exit door	36.0	99	10	252	0.001
+Greedy best first search	Walls around enemies	32.0	111	10	295	0.002
+Greedy best first search	Number of enemies	32.0	109	15	270	0.001
+Greedy best first search	Distance to enemies	32.0	95	18	273	0.001
+Iterative deepening search	-	32.0	7298	16	17503	0.051

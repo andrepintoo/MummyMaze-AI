@@ -1,7 +1,5 @@
 package agent;
 
-import eightpuzzle.EightPuzzleState;
-
 import java.util.LinkedList;
 import java.util.List;
 
