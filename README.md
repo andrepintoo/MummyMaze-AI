@@ -14,7 +14,10 @@ We also conducted a comparative study of the performance of the various search a
 <br>
 We also incorporated some buttons to solve the current level with all the different algorithms (either informed or uninformed) and display some statistics on the performance of each algorithm
 <br>
-  
+<br>
+<p>&#8702; <a href="https://github.com/andrepintoo/MummyMaze-AI/blob/main/Project_Sheet_2021_2022_EN.pdf">Project Statement</a></p>
+<p>&#8702; <a href="https://github.com/andrepintoo/MummyMaze-AI/blob/main/IA_Report_2201711_2201723.pdf">Report (in portuguese)</a></p>
+
 <h1>Tools Used</h1>
 <ul>
 <li>IntelliJ IDEA: Used as the development environment for writing and testing the code.</li>
