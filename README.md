@@ -1,4 +1,4 @@
-<h1>🕹️ MummyMaze</h1>
+<h1>🕹️ MummyMaze 🕹️</h1>
 
 <div style="border: 1px solid black; padding: 10px;">
 <p>This project was developed as part of the <strong>Artificial intelligence</strong> course in the Computer Science and Engineering degree during the academic year 2021/2022.
@@ -8,10 +8,10 @@
 <li><a href="https://github.com/Yunikyon">Ana</a></li>
 </ul>
 <h1>Project Description:</h1>
-We developed an application that utilized search algorithms implemented in practical classes to play the Mummy Maze game. For the informed search algorithms, we formulated at least three distinct heuristics suitable for the problem. The program allowed the user to choose a specific level to solve, the search algorithm, and the heuristic to use (if applicable).
+We created a software application that used search algorithms from our practical classes to play the Mummy Maze game. We developed three different heuristics suitable for the problem to use with informed search algorithms. The program allowed users to choose a level to solve, the search algorithm, and the applicable heuristic.
 <br><br>
-We also conducted a comparative study of the performance of the various search algorithms and heuristics used to solve the problems. Specifically, we studied the performance of uninformed search algorithms, the performance of informed search algorithms, the performance of uninformed search algorithms versus informed search algorithms, and the quality of the heuristics used.
-<br>
+We conducted a study to compare the performance of different search algorithms and heuristics to solve the problem. Our study looked at the effectiveness of uninformed search algorithms, informed search algorithms, and the difference between the two. Additionally, we evaluated the quality of the heuristics used.
+<br><br>
 We also incorporated some buttons to solve the current level with all the different algorithms (either informed or uninformed) and display some statistics on the performance of each algorithm
 <br>
 <br>
